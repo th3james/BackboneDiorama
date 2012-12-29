@@ -1,2 +1,3 @@
-rm -r lib/*
-coffee -c -w -o lib coffee/lib
+rm -r js/
+mkdir js
+coffee -c -w -o js/lib lib/
