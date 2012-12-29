@@ -1,0 +1,14 @@
+{
+  "name": "backbone-diorama"
+  , "version": "0.0.1"
+  , "engines": [ "node >=0.4.0" ]
+  , "description": "A client-side web application framework designed for rapid development, using opinionated backbone pattern generators"
+  , "author": "James Cox <th3james@gmail.com> (http://th3james.posterous.com)"
+  , "contributors": [ ]
+  , "keywords" : [ "backbone", "web"]
+  , "repository":
+  { "type" : "git"
+    , "url" : "https://github.com/th3james/BackboneDiorama"
+  }
+  , "bin" : { "diorama" : "./bin/diorama.js" }
+}

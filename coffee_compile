@@ -1,0 +1,2 @@
+rm -r lib/*
+coffee -c -w -o lib coffee/lib
