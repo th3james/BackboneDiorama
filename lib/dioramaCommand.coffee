@@ -1,4 +1,5 @@
 # Commands available from the diorama command
+fs = require('fs')
 exports.help = ->
   console.log """
     Diorama usage:
@@ -6,8 +7,6 @@ exports.help = ->
   """
 
 exports.new = (projectName) ->
-  fs = require('fs')
-  
   console.log "Creating a new project directory #{projectName}"
   fs.mkdir(projectName)
 
@@ -22,3 +21,21 @@ exports.new = (projectName) ->
 
   console.log "Creating #{projectName}/views/"
   fs.mkdir("#{projectName}/views")
+
+exports.scaffold = () ->
+  unless isProjectDir()
+    console.log "#{process.cwd()} does not appear to be a Backbone Diorama project"
+    return false
+  modelName = arguments.shift()
+  fields = arguments
+
+# Returns true if current working directory is a backbone diorama project
+isProjectDir = () ->
+  expectedDirs = ['controllers', 'models', 'collections', 'views'] 
+  foundDirs = fs.readdirSync('.').filter((n) ->
+    if(expectedDirs.indexOf(n) == -1)
+        return false
+    return true
+  )
+  foundDirs.length == 4
+  
