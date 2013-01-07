@@ -13,4 +13,9 @@ unless dioramaCommands[command]?
   console.log('unrecognised command: ' + command)
   command = 'help'
 
-dioramaCommands[command].apply(this, args)
+# Node args aren't a proper array, so...
+argsArray = []
+for index, arg of args
+  argsArray.push arg
+
+dioramaCommands[command].apply(this, argsArray)

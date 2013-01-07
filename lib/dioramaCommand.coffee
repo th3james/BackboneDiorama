@@ -1,5 +1,7 @@
 # Commands available from the diorama command
 fs = require('fs')
+templates = require('../lib/templates.coffee')
+
 exports.help = ->
   console.log """
     Diorama usage:
@@ -22,12 +24,13 @@ exports.new = (projectName) ->
   console.log "Creating #{projectName}/views/"
   fs.mkdir("#{projectName}/views")
 
-exports.scaffold = () ->
+exports.scaffold = (modelName, fields...) ->
   unless isProjectDir()
     console.log "#{process.cwd()} does not appear to be a Backbone Diorama project"
     return false
-  modelName = arguments.shift()
-  fields = arguments
+  console.log "Generating scaffold for #{modelName}"
+
+  console.log templates.model(name: modelName)
 
 # Returns true if current working directory is a backbone diorama project
 isProjectDir = () ->
@@ -38,4 +41,3 @@ isProjectDir = () ->
     return true
   )
   foundDirs.length == 4
-  
