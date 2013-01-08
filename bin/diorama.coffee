@@ -1,6 +1,6 @@
 #!/usr/bin/env coffee
 
-dioramaCommands = require("../lib/dioramaCommand")
+dioramaCommands = require("../src/dioramaCommand")
 
 args = process.argv.slice(0)
 # shift off node and script name

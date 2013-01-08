@@ -1,6 +1,6 @@
 # Commands available from the diorama command
-fs = require('fs')
-templates = require('../lib/templates.coffee')
+fs = require('fs-extra')
+templates = require('../src/templates.coffee')
 
 exports.help = ->
   console.log """
@@ -24,6 +24,9 @@ exports.new = (projectName) ->
   console.log "Creating #{projectName}/views/"
   fs.mkdir("#{projectName}/views")
 
+  console.log "Copying libs to #{projectName}/lib/"
+  fs.copy('./lib/', "#{projectName}/lib")
+
 exports.scaffold = (modelName, fields...) ->
   unless isProjectDir()
     console.log "#{process.cwd()} does not appear to be a Backbone Diorama project"
@@ -33,11 +36,13 @@ exports.scaffold = (modelName, fields...) ->
     console.log "You must specify a model name"
     return false
 
-  console.log "Generating scaffold for #{modelName}"
+  console.log "### Generating scaffold for #{modelName} ###"
 
+  # Model generator
   console.log("models/#{modelName.toLowerCase()}.coffee")
   fs.writeFileSync("./models/#{modelName.toLowerCase()}.coffee", templates.model(name: modelName))
 
+  # Collection generator
   console.log("collections/#{modelName.toLowerCase()}_collection.coffee")
   fs.writeFileSync("./collections/#{modelName.toLowerCase()}_collection.coffee", templates.collection(modelName: modelName))
 

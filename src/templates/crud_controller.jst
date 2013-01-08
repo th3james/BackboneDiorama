@@ -1,0 +1,14 @@
+window.Backbone.Controllers ||= {}
+
+class Backbone.Controllers.<%= modelName %>Controller extends Backbone.Diorama.Controller
+  constructor: ->
+    @mainRegion = new Backbone.Diorama.ManagedRegion()
+    $('body').append(@mainRegion.$el)
+
+    # Start action
+    @index()
+
+  index: =>
+    <%= modelname.toLowerCase() %>Collection = new Backbone.Collection.<%= modelName %>Collection()
+
+    @mainRegion.show(new Backbone.Views.<%= modelName %>IndexView(<%= modelName.toLowerCase() %>Collection: <%= modelName.toLowerCase() %>Collection))
