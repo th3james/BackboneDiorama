@@ -28,9 +28,18 @@ exports.scaffold = (modelName, fields...) ->
   unless isProjectDir()
     console.log "#{process.cwd()} does not appear to be a Backbone Diorama project"
     return false
+
+  unless modelName?
+    console.log "You must specify a model name"
+    return false
+
   console.log "Generating scaffold for #{modelName}"
 
-  console.log templates.model(name: modelName)
+  console.log("models/#{modelName.toLowerCase()}.coffee")
+  fs.writeFileSync("./models/#{modelName.toLowerCase()}.coffee", templates.model(name: modelName))
+
+  console.log("collections/#{modelName.toLowerCase()}_collection.coffee")
+  fs.writeFileSync("./collections/#{modelName.toLowerCase()}_collection.coffee", templates.collection(modelName: modelName))
 
 # Returns true if current working directory is a backbone diorama project
 isProjectDir = () ->
