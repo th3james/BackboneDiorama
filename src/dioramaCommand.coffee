@@ -24,8 +24,8 @@ exports.new = (projectName) ->
   console.log "Creating #{projectName}/views/"
   fs.mkdir("#{projectName}/views")
 
-  console.log "Copying libs to #{projectName}/lib/"
-  fs.copy('./lib/', "#{projectName}/lib")
+  console.log "Copying #{__dirname}/../lib to #{projectName}/lib/"
+  fs.copy("#{__dirname}/../lib/", "#{projectName}/lib")
 
 exports.scaffold = (modelName, fields...) ->
   unless isProjectDir()

@@ -1,14 +1,27 @@
 {
-  "name": "backbone-diorama"
-  , "version": "0.0.1"
-  , "engines": [ "node >=0.4.0" ]
-  , "description": "A client-side web application framework designed for rapid development, using opinionated backbone pattern generators"
-  , "author": "James Cox <th3james@gmail.com> (http://th3james.posterous.com)"
-  , "contributors": [ ]
-  , "keywords" : [ "backbone", "web"]
-  , "repository":
-  { "type" : "git"
-    , "url" : "https://github.com/th3james/BackboneDiorama"
-  }
-  , "bin" : { "diorama" : "./bin/diorama.js" }
+  "name": "backbone-diorama",
+  "version": "0.0.1",
+  "description": "A client-side web application framework designed for rapid development, using opinionated backbone pattern generators",
+  "main": "index.js",
+  "dependencies": {
+    "underscore": "~1.4.3",
+    "fs-extra": "~0.3.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/th3james/BackboneDiorama.git"
+  },
+  "keywords": [
+    "backbone",
+    "web"
+  ],
+  "author": "James Cox <th3james@gmail.com> (http://th3james.posterous.com)",
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "gitHead": "6f0ae447cae8e96159e2568801ba5f28d7f8c8ba",
+  "bin": {"diorama": "./bin/diorama.coffee"}
 }
