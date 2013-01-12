@@ -20,4 +20,13 @@ To view the availble commands, run:
 This will create a new diorama project inside a directory of the same name
 
 ## Development
-BackboneDiorama is written in coffeescript and is packaged as an NPM module. To run the development version of the commands without installing from NPM, just execute the commands in the bin/ directory
+BackboneDiorama is written in coffeescript and is packaged as an NPM module. To install the package locally, in the project directory run:
+
+  sudo npm install -g
+
+This will install the diorama command onto your system. On my node setup, this wasn't added to my PATH correct, so check the output for a line like:
+
+    npm info linkStuff backbone-diorama@0.0.1
+    /usr/local/share/npm/bin/diorama -> /usr/local/share/npm/lib/node_modules/backbone-diorama/bin/diorama.coffee
+
+To see exactly where the command has been installed

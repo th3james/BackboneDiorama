@@ -38,13 +38,25 @@ exports.scaffold = (modelName, fields...) ->
 
   console.log "### Generating scaffold for #{modelName} ###"
 
-  # Model generator
-  console.log("models/#{modelName.toLowerCase()}.coffee")
-  fs.writeFileSync("./models/#{modelName.toLowerCase()}.coffee", templates.model(name: modelName))
+  files = []
+  # Model
+  fileName = "models/#{modelName.toLowerCase()}"
+  files.push fileName
+  fs.writeFileSync("./#{fileName}.coffee", templates.model(name: modelName))
 
-  # Collection generator
-  console.log("collections/#{modelName.toLowerCase()}_collection.coffee")
-  fs.writeFileSync("./collections/#{modelName.toLowerCase()}_collection.coffee", templates.collection(modelName: modelName))
+  # Collection
+  fileName = "collections/#{modelName.toLowerCase()}_collection"
+  files.push fileName
+  fs.writeFileSync("./#{fileName}.coffee", templates.collection(modelName: modelName))
+
+  # Controller 
+  fileName = "controllers/#{modelName.toLowerCase()}_controller"
+  files.push fileName
+  fs.writeFileSync("./#{fileName}.coffee", templates.crudController(modelName: modelName))
+
+  console.log "Compile this directory to javascript, then include the resulting files:"
+  for file in files
+    console.log("<script type=\"text/javascript\" src=\"#{file}.js\"/>")
 
 # Returns true if current working directory is a backbone diorama project
 isProjectDir = () ->

@@ -1,0 +1,46 @@
+window.Backbone ||= {}
+window.Backbone.Views ||= {}
+
+class Backbone.Views.<%= modelName %>IndexView extends Backbone.View
+  template: JST['<%= modelName %>/<%= modelName %>_index']
+
+  initialize: (options) ->
+    @<%= modelName %>Collection = new Backbone.Collections.<%= modelName %>()
+    @<%= modelName %>Collection.on('reset', @render)
+    @<%= modelName %>Collection.fetch()
+
+    @subViews = []
+
+  render: =>
+    @$el.html(@template(models:@<%= modelName %>Collection.toJSON()))
+    @closeSubViews()
+    @<%= modelName %>Collection.each (<%= modelName %>)=>
+      <%= modelName %>View = new Backbone.Views.<%= modelName %>IndexRowView(<%= modelName %>:<%= modelName %>)
+      $('#<%= modelName %>-list').append(<%= modelName %>View.render().el)
+      @subViews.push <%= modelName %>View
+    return @
+
+  closeSubViews: ->
+    for view in @subViews
+      view.close()
+
+  onClose: ->
+    @<%= modelName %>Collection.off('reset', @render)
+    @closeSubViews()
+
+class Backbone.Views.<%= modelName %>IndexRowView extends Backbone.View
+  template: JST['<%= modelName %>/<%= modelName %>_index_row']
+  tagName: 'li'
+  events:
+    "click ": "triggerShow"
+
+  initialize: (options)->
+    @<%= modelName %> = options.<%= modelName %>
+
+  render: =>
+    @$el.html(@template(<%= modelName %>:@<%= modelName %>))
+
+    return @
+
+  triggerShow: =>
+    Backbone.bus.trigger('<%= modelName %>:show', <%= modelName %>: @<%= modelName %>)
