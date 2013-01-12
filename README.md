@@ -15,9 +15,28 @@ To view the availble commands, run:
 
 ## Create a new project
     
-    diorama new ProjectName
+    diorama new <ProjectName>
 
 This will create a new diorama project inside a directory of the same name
+
+## CRUD scaffold
+    
+    diorama scaffold <ModelName> <fieldName:type> <fieldName2:type> ...
+
+Will create a CRUD scaffold for a given model description. A good starting point to see how projects work together
+
+## Generate Controller
+
+    diorama generate-controller <ControllerName> <action1> <action2>
+
+Generates a new BackboneDiorama.Controller, with the specified actions
+
+## Generate Collection View
+
+    diorama generate-collection-view <CollectionName>
+
+Generates a collection view, which will list collection elements, generating 
+
 
 ## Development
 BackboneDiorama is written in coffeescript and is packaged as an NPM module. To install the package locally, in the project directory run:
@@ -28,5 +47,3 @@ This will install the diorama command onto your system. On my node setup, this w
 
     npm info linkStuff backbone-diorama@0.0.1
     /usr/local/share/npm/bin/diorama -> /usr/local/share/npm/lib/node_modules/backbone-diorama/bin/diorama.coffee
-
-To see exactly where the command has been installed

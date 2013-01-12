@@ -24,6 +24,9 @@ exports.new = (projectName) ->
   console.log "Creating #{projectName}/views/"
   fs.mkdir("#{projectName}/views")
 
+  console.log "Creating #{projectName}/templates/"
+  fs.mkdir("#{projectName}/templates")
+
   console.log "Copying #{__dirname}/../lib to #{projectName}/lib/"
   fs.copy("#{__dirname}/../lib/", "#{projectName}/lib")
 
@@ -53,6 +56,11 @@ exports.scaffold = (modelName, fields...) ->
   fileName = "controllers/#{modelName.toLowerCase()}_controller"
   files.push fileName
   fs.writeFileSync("./#{fileName}.coffee", templates.crudController(modelName: modelName))
+
+  # Views
+  fileName = "views/#{modelName.toLowerCase()}_index"
+  files.push fileName
+  fs.writeFileSync("./#{fileName}.coffee", templates.indexView(modelName: modelName))
 
   console.log "Compile this directory to javascript, then include the resulting files:"
   for file in files
