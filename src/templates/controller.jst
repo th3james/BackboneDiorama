@@ -1,0 +1,26 @@
+window.Backbone ||= {}
+window.Backbone.Controllers ||= {}
+
+class Backbone.Controllers.<%= controllerName %>Controller extends Backbone.Diorama.Controller
+  constructor: ->
+    @mainRegion = new Backbone.Diorama.ManagedRegion()
+    $('body').append(@mainRegion.$el)
+
+    # Default state
+    <% if (states[0] !== undefined) { %>
+    @<%= states[0].toLowerCase() %>()
+    <% } %>
+
+  <% var i=0; for (; i < states.length; i++) { %>
+  <%= states[i].toLowerCase() %>: =>
+    <%= states[i].toLowerCase() %>View = new Backbone.Views.<%= controllerName %><%= states[i] %>View()
+    @mainRegion.show(<%= states[i].toLowerCase() %>View)
+
+    ###
+      @changeStateOn maps events published by other objects to
+      controller states
+    ###
+    # @changeStateOn(
+    #  {event: 'post:show', publisher: Backbone, newState: @show}
+    # )
+  <% } %>

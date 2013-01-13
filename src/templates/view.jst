@@ -1,0 +1,13 @@
+window.Backbone ||= {}
+window.Backbone.Views ||= {}
+
+class Backbone.Views.<%= controllerName %><%= stateName %>View extends Backbone.View
+  template: JST['templates/<%= controllerName.toLowerCase() %>_<%= stateName.toLowerCase() %>']
+
+  initialize: (options) ->
+    @render()
+
+  render: =>
+    @$el.html(@template())
+
+  onClose: ->

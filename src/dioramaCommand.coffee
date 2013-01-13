@@ -30,6 +30,30 @@ exports.new = (projectName) ->
   console.log "Copying #{__dirname}/../lib to #{projectName}/lib/"
   fs.copy("#{__dirname}/../lib/", "#{projectName}/lib")
 
+exports.generateController = (controllerName, states...) ->
+  unless isProjectDir()
+    console.log "#{process.cwd()} does not appear to be a Backbone Diorama project"
+    return false
+
+  unless controllerName?
+    console.log "You must specify a controller name"
+    return false
+
+  console.log "### Generating controller #{controllerName} ###"
+
+  fileName = "controllers/#{controllerName.toLowerCase()}_controller"
+  console.log "Creating #{fileName}.coffee"
+  fs.writeFileSync("./#{fileName}.coffee", templates.controller(controllerName: controllerName, states: states))
+
+  for state in states
+    viewFileName = "views/#{controllerName.toLowerCase()}_#{state.toLowerCase()}_view"
+    console.log "Creating #{fileName}.coffee"
+    fs.writeFileSync("./#{viewFileName}.coffee", templates.view(controllerName: controllerName, stateName: state))
+
+    templateFileName = "templates/#{controllerName.toLowerCase()}_#{state.toLowerCase()}"
+    console.log "Creating #{fileName}.coffee"
+    fs.writeFileSync("./#{templateFileName}.coffee", templates.viewTemplate(controllerName: controllerName, stateName: state))
+
 exports.scaffold = (modelName, fields...) ->
   unless isProjectDir()
     console.log "#{process.cwd()} does not appear to be a Backbone Diorama project"
