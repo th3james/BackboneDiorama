@@ -41,18 +41,24 @@ exports.generateController = (controllerName, states...) ->
 
   console.log "### Generating controller #{controllerName} ###"
 
+  files = []
+
   fileName = "controllers/#{controllerName.toLowerCase()}_controller"
-  console.log "Creating #{fileName}.coffee"
+  files.push fileName
   fs.writeFileSync("./#{fileName}.coffee", templates.controller(controllerName: controllerName, states: states))
 
   for state in states
     viewFileName = "views/#{controllerName.toLowerCase()}_#{state.toLowerCase()}_view"
-    console.log "Creating #{fileName}.coffee"
+    files.push viewFileName
     fs.writeFileSync("./#{viewFileName}.coffee", templates.view(controllerName: controllerName, stateName: state))
 
     templateFileName = "templates/#{controllerName.toLowerCase()}_#{state.toLowerCase()}"
-    console.log "Creating #{fileName}.coffee"
+    files.push templateFileName
     fs.writeFileSync("./#{templateFileName}.coffee", templates.viewTemplate(controllerName: controllerName, stateName: state))
+
+  console.log "Compile this directory to javascript, then include the resulting files:"
+  for file in files
+    console.log("<script type=\"text/javascript\" src=\"#{file}.js\"/>")
 
 exports.scaffold = (modelName, fields...) ->
   unless isProjectDir()
