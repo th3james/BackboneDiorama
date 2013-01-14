@@ -27,7 +27,7 @@ Will create a CRUD scaffold for a given model description. A good starting point
 
 ## Generate Controller
 
-    diorama generate-controller <ControllerName> <action1> <action2>
+    diorama generate-controller <ControllerName> <Action1> <Action2> ...
 
 Generates a new BackboneDiorama.Controller, with the specified actions
 
