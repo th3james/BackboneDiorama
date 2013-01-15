@@ -22,7 +22,7 @@ class Backbone.Diorama.Controller
           @transitionToState(newState, arguments)
       )()
 
-      transistionBinding.publisher.on(transitionBinding.event, boundTransition)
+      transitionBinding.publisher.on(transitionBinding.event, boundTransition)
       @stateEventBindings.push(publisher: transitionBinding.publisher, event: transitionBinding.event, transition: boundTransition)
 
   # Clear event bindings for current state

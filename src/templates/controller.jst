@@ -14,7 +14,7 @@ class Backbone.Controllers.<%= controllerName %>Controller extends Backbone.Dior
   <% var i=0, nextState; for (; i < states.length; i++) { %>
   <%= states[i].toLowerCase() %>: =>
     <%= states[i].toLowerCase() %>View = new Backbone.Views.<%= controllerName %><%= states[i] %>View()
-    @mainRegion.show(<%= states[i].toLowerCase() %>View)
+    @mainRegion.showView(<%= states[i].toLowerCase() %>View)
 
     ###
       @changeStateOn maps events published by other objects to

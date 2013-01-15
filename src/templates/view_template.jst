@@ -1,3 +1,5 @@
 window.JST ||= {}
 
-window.JST['<%= controllerName.toLowerCase() %>/<%= stateName.toLowerCase() %>'] = "<h1><%= stateName %> View</h1>"
+window.JST['<%= controllerName.toLowerCase() %>/<%= stateName.toLowerCase() %>'] = _.template("""
+  <h1><%= stateName %> View</h1>
+"""

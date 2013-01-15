@@ -59,7 +59,7 @@ class Backbone.Controllers.PostsController extends Backbone.Diorama.Controller
 
     # Create a post index view, and show it in mainRegion
     indexView = new Backbone.Views.PostIndexView(postCollection: postCollection)
-    @mainRegion.show(indexView)
+    @mainRegion.showView(indexView)
 
     # Listen to the Backbone object for a 'post:show' event,
     # then transition to the show state when it occurs
@@ -71,7 +71,7 @@ class Backbone.Controllers.PostsController extends Backbone.Diorama.Controller
     # Create a show view for the given post,
     # and show it in the @mainRegion
     showView = new Backbone.Views.PostShowView(post: post)
-    @mainRegion.show(showView)
+    @mainRegion.showView(showView)
 
     # Listen to the showView for the 'back' event,
     # and return to the index when it occurs
