@@ -1,6 +1,14 @@
 # Commands available from the diorama command
+
+_ = require('underscore')
 fs = require('fs-extra')
 templates = require('../src/templates.coffee')
+# Underscore String plus exports
+_.str = require('underscore.string')
+_.mixin(_.str.exports())
+
+downcaseFirstChar = (string) ->
+  return string.charAt(0).toLowerCase() + string.substring(1)
 
 exports.help = ->
   console.log """
@@ -39,22 +47,28 @@ exports.generateController = (controllerName, states...) ->
     console.log "You must specify a controller name"
     return false
 
-  console.log "### Generating controller #{controllerName} ###"
+  controllerUnderscoreName = _(controllerName).underscored()
+  console.log "controllerUnderscoreName: #{controllerUnderscoreName}"
+  controllerName = _(downcaseFirstChar(controllerName)).camelize()
+  console.log "controllerName: #{controllerName}"
+
+  console.log "### Generating controller #{_(controllerName).classify()} ###"
 
   files = []
 
-  fileName = "controllers/#{controllerName.toLowerCase()}_controller"
+  fileName = "controllers/#{controllerUnderscoreName}_controller"
   files.push fileName
   fs.writeFileSync("./#{fileName}.coffee", templates.controller(controllerName: controllerName, states: states))
 
   for state in states
-    viewFileName = "views/#{controllerName.toLowerCase()}_#{state.toLowerCase()}_view"
+    state = downcaseFirstChar(state)
+    viewFileName = "views/#{controllerUnderscoreName}_#{_(state).underscored()}_view"
     files.push viewFileName
     fs.writeFileSync("./#{viewFileName}.coffee", templates.view(controllerName: controllerName, stateName: state))
 
-    templateFileName = "templates/#{controllerName.toLowerCase()}_#{state.toLowerCase()}"
+    templateFileName = "templates/#{controllerUnderscoreName}_#{_(state).underscored()}"
     files.push templateFileName
-    fs.writeFileSync("./#{templateFileName}.coffee", templates.viewTemplate(controllerName: controllerName, stateName: state))
+    fs.writeFileSync("./#{templateFileName}.coffee", templates. viewTemplate(controllerName: controllerName, stateName: state))
 
   console.log "Compile this directory to javascript, then include the resulting files:"
   for file in files
@@ -69,21 +83,22 @@ exports.scaffold = (modelName, fields...) ->
     console.log "You must specify a model name"
     return false
 
-  console.log "### Generating scaffold for #{modelName} ###"
+  modelName = downcaseFirstChar(_(modelName))
+  console.log "### Generating scaffold for #{_(modelName).classify()} ###"
 
   files = []
   # Model
-  fileName = "models/#{modelName.toLowerCase()}"
+  fileName = "models/#{_(modelName).underscored()}"
   files.push fileName
-  fs.writeFileSync("./#{fileName}.coffee", templates.model(name: modelName))
+  fs.writeFileSync("./#{fileName}.coffee", templates.model(name: _(modelName).classify()))
 
   # Collection
-  fileName = "collections/#{modelName.toLowerCase()}_collection"
+  fileName = "collections/#{_(modelName).underscored()}_collection"
   files.push fileName
-  fs.writeFileSync("./#{fileName}.coffee", templates.collection(modelName: modelName))
+  fs.writeFileSync("./#{fileName}.coffee", templates.collection(modelName: _(modelName).classify()))
 
   # Controller 
-  fileName = "controllers/#{modelName.toLowerCase()}_controller"
+  fileName = "controllers/#{_(modelName).underscored()}_controller"
   files.push fileName
   fs.writeFileSync("./#{fileName}.coffee", templates.crudController(modelName: modelName))
 

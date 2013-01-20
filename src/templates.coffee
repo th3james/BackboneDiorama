@@ -1,11 +1,22 @@
 _ = require('underscore')
 fs = require('fs')
+# Underscore String plus exports
+_.str = require('underscore.string')
+_.mixin(_.str.exports())
 
-exports.model = _.template(fs.readFileSync("#{__dirname}/templates/model.jst", 'utf8'))
-exports.collection = _.template(fs.readFileSync("#{__dirname}/templates/collection.jst", 'utf8'))
-exports.crudController = _.template(fs.readFileSync("#{__dirname}/templates/crud_controller.jst", 'utf8'))
-exports.indexView = _.template(fs.readFileSync("#{__dirname}/templates/index_view.jst", 'utf8'))
+# This closure creates an underscore template function for
+# the given file with _ included as default parameter
+fileToTemplateWithUnderscore = (filename) ->
+  tmpl = _.template(fs.readFileSync(filename, 'utf8'))
 
-exports.controller = _.template(fs.readFileSync("#{__dirname}/templates/controller.jst", 'utf8'))
-exports.view = _.template(fs.readFileSync("#{__dirname}/templates/view.jst", 'utf8'))
-exports.viewTemplate = _.template(fs.readFileSync("#{__dirname}/templates/view_template.jst", 'utf8'))
+  return (variables)->
+    tmpl(_.extend(variables, {_:_}))
+
+exports.model = fileToTemplateWithUnderscore("#{__dirname}/templates/model.jst")
+exports.collection = fileToTemplateWithUnderscore("#{__dirname}/templates/collection.jst")
+exports.crudController = fileToTemplateWithUnderscore("#{__dirname}/templates/crud_controller.jst")
+exports.indexView = fileToTemplateWithUnderscore("#{__dirname}/templates/index_view.jst")
+
+exports.controller = fileToTemplateWithUnderscore("#{__dirname}/templates/controller.jst")
+exports.view = fileToTemplateWithUnderscore("#{__dirname}/templates/view.jst")
+exports.viewTemplate = fileToTemplateWithUnderscore("#{__dirname}/templates/view_template.jst")

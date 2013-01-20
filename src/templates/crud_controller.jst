@@ -1,6 +1,9 @@
+<%
+  var className = _(modelName).classify();
+%>
 window.Backbone.Controllers ||= {}
 
-class Backbone.Controllers.<%= modelName %>Controller extends Backbone.Diorama.Controller
+class Backbone.Controllers.<%= className %>Controller extends Backbone.Diorama.Controller
   constructor: ->
     @mainRegion = new Backbone.Diorama.ManagedRegion()
     $('body').append(@mainRegion.$el)
@@ -9,6 +12,6 @@ class Backbone.Controllers.<%= modelName %>Controller extends Backbone.Diorama.C
     @index()
 
   index: =>
-    <%= modelName.toLowerCase() %>Collection = new Backbone.Collection.<%= modelName %>Collection()
+    <%= modelName %>Collection = new Backbone.Collection.<%= className %>Collection()
 
-    @mainRegion.showView(new Backbone.Views.<%= modelName %>IndexView(<%= modelName.toLowerCase() %>Collection: <%= modelName.toLowerCase() %>Collection))
+    @mainRegion.showView(new Backbone.Views.<%= className%>IndexView(<%= modelName %>Collection: <%= modelName %>Collection))

@@ -1,26 +1,32 @@
+<%
+  var className = _(controllerName).classify()
+  var downcaseFirstChar = function(string){
+    return string.charAt(0).toLowerCase() + string.substring(1);
+  };
+%>
 window.Backbone ||= {}
 window.Backbone.Controllers ||= {}
 
-class Backbone.Controllers.<%= controllerName %>Controller extends Backbone.Diorama.Controller
+class Backbone.Controllers.<%= className %>Controller extends Backbone.Diorama.Controller
   constructor: ->
     @mainRegion = new Backbone.Diorama.ManagedRegion()
     $('body').append(@mainRegion.$el)
 
     # Default state
     <% if (states[0] !== undefined) { %>
-    @<%= states[0].toLowerCase() %>()
+    @<%= _(downcaseFirstChar(states[0])).camelize() %>()
     <% } %>
 
-  <% var i=0, nextState; for (; i < states.length; i++) { %>
-  <%= states[i].toLowerCase() %>: =>
-    <%= states[i].toLowerCase() %>View = new Backbone.Views.<%= controllerName %><%= states[i] %>View()
-    @mainRegion.showView(<%= states[i].toLowerCase() %>View)
+  <% var i=0, nextState; for (; i < states.length; i++) { var state = _(downcaseFirstChar(states[i])).camelize(); %>
+  <%= state %>: =>
+    <%= state %>View = new Backbone.Views.<%= className %><%= _(state).classify() %>View()
+    @mainRegion.showView(<%= state %>View)
 
     ###
       @changeStateOn maps events published by other objects to
       controller states
     ###
     @changeStateOn( <% if (states.length > 1) {nextState = states[(i+1)%states.length];} else { nextState = "anotherState";} %>
-    #  {event: 'someEvent', publisher: <%= states[i].toLowerCase() %>View, newState: @<%= nextState %>}
+    #  {event: 'someEvent', publisher: <%= state %>View, newState: @<%= _(downcaseFirstChar(nextState)).camelize() %>}
     )
   <% } %>
