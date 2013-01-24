@@ -37,6 +37,12 @@ Generates a new BackboneDiorama.Controller, with the specified actions
 
 Generates a collection view, which will list collection elements, generating 
 
+## Compile App
+
+    diorama compile
+
+Compiles the coffeescript in the current project directory, and will print script include tags for them
+
 # Extra helper objects
 BackboneDiorama comes with a few helpers to complete the backbone stack for building complete web applications:
 
