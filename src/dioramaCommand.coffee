@@ -111,6 +111,13 @@ exports.scaffold = (modelName, fields...) ->
   for file in files
     console.log("<script type=\"text/javascript\" src=\"#{file}.js\"/>")
 
+exports.compile = ->
+  exec = require('child_process').exec
+  exec("coffee -cj application.js .", ->
+    console.log "Compiled CoffeeScript -> JS:"
+    console.log "<script type=\"text/javascript\" src=\"application.js\"/>"
+  )
+
 # Returns true if current working directory is a backbone diorama project
 isProjectDir = () ->
   expectedDirs = ['controllers', 'models', 'collections', 'views'] 
