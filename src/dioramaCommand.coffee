@@ -38,6 +38,9 @@ exports.new = (projectName) ->
   console.log "Copying #{__dirname}/../lib to #{projectName}/lib/"
   fs.copy("#{__dirname}/../lib/", "#{projectName}/lib")
 
+  console.log "Creating #{projectName}/index.html"
+  fs.copy("#{__dirname}/../src/templates/index.html", "#{projectName}/index.html")
+
 exports.generateController = (controllerName, states...) ->
   unless isProjectDir()
     console.log "#{process.cwd()} does not appear to be a Backbone Diorama project"
@@ -70,9 +73,8 @@ exports.generateController = (controllerName, states...) ->
     files.push templateFileName
     fs.writeFileSync("./#{templateFileName}.coffee", templates. viewTemplate(controllerName: controllerName, stateName: state))
 
-  console.log "Compile this directory to javascript, then include the resulting files:"
   for file in files
-    console.log("<script type=\"text/javascript\" src=\"#{file}.js\"/>")
+    console.log("Created #{file}")
 
 exports.scaffold = (modelName, fields...) ->
   unless isProjectDir()
@@ -107,9 +109,8 @@ exports.scaffold = (modelName, fields...) ->
   files.push fileName
   fs.writeFileSync("./#{fileName}.coffee", templates.indexView(modelName: modelName))
 
-  console.log "Compile this directory to javascript, then include the resulting files:"
   for file in files
-    console.log("<script type=\"text/javascript\" src=\"#{file}.js\"/>")
+    console.log("Created #{file}")
 
 # Returns true if current working directory is a backbone diorama project
 isProjectDir = () ->
