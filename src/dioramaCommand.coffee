@@ -19,24 +19,26 @@ exports.help = ->
 exports.new = (projectName) ->
   console.log "Creating a new project directory #{projectName}"
   fs.mkdir(projectName)
+  fs.mkdir("#{projectName}/js")
+  fs.mkdir("#{projectName}/src")
 
-  console.log "Creating #{projectName}/controllers/"
-  fs.mkdir("#{projectName}/controllers")
+  console.log "Creating #{projectName}/src/controllers/"
+  fs.mkdir("#{projectName}/src/controllers")
 
-  console.log "Creating #{projectName}/models/"
-  fs.mkdir("#{projectName}/models")
+  console.log "Creating #{projectName}/src/models/"
+  fs.mkdir("#{projectName}/src/models")
 
-  console.log "Creating #{projectName}/collections/"
-  fs.mkdir("#{projectName}/collections")
+  console.log "Creating #{projectName}/src/collections/"
+  fs.mkdir("#{projectName}/src/collections")
 
-  console.log "Creating #{projectName}/views/"
-  fs.mkdir("#{projectName}/views")
+  console.log "Creating #{projectName}/src/views/"
+  fs.mkdir("#{projectName}/src/views")
 
-  console.log "Creating #{projectName}/templates/"
-  fs.mkdir("#{projectName}/templates")
+  console.log "Creating #{projectName}/src/templates/"
+  fs.mkdir("#{projectName}/src/templates")
 
-  console.log "Copying #{__dirname}/../lib to #{projectName}/lib/"
-  fs.copy("#{__dirname}/../lib/", "#{projectName}/lib")
+  console.log "Copying #{__dirname}/../lib to #{projectName}/src/lib/"
+  fs.copy("#{__dirname}/../lib/", "#{projectName}/src/lib")
 
 exports.generateController = (controllerName, states...) ->
   unless isProjectDir()
@@ -56,17 +58,17 @@ exports.generateController = (controllerName, states...) ->
 
   files = []
 
-  fileName = "controllers/#{controllerUnderscoreName}_controller"
+  fileName = "src/controllers/#{controllerUnderscoreName}_controller"
   files.push fileName
   fs.writeFileSync("./#{fileName}.coffee", templates.controller(controllerName: controllerName, states: states))
 
   for state in states
     state = downcaseFirstChar(state)
-    viewFileName = "views/#{controllerUnderscoreName}_#{_(state).underscored()}_view"
+    viewFileName = "src/views/#{controllerUnderscoreName}_#{_(state).underscored()}_view"
     files.push viewFileName
     fs.writeFileSync("./#{viewFileName}.coffee", templates.view(controllerName: controllerName, stateName: state))
 
-    templateFileName = "templates/#{controllerUnderscoreName}_#{_(state).underscored()}"
+    templateFileName = "src/templates/#{controllerUnderscoreName}_#{_(state).underscored()}"
     files.push templateFileName
     fs.writeFileSync("./#{templateFileName}.coffee", templates. viewTemplate(controllerName: controllerName, stateName: state))
 
@@ -98,12 +100,12 @@ exports.scaffold = (modelName, fields...) ->
   fs.writeFileSync("./#{fileName}.coffee", templates.collection(modelName: _(modelName).classify()))
 
   # Controller 
-  fileName = "controllers/#{_(modelName).underscored()}_controller"
+  fileName = "src/controllers/#{_(modelName).underscored()}_controller"
   files.push fileName
   fs.writeFileSync("./#{fileName}.coffee", templates.crudController(modelName: modelName))
 
   # Views
-  fileName = "views/#{modelName.toLowerCase()}_index"
+  fileName = "src/views/#{modelName.toLowerCase()}_index"
   files.push fileName
   fs.writeFileSync("./#{fileName}.coffee", templates.indexView(modelName: modelName))
 
@@ -113,17 +115,21 @@ exports.scaffold = (modelName, fields...) ->
 
 exports.compile = ->
   exec = require('child_process').exec
-  exec("coffee -cj application.js .", ->
-    console.log "Compiled CoffeeScript -> JS:"
-    console.log "<script type=\"text/javascript\" src=\"application.js\"/>"
+  command = "coffee --join js/application.js --compile src/"
+  console.log "Compiling with '#{command}'"
+  exec(command, (error, stdout, stderr)->
+    if error?
+      console.log stderr
+    else
+      console.log "Compiled CoffeeScript -> JS to js/application.js"
   )
 
 # Returns true if current working directory is a backbone diorama project
 isProjectDir = () ->
-  expectedDirs = ['controllers', 'models', 'collections', 'views'] 
+  expectedDirs = ['js', 'src']
   foundDirs = fs.readdirSync('.').filter((n) ->
     if(expectedDirs.indexOf(n) == -1)
         return false
     return true
   )
-  foundDirs.length == 4
+  foundDirs.length == expectedDirs.length
