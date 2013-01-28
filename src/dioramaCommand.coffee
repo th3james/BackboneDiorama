@@ -78,6 +78,9 @@ exports.generateController = (controllerName, states...) ->
   for file in files
     console.log("Created #{file}")
 
+  console.log "### Generated Controller Backbone.Controllers.#{_(controllerName).classify()}Controller ###"
+  console.log "   start it with: new Backbone.Controllers.#{_(controllerName).classify()}Controller()"
+
 exports.scaffold = (modelName, fields...) ->
   unless isProjectDir()
     console.log "#{process.cwd()} does not appear to be a Backbone Diorama project"
