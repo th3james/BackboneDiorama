@@ -1,3 +1,2 @@
-rm -r js/
-mkdir js
-coffee -c -w -o js/lib lib/
+rm lib/diorama.js
+coffee -c -w -j lib/diorama.js src/lib/

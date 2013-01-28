@@ -37,8 +37,8 @@ exports.new = (projectName) ->
   console.log "Creating #{projectName}/src/templates/"
   fs.mkdir("#{projectName}/src/templates")
 
-  console.log "Copying #{__dirname}/../lib to #{projectName}/src/lib/"
-  fs.copy("#{__dirname}/../lib/", "#{projectName}/src/lib")
+  console.log "Copying #{__dirname}/../lib to #{projectName}/js/lib/"
+  fs.copy("#{__dirname}/../lib/", "#{projectName}/js/lib")
 
   console.log "Creating #{projectName}/index.html"
   fs.copy("#{__dirname}/../src/templates/index.html", "#{projectName}/index.html")
