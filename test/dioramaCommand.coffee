@@ -1,6 +1,7 @@
 dioramaCommands = require("../src/dioramaCommand")
 assert = require("assert")
 fs = require('fs-extra')
+exec = require('child_process').exec
 
 describe('create a new project', ->
   dioramaCommands.new('testProject')
@@ -22,6 +23,15 @@ describe('create a new project', ->
     )
     assert.equal(foundDirs.length, expectedFiles.length)
   )
+  it("should have created a manifest file", ->
+    expectedFiles = ['compile_manifest.json']
+    foundDirs = fs.readdirSync('testProject/src/').filter((n) ->
+      if(expectedFiles.indexOf(n) == -1)
+        return false
+      return true
+    )
+    assert.equal(foundDirs.length, expectedFiles.length)
+  )
   # Clean-up
-  fs.rmdirSync('testProject')
+  #exec 'rm -r testProject/'
 )

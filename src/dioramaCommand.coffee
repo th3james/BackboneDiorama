@@ -40,6 +40,9 @@ exports.new = (projectName) ->
   console.log "Copying #{__dirname}/../lib to #{projectName}/js/lib/"
   fs.copy("#{__dirname}/../lib/", "#{projectName}/js/lib")
 
+  console.log "Adding coffeescript manifest #{projectName}/src/compile_manifest.json"
+  fs.copy("#{__dirname}/../src/templates/compile_manifest.json", "#{projectName}/src/compile_manifest.json")
+
   console.log "Creating #{projectName}/index.html"
   fs.copy("#{__dirname}/../src/templates/index.html", "#{projectName}/index.html")
 
@@ -118,24 +121,44 @@ exports.scaffold = (modelName, fields...) ->
     console.log("Created #{file}")
 
 exports.generateView = (viewName) ->
+  files = []
   viewName = _(viewName).underscored()
-  viewFileName = "src/views/#{viewName}_view"
-  fs.writeFileSync("./#{viewFileName}.coffee", templates.view(viewName: viewName))
 
-  templateFileName = "src/templates/#{_(viewName).underscored()}"
-  fs.writeFileSync("./#{templateFileName}.coffee", templates. viewTemplate(viewName: viewName))
+  templateFileName = "templates/#{_(viewName).underscored()}"
+  files.push templateFileName
+  fs.writeFileSync("./src/#{templateFileName}.coffee", templates. viewTemplate(viewName: viewName))
 
+  viewFileName = "views/#{viewName}_view"
+  files.push viewFileName
+  fs.writeFileSync("./src/#{viewFileName}.coffee", templates.view(viewName: viewName))
 
-exports.compile = ->
+  console.log "Generated #{_(viewName).classify()}View, add the following to your src/compile_manifest.json"
+  console.log "\"#{files.join("\",\n\"")}\""
+
+# Compile files in src/compile_manifest.json
+exports.compile = (watch) ->
   exec = require('child_process').exec
-  command = "coffee --join js/application.js --compile src/"
-  console.log "Compiling with '#{command}'"
-  exec(command, (error, stdout, stderr)->
-    if error?
-      console.log stderr
-    else
-      console.log "Compiled CoffeeScript -> JS to js/application.js"
-  )
+  str = fs.readFileSync('src/compile_manifest.json', 'utf8')
+  appFiles  = JSON.parse("#{str}")
+  appContents = new Array
+  remaining = appFiles.length
+  # Concatenate CS into one file
+  for file, index in appFiles then do (file, index) ->
+    console.log "concatenating src/#{file}.coffee"
+    fs.readFile "src/#{file}.coffee", 'utf8', (err, fileContents) ->
+      throw err if err
+      appContents[index] = fileContents
+      process() if --remaining is 0
+  # Compile 
+  process = ->
+    fs.writeFile 'src/application.coffee', appContents.join('\n\n'), 'utf8', (err) ->
+      throw err if err
+      exec 'coffee  --output js/ --compile src/application.coffee', (err, stdout, stderr) ->
+        throw err if err
+        console.log stdout + stderr
+        fs.unlink 'src/application.coffee', (err) ->
+          throw err if err
+          console.log "compiled to js/application.js"
 
 # Returns true if current working directory is a backbone diorama project
 isProjectDir = () ->
