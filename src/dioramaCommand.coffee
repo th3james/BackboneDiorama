@@ -126,13 +126,9 @@ exports.generateView = (viewName) ->
   files = []
   viewName = _(viewName).underscored()
 
-  templateFileName = "templates/#{_(viewName).underscored()}"
-  files.push templateFileName
-  fs.writeFileSync("./src/#{templateFileName}.coffee", templates. viewTemplate(viewName: viewName))
+  files.push writeTemplate('viewTemplate', {viewName: viewName}, "templates/#{_(viewName).underscored()}")
 
-  viewFileName = "views/#{viewName}_view"
-  files.push viewFileName
-  fs.writeFileSync("./src/#{viewFileName}.coffee", templates.view(viewName: viewName))
+  files.push writeTemplate('view', {viewName: viewName}, "views/#{viewName}_view")
 
   console.log "Generated #{_(viewName).classify()}View, add the following to your src/compile_manifest.json"
   console.log "\"#{files.join("\",\n\"")}\""
