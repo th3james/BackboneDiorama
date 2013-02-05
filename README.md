@@ -1,52 +1,76 @@
 BackboneDiorama
 ===============
 
-A client-side web application framework designed for rapid development, using opinionated backbone pattern generators
+A Backbone.js based client-side Coffeescipt web application framework designed for rapid development, using opinionated backbone pattern generators.
 
 # Goals
 Backbone Diorama aims to assist you in rapid building of client-side web applications. To do this, it borrows much of the 
 philosophy of Ruby On Rails, particularly, convention over configuration. Backbone Diorama creates a default Backbone.js
-application structure, and a series of patterns useful for typical web development, which are realised through geneators.
+application structure, and provides a series of patterns useful for typical web development, which are realised through generators.
+BackboneDiorama and its generators are designed exclusively for Coffeescript in the interests of the clarity and elegance of generated code.
+
+# Installation
+Install backbone diorama as an NPM package:
+
+	sudo npm install -g backbone-diorama
 
 # Usage
 To view the availble commands, run:
 
-  diorama help
+	diorama help
 
-## Create a new project
+#### Create a new project
     
     diorama new <ProjectName>
 
-This will create a new diorama project inside a directory of the same name
+This will create a new diorama project inside a directory of the same name. It creates an index.html file containing starting instructions.
 
-## CRUD scaffold
-    
-    diorama scaffold <ModelName> <fieldName:type> <fieldName2:type> ...
+#### generateController
 
-Will create a CRUD scaffold for a given model description. A good starting point to see how projects work together
+    diorama generateController <ControllerName> <Action1> <Action2> ...
 
-## Generate Controller
+Generates a new Backbone.Diorama.Controller, with the specified actions, and a corresponding view for each action. Generated files are printed in a format suitable for inserting into the src/compile_manifest.json
 
-    diorama generate-controller <ControllerName> <Action1> <Action2> ...
+#### generateView
 
-Generates a new BackboneDiorama.Controller, with the specified actions
+    diorama generateView <ViewName>
 
-## Generate Collection View
+Generates a new Backbone.View and JST template file for the given name. Generated files are printed in a format suitable for inserting into the src/compile_manifest.json
 
-    diorama generate-collection-view <CollectionName>
+#### Compiling the app
 
-Generates a collection view, which will list collection elements, generating 
+    diorama compile <watch>
 
-## Compile App
+Compiles compiles the files specied in src/compile_manifest.json. The files should be specified in the order you require them, in this format:
 
-    diorama compile
+	[
+		"folderRelativeToSrc/filewithoutext",
+		"another/coffescriptFile",
+	]
 
-Compiles the coffeescript in the current project directory, and will print script include tags for them
 
-# Extra helper objects
-BackboneDiorama comes with a few helpers to complete the backbone stack for building complete web applications:
+# Backbone.Diorama Libraries
+BackboneDiorama comes with a few extra classes to complete the backbone stack for building complete web applications:
 
-## DioramaController
+### Backbone.Diorama.ManagedRegion
+Creates a DOM element designed for swapping views in and out of
+#### constructor(tagName='div')
+Constructs a new managed region with a DOM element of the given tag name. Insert the new DOM element into the page using the $el attribute:
+
+```coffee
+@mainRegion = new Backbone.Diorama.ManagedRegion('span')
+$('body').append(managedRegion.$el)
+```
+
+#### showView(backboneView)
+Renders the given Backbone.View into the managedRegion's DOM element. If there has already been a Backbone.View rendered for the region, the existing view will be closed, calling onClose() on it, and then replacing it with the new view. This allows you to swap views into the region without having to manually clean up after old views.
+
+```coffee
+managedRegion.showView(view1) # Render view 1 into managedRegion.$el
+managedRegion.showView(view2) # Call view1.close() and view1.onClose(), render view2 into managedRegion.$el
+```
+
+### Backbone.Diorama.Controller
 Diorama controllers are designed to coordinate views in your application, and provide entry points to certain 'states' of your application. Routers in BackboneDiorama projects only handle URLs reading and setting, but defer to controllers for the actual behavior.
 This example shows shows a typical blog post index and show page:
 
@@ -85,6 +109,21 @@ class Backbone.Controllers.PostsController extends Backbone.Diorama.Controller
       {event: 'back', publisher: showView, newState: @index}
     )
 ```
+
+## Planned features
+#### CRUD scaffold
+    
+    diorama scaffold <ModelName> <fieldName:type> <fieldName2:type> ...
+
+Will create a CRUD scaffold for a given model description. A good starting point to see how projects work together
+
+#### Generate Collection View
+
+    diorama generate-collection-view <CollectionName>
+
+Generates a collection view, which will list collection elements, generating 
+
+
     
 
 ## Development
