@@ -46,6 +46,12 @@ exports.new = (projectName) ->
   console.log "Creating #{projectName}/index.html"
   fs.copy("#{__dirname}/../src/templates/index.html", "#{projectName}/index.html")
 
+# Helper to write templates to a file
+# Expects a compile_manifest suitable filename, and returns it
+writeTemplate = (templateName, templateArgs, fileName) ->
+  fs.writeFileSync("./src/#{fileName}.coffee", templates[templateName](templateArgs))
+  return fileName
+
 exports.generateController = (controllerName, states...) ->
   unless isProjectDir()
     console.log "#{process.cwd()} does not appear to be a Backbone Diorama project"
@@ -64,24 +70,20 @@ exports.generateController = (controllerName, states...) ->
 
   files = []
 
-  fileName = "src/controllers/#{controllerUnderscoreName}_controller"
-  files.push fileName
-  fs.writeFileSync("./#{fileName}.coffee", templates.controller(controllerName: controllerName, states: states))
+  files.push writeTemplate('controller', {controllerName: controllerName, states: states}, "controllers/#{controllerUnderscoreName}_controller")
 
   for state in states
     state = downcaseFirstChar(state)
-    viewFileName = "src/views/#{controllerUnderscoreName}_#{_(state).underscored()}_view"
-    files.push viewFileName
-    fs.writeFileSync("./#{viewFileName}.coffee", templates.view(controllerName: controllerName, viewName: state))
+    files.push writeTemplate('viewTemplate', {controllerName: controllerName, viewName: state}, "templates/#{controllerUnderscoreName}_#{_(state).underscored()}")
 
-    templateFileName = "src/templates/#{controllerUnderscoreName}_#{_(state).underscored()}"
-    files.push templateFileName
-    fs.writeFileSync("./#{templateFileName}.coffee", templates. viewTemplate(controllerName: controllerName, viewName: state))
+    files.push writeTemplate('view', {controllerName: controllerName, viewName: state}, "views/#{controllerUnderscoreName}_#{_(state).underscored()}_view")
 
   for file in files
     console.log("Created #{file}")
 
   console.log "### Generated Controller Backbone.Controllers.#{_(controllerName).classify()}Controller ###"
+  console.log "   include it in src/compile_manifest.json with: "
+  console.log "\"#{files.join("\",\n\"")}\""
   console.log "   start it with: new Backbone.Controllers.#{_(controllerName).classify()}Controller()"
 
 exports.scaffold = (modelName, fields...) ->
