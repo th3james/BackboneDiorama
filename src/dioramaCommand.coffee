@@ -138,27 +138,39 @@ exports.generateView = (viewName) ->
 # Compile files in src/compile_manifest.json
 exports.compile = (watch) ->
   exec = require('child_process').exec
-  str = fs.readFileSync('src/compile_manifest.json', 'utf8')
-  appFiles  = JSON.parse("#{str}")
-  appContents = new Array
-  remaining = appFiles.length
+  watcher = require('node-watch');
+
   # Concatenate CS into one file
-  for file, index in appFiles then do (file, index) ->
-    console.log "concatenating src/#{file}.coffee"
-    fs.readFile "src/#{file}.coffee", 'utf8', (err, fileContents) ->
-      throw err if err
-      appContents[index] = fileContents
-      process() if --remaining is 0
-  # Compile 
-  process = ->
-    fs.writeFile 'src/application.coffee', appContents.join('\n\n'), 'utf8', (err) ->
-      throw err if err
-      exec 'coffee  --output js/ --compile src/application.coffee', (err, stdout, stderr) ->
+  concatenate = ->
+    str = fs.readFileSync('src/compile_manifest.json', 'utf8')
+    appFiles  = JSON.parse("#{str}")
+    appContents = []
+    remaining = appFiles.length
+    for file, index in appFiles then do (file, index) ->
+      console.log "concatenating src/#{file}.coffee"
+      fs.readFile "src/#{file}.coffee", 'utf8', (err, fileContents) ->
         throw err if err
+        appContents[index] = fileContents
+        process(appContents) if --remaining is 0
+
+  # Compile 
+  process = (appContents)->
+    fs.writeFile 'application.coffee', appContents.join('\n\n'), 'utf8', (writeCoffeeError) ->
+      throw writeCoffeeError if writeCoffeeError
+      exec 'coffee  --output js/ --compile application.coffee', (compileError, stdout, stderr) ->
+        throw compileError if compileError
         console.log stdout + stderr
-        fs.unlink 'src/application.coffee', (err) ->
-          throw err if err
+        fs.unlink 'application.coffee', (removeCoffeeError) ->
+          throw removeCoffeeError if removeCoffeeError
           console.log "compiled to js/application.js"
+  
+  if watch?
+    watcher('src/', (files)->
+      console.log 'hat'
+      concatenate()
+    )
+  else
+    concatenate()
 
 # Returns true if current working directory is a backbone diorama project
 isProjectDir = () ->
