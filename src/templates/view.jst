@@ -1,8 +1,8 @@
 window.Backbone ||= {}
 window.Backbone.Views ||= {}
 
-class Backbone.Views.<%= _(controllerName).classify() %><%= _(stateName).classify() %>View extends Backbone.View
-  template: JST['<%= _(controllerName).underscored() %>/<%= _(stateName).underscored() %>']
+class Backbone.Views.<% if (typeof controllerName !== 'undefined'){ %><%= _(controllerName).classify() %><% } %><%= _(viewName).classify() %>View extends Backbone.View
+  template: JST['<% if (typeof controllerName !== 'undefined'){ %><%= _(controllerName).underscored() %>/<% } %><%= _(viewName).underscored() %>']
 
   initialize: (options) ->
     @render()

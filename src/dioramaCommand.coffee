@@ -69,11 +69,11 @@ exports.generateController = (controllerName, states...) ->
     state = downcaseFirstChar(state)
     viewFileName = "src/views/#{controllerUnderscoreName}_#{_(state).underscored()}_view"
     files.push viewFileName
-    fs.writeFileSync("./#{viewFileName}.coffee", templates.view(controllerName: controllerName, stateName: state))
+    fs.writeFileSync("./#{viewFileName}.coffee", templates.view(controllerName: controllerName, viewName: state))
 
     templateFileName = "src/templates/#{controllerUnderscoreName}_#{_(state).underscored()}"
     files.push templateFileName
-    fs.writeFileSync("./#{templateFileName}.coffee", templates. viewTemplate(controllerName: controllerName, stateName: state))
+    fs.writeFileSync("./#{templateFileName}.coffee", templates. viewTemplate(controllerName: controllerName, viewName: state))
 
   for file in files
     console.log("Created #{file}")
@@ -116,6 +116,15 @@ exports.scaffold = (modelName, fields...) ->
 
   for file in files
     console.log("Created #{file}")
+
+exports.generateView = (viewName) ->
+  viewName = _(viewName).underscored()
+  viewFileName = "src/views/#{viewName}_view"
+  fs.writeFileSync("./#{viewFileName}.coffee", templates.view(viewName: viewName))
+
+  templateFileName = "src/templates/#{_(viewName).underscored()}"
+  fs.writeFileSync("./#{templateFileName}.coffee", templates. viewTemplate(viewName: viewName))
+
 
 exports.compile = ->
   exec = require('child_process').exec

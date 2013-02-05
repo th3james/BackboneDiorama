@@ -1,5 +1,5 @@
 window.JST ||= {}
 
-window.JST['<%= _(controllerName).underscored() %>/<%= _(stateName).underscored() %>'] = _.template("""
-  <h1><%= _(stateName).classify() %> View</h1>
+window.JST['<% if (typeof controllerName !== 'undefined'){ %><%= _(controllerName).underscored() %>/<%}%><%= _(viewName).underscored() %>'] = _.template("""
+  <h1><%= _(viewName).classify() %> View</h1>
 """)
