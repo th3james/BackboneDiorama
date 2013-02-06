@@ -6,7 +6,7 @@ class Backbone.Diorama.NestingView extends Backbone.View
     @subViews ||= []
     @subViews.push(subView)
     
-    return "<#{subView.tagName} data-sub-view-cid=\"#{subView.cid}\"></#{subView.tagName}"
+    return "<#{subView.tagName} data-sub-view-cid=\"#{subView.cid}\"></#{subView.tagName}>"
    
   renderSubViews: ->
     if @subViews?
