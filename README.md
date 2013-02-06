@@ -37,6 +37,18 @@ Generates a new Backbone.Diorama.Controller, with the specified actions, and a c
 
 Generates a new Backbone.View and JST template file for the given name. Generated files are printed in a format suitable for inserting into the src/compile_manifest.json
 
+#### generateCollection
+
+    diorama generateCollection <ModelName> <generateModelAlso?>
+
+Generates a new Backbone.Collection for the given ModelName. If you specify generateModelAlso? as true, the corresponding model will also be generated. Generated files are printed in a format suitable for inserting into the src/compile_manifest.json
+
+#### generateCollection
+
+    diorama generateCollection <ModelName> <generateModelAlso?>
+
+Generates a new Backbone.Collection for the given ModelName. If you specify generateModelAlso? as true, the corresponding model will also be generated. Generated files are printed in a format suitable for inserting into the src/compile_manifest.json
+
 #### Compiling the app
 
     diorama compile <watch>

@@ -109,6 +109,15 @@ exports.generateCollection = (modelName, generateModel) ->
   console.log "Generated #{_(modelName).classify()}Collection, add the following to your src/compile_manifest.json"
   console.log "\"#{files.join("\",\n\"")}\""
 
+exports.generateModel = (modelName) ->
+  files = []
+  modelName = _(modelName).underscored()
+
+  files.push writeTemplate('model', {name: _(modelName).classify()}, "models/#{modelName}")
+
+  console.log "Generated #{_(modelName).classify()} model, add the following to your src/compile_manifest.json"
+  console.log "\"#{files.join("\",\n\"")}\""
+
 exports.scaffold = (modelName, fields...) ->
   unless isProjectDir()
     console.log "#{process.cwd()} does not appear to be a Backbone Diorama project"
