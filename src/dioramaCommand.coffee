@@ -86,6 +86,29 @@ exports.generateController = (controllerName, states...) ->
   console.log "\"#{files.join("\",\n\"")}\""
   console.log "   start it with: new Backbone.Controllers.#{_(controllerName).classify()}Controller()"
 
+exports.generateView = (viewName) ->
+  files = []
+  viewName = _(viewName).underscored()
+
+  files.push writeTemplate('viewTemplate', {viewName: viewName}, "templates/#{_(viewName).underscored()}")
+
+  files.push writeTemplate('view', {viewName: viewName}, "views/#{viewName}_view")
+
+  console.log "Generated #{_(viewName).classify()}View, add the following to your src/compile_manifest.json"
+  console.log "\"#{files.join("\",\n\"")}\""
+
+exports.generateCollection = (modelName, generateModel) ->
+  files = []
+  modelName = _(modelName).underscored()
+
+  if generateModel? and generateModel != 'false'
+    files.push writeTemplate('model', {name: _(modelName).classify()}, "models/#{modelName}")
+
+  files.push writeTemplate('collection', {modelName: _(modelName).classify()}, "collections/#{modelName}_collection")
+
+  console.log "Generated #{_(modelName).classify()}Collection, add the following to your src/compile_manifest.json"
+  console.log "\"#{files.join("\",\n\"")}\""
+
 exports.scaffold = (modelName, fields...) ->
   unless isProjectDir()
     console.log "#{process.cwd()} does not appear to be a Backbone Diorama project"
@@ -121,17 +144,6 @@ exports.scaffold = (modelName, fields...) ->
 
   for file in files
     console.log("Created #{file}")
-
-exports.generateView = (viewName) ->
-  files = []
-  viewName = _(viewName).underscored()
-
-  files.push writeTemplate('viewTemplate', {viewName: viewName}, "templates/#{_(viewName).underscored()}")
-
-  files.push writeTemplate('view', {viewName: viewName}, "views/#{viewName}_view")
-
-  console.log "Generated #{_(viewName).classify()}View, add the following to your src/compile_manifest.json"
-  console.log "\"#{files.join("\",\n\"")}\""
 
 # Compile files in src/compile_manifest.json
 exports.compile = (watch) ->
