@@ -43,11 +43,11 @@ Generates a new Backbone.View and JST template file for the given name. Generate
 
 Generates a new Backbone.Collection for the given ModelName. If you specify generateModelAlso? as true, the corresponding model will also be generated. Generated files are printed in a format suitable for inserting into the src/compile_manifest.json
 
-#### generateCollection
+#### generateModel
 
-    diorama generateCollection <ModelName> <generateModelAlso?>
+    diorama generateModel <ModelName>
 
-Generates a new Backbone.Collection for the given ModelName. If you specify generateModelAlso? as true, the corresponding model will also be generated. Generated files are printed in a format suitable for inserting into the src/compile_manifest.json
+Generates a new Backbone.Model for the given name. Generated files are printed in a format suitable for inserting into the src/compile_manifest.json
 
 #### Compiling the app
 
