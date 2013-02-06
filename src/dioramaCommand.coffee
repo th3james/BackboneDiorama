@@ -185,7 +185,6 @@ exports.compile = (watch) ->
   
   if watch?
     watcher('src/', (files)->
-      console.log 'hat'
       concatenate()
     )
   else
