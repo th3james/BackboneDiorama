@@ -166,21 +166,20 @@ exports.compile = (watch) ->
     appContents = []
     remaining = appFiles.length
     for file, index in appFiles then do (file, index) ->
-      console.log "concatenating src/#{file}.coffee"
       fs.readFile "src/#{file}.coffee", 'utf8', (err, fileContents) ->
-        throw err if err
+        console.log "Failed to read coffeescript file: #{err}" if err
         appContents[index] = fileContents
         process(appContents) if --remaining is 0
 
   # Compile 
   process = (appContents)->
-    fs.writeFile 'application.coffee', appContents.join('\n\n'), 'utf8', (writeCoffeeError) ->
-      throw writeCoffeeError if writeCoffeeError
-      exec 'coffee  --output js/ --compile application.coffee', (compileError, stdout, stderr) ->
-        throw compileError if compileError
-        console.log stdout + stderr
-        fs.unlink 'application.coffee', (removeCoffeeError) ->
-          throw removeCoffeeError if removeCoffeeError
+    fs.writeFile 'concatenated_application.coffee', appContents.join('\n\n'), 'utf8', (writeCoffeeError) ->
+      return console.log "Failed to write concatenated coffee: #{writeCoffeeError}" if writeCoffeeError
+      exec 'coffee  --output js/ --compile concatenated_application.coffee', (compileError, stdout, stderr) ->
+        return console.log "###\n Unable to compile coffeescript, check ./concatenated_application.coffee:\n\n#{compileError}###" if compileError
+        console.log stdout
+        fs.unlink 'concatenated_application.coffee', (removeCoffeeError) ->
+          return console.log "couldn't clean up concatenated_application.coffee file, you may delete it manually" if removeCoffeeError
           console.log "compiled to js/application.js"
   
   if watch?
