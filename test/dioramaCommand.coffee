@@ -33,5 +33,7 @@ describe('create a new project', ->
     assert.equal(foundDirs.length, expectedFiles.length)
   )
   # Clean-up
-  #exec 'rm -r testProject/'
+  after( ->
+    exec 'rm -r testProject/'
+  )
 )
