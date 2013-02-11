@@ -14,7 +14,7 @@
     "mocha": "*"
   },
   "scripts": {
-    "test": "mocha test/dioramaCommand.coffee --compilers coffee:coffee-script --require coffee-script"
+    "test": "mocha test/ --compilers coffee:coffee-script --require coffee-script"
   },
   "repository": {
     "type": "git",
