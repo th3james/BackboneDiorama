@@ -9,8 +9,12 @@ describe('model template', ->
     template_txt = templates.model(name: 'Post')
     assert.equal(template_txt, expected_txt)
   )
-  # Clean-up
-  after( ->
-    exec 'rm -r testProject/'
+)
+
+describe('collection template', ->
+  it('generates a basic collection for given modeln name', ->
+    expected_txt = fs.readFileSync('test/tmpl_outputs/post_collection.coffee', 'utf8')
+    template_txt = templates.collection(modelName: 'Post')
+    assert.equal(template_txt, expected_txt)
   )
 )
