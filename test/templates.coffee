@@ -45,3 +45,16 @@ describe('view template', ->
     assert.equal(template_txt, expected_txt)
   )
 )
+
+describe('view template template', ->
+  it('generates a view template for given name', ->
+    expected_txt = fs.readFileSync('test/tmpl_outputs/index_view_template.coffee', 'utf8')
+    template_txt = templates.viewTemplate(viewName: 'index')
+    assert.equal(template_txt, expected_txt)
+  )
+  it('generates a view template with the given name and parent controller', ->
+    expected_txt = fs.readFileSync('test/tmpl_outputs/main_show_template.coffee', 'utf8')
+    template_txt = templates.viewTemplate(controllerName: 'main' , viewName: 'show')
+    assert.equal(template_txt, expected_txt)
+  )
+)
