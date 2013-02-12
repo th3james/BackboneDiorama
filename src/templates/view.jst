@@ -7,7 +7,9 @@ class Backbone.Views.<% if (typeof controllerName !== 'undefined'){ %><%= _(cont
   initialize: (options) ->
     @render()
 
-  render: =>
+  render: ->
     @$el.html(@template())
+    return @
 
   onClose: ->
+    
