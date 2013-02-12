@@ -18,3 +18,13 @@ describe('collection template', ->
     assert.equal(template_txt, expected_txt)
   )
 )
+
+describe('controller template', ->
+  it('generates a controller with the given methods', ->
+    expected_txt = fs.readFileSync('test/tmpl_outputs/test_controller.coffee', 'utf8')
+    template_txt = templates.controller(controllerName: 'test', states: ['index', 'show'])
+    #fs.writeFileSync('expected.coffee', expected_txt)
+    #fs.writeFileSync('template.coffee', template_txt)
+    assert.equal(template_txt, expected_txt)
+  )
+)
