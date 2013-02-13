@@ -1,8 +1,6 @@
 BackboneDiorama
 ===============
-
-A Backbone.js based client-side Coffeescipt web application framework designed for rapid development, using opinionated backbone pattern generators.
-
+A Backbone.js based client-side Coffeescipt web application framework designed for rapid development, using opinionated backbone pattern generators.  
 # Goals
 Backbone Diorama aims to assist you in rapid building of client-side web applications. To do this, it borrows much of the 
 philosophy of Ruby On Rails, particularly, convention over configuration. Backbone Diorama creates a default Backbone.js
@@ -147,3 +145,8 @@ This will install the diorama command onto your system. On my node setup, this w
 
     npm info linkStuff backbone-diorama@0.0.1
     /usr/local/share/npm/bin/diorama -> /usr/local/share/npm/lib/node_modules/backbone-diorama/bin/diorama.coffee
+
+### Tests
+Tests are written using mocha, and in the test/ folder (somewhat unsurprisingly). Run them with :
+
+    npm test

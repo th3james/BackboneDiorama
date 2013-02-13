@@ -1,4 +1,5 @@
 dioramaCommands = require("../src/dioramaCommand")
+templates = require("../src/templates")
 assert = require("assert")
 fs = require('fs-extra')
 exec = require('child_process').exec
@@ -31,6 +32,27 @@ describe('create a new project', ->
       return true
     )
     assert.equal(foundDirs.length, expectedFiles.length)
+  )
+  describe('and inside the new project dir', ->
+    before(->
+      process.chdir('testProject/')
+    )
+    describe('dioramaCommand.generateModel', ->
+      before(->
+        dioramaCommands.generateModel 'post'
+      )
+      it('should call the create a model file from a template', ->
+        expected_txt = templates.model(name: 'Post')
+        generated_model = fs.readFileSync('src/models/post.coffee', 'utf8')
+        assert.equal generated_model, expected_txt
+      )
+      after(->
+        exec "rm #{process.cwd()}/src/models/post.coffee"
+      )
+    )
+    after(->
+      process.chdir('../')
+    )
   )
   # Clean-up
   after( ->
