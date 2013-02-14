@@ -47,7 +47,7 @@ describe('create a new project', ->
         assert.equal generated_model, expected_txt
       )
       after(->
-        exec "rm #{process.cwd()}/src/models/post.coffee"
+        fs.unlinkSync("#{process.cwd()}/src/models/post.coffee")
       )
     )
     describe('dioramaCommand.generateCollection', ->
@@ -64,7 +64,7 @@ describe('create a new project', ->
           assert(!fs.existsSync('src/models/post.coffee'))
         )
         after(->
-          exec "rm #{process.cwd()}/src/collections/post_collection.coffee"
+          fs.unlinkSync("#{process.cwd()}/src/collections/post_collection.coffee")
         )
       )
       describe('when run with generateModel true', ->
@@ -82,8 +82,28 @@ describe('create a new project', ->
           assert.equal generated_model, expected_txt
         )
         after(->
-          exec "rm #{process.cwd()}/src/collections/post_collection.coffee"
+          fs.unlinkSync("#{process.cwd()}/src/collections/post_collection.coffee")
+          fs.unlinkSync("#{process.cwd()}/src/models/post.coffee")
         )
+      )
+    )
+    describe('dioramaCommand.generateView', ->
+      before(->
+        dioramaCommands.generateView 'Post_index'
+      )
+      it('creates a template file from template', ->
+        expected_txt = templates.viewTemplate(viewName: 'PostIndex')
+        generated_template = fs.readFileSync('src/templates/post_index.coffee', 'utf8')
+        assert.equal generated_template, expected_txt
+      )
+      it('creates a view file from template', ->
+        expected_txt = templates.view(viewName: 'PostIndex')
+        generated_view = fs.readFileSync('src/views/post_index_view.coffee', 'utf8')
+        assert.equal generated_view, expected_txt
+      )
+      after(->
+        fs.unlinkSync("#{process.cwd()}/src/templates/post_index.coffee")
+        fs.unlinkSync("#{process.cwd()}/src/views/post_index_view.coffee")
       )
     )
     after(->
