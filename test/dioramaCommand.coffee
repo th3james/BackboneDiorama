@@ -109,6 +109,38 @@ describe('create a new project', ->
     after(->
       process.chdir('../')
     )
+    describe('dioramaCommand.generateController', ->
+      before(->
+        dioramaCommands.generateController 'Post', 'index', 'show'
+      )
+      it('generates a controller with the expected actions', ->
+        expected_txt = templates.controller(controllerName: 'Post', states: ['index', 'show'])
+        generated_template = fs.readFileSync('src/controllers/post_controller.coffee', 'utf8')
+        assert.equal generated_template, expected_txt
+      )
+      it('generates a view for each of the given actions', ->
+        # Index
+        expected_txt = templates.view(controllerName: 'Post', viewName: 'index')
+        generated_template = fs.readFileSync('src/views/post_index_view.coffee', 'utf8')
+        assert.equal generated_template, expected_txt
+
+        # Show
+        expected_txt = templates.view(controllerName: 'Post', viewName: 'show')
+        generated_template = fs.readFileSync('src/views/post_show_view.coffee', 'utf8')
+        assert.equal generated_template, expected_txt
+      )
+      it('generates templates for each of the generate views', ->
+        # Index
+        expected_txt = templates.viewTemplate(controllerName: 'Post', viewName: 'index')
+        generated_template = fs.readFileSync('src/templates/post_index.coffee', 'utf8')
+        assert.equal generated_template, expected_txt
+
+        # Show
+        expected_txt = templates.viewTemplate(controllerName: 'Post', viewName: 'show')
+        generated_template = fs.readFileSync('src/templates/post_show.coffee', 'utf8')
+        assert.equal generated_template, expected_txt
+      )
+    )
   )
   # Clean-up
   after( ->
