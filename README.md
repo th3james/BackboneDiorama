@@ -35,6 +35,12 @@ Generates a new Backbone.Diorama.Controller, with the specified actions, and a c
 
 Generates a new Backbone.View and JST template file for the given name. Generated files are printed in a format suitable for inserting into the src/compile_manifest.json
 
+#### generateNestingView
+
+    diorama generateNestingView <ParentViewName> <GenerateChildView?> <ChildViewName>
+
+Generates a new Backbone.Diorama.NestedView and JST template file for the given name. If generateChildView? is true, the view will be generated with the name specified in ChildViewName. If false, a aGenerated files are printed in a format suitable for inserting into the src/compile_manifest.json
+
 #### generateCollection
 
     diorama generateCollection <ModelName> <generateModelAlso?>

@@ -129,7 +129,7 @@ describe('create a new project', ->
         generated_template = fs.readFileSync('src/views/post_show_view.coffee', 'utf8')
         assert.equal generated_template, expected_txt
       )
-      it('generates templates for each of the generate views', ->
+      it('generates templates for each of the generated views', ->
         # Index
         expected_txt = templates.viewTemplate(controllerName: 'Post', viewName: 'index')
         generated_template = fs.readFileSync('src/templates/post_index.coffee', 'utf8')
@@ -139,6 +139,17 @@ describe('create a new project', ->
         expected_txt = templates.viewTemplate(controllerName: 'Post', viewName: 'show')
         generated_template = fs.readFileSync('src/templates/post_show.coffee', 'utf8')
         assert.equal generated_template, expected_txt
+      )
+    )
+    describe('diorama.generateNestedView', ->
+      it('generates the parent nesting view using the nested template', ->
+        assert false
+      )
+      it('generates a nested view template using the nested view template template', ->
+        assert false
+      )
+      it('generates a child view and template using the view templates', ->
+        assert false
       )
     )
   )

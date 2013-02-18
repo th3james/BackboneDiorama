@@ -18,24 +18,24 @@ exports.help = ->
 
 exports.new = (projectName) ->
   console.log "Creating a new project directory #{projectName}"
-  fs.mkdir(projectName)
-  fs.mkdir("#{projectName}/js")
-  fs.mkdir("#{projectName}/src")
+  fs.mkdirSync(projectName)
+  fs.mkdirSync("#{projectName}/js")
+  fs.mkdirSync("#{projectName}/src")
 
   console.log "Creating #{projectName}/src/controllers/"
-  fs.mkdir("#{projectName}/src/controllers")
+  fs.mkdirSync("#{projectName}/src/controllers")
 
   console.log "Creating #{projectName}/src/models/"
-  fs.mkdir("#{projectName}/src/models")
+  fs.mkdirSync("#{projectName}/src/models")
 
   console.log "Creating #{projectName}/src/collections/"
-  fs.mkdir("#{projectName}/src/collections")
+  fs.mkdirSync("#{projectName}/src/collections")
 
   console.log "Creating #{projectName}/src/views/"
-  fs.mkdir("#{projectName}/src/views")
+  fs.mkdirSync("#{projectName}/src/views")
 
   console.log "Creating #{projectName}/src/templates/"
-  fs.mkdir("#{projectName}/src/templates")
+  fs.mkdirSync("#{projectName}/src/templates")
 
   console.log "Copying #{__dirname}/../lib to #{projectName}/js/lib/"
   fs.copy("#{__dirname}/../lib/", "#{projectName}/js/lib")
