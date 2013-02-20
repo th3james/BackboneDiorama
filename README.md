@@ -37,9 +37,9 @@ Generates a new Backbone.View and JST template file for the given name. Generate
 
 #### generateNestingView
 
-    diorama generateNestingView <ParentViewName> <GenerateChildView?> <ChildViewName>
+    diorama generateNestingView <ParentViewName> <ChildViewName> <GenerateChildView?> 
 
-Generates a new Backbone.Diorama.NestedView and JST template file for the given name. If generateChildView? is true, the view will be generated with the name specified in ChildViewName. If false, a aGenerated files are printed in a format suitable for inserting into the src/compile_manifest.json
+Generates a new [Backbone.Diorama.NestingView](#backbonedioramanestingview) and JST template file for the given name. ParentViewName specifies the NestingView name, ChildViewName species the child view to be rendered inside parent. GenerateChildView? defaults to true, if set to false, the generated NestingView will expect the given ChildViewName to exist. Generated files are printed in a format suitable for inserting into the src/compile_manifest.json
 
 #### generateCollection
 
@@ -124,6 +124,42 @@ class Backbone.Controllers.PostsController extends Backbone.Diorama.Controller
     @changeStateOn(
       {event: 'back', publisher: showView, newState: @index}
     )
+```
+
+### Backbone.Diorama.NestingView
+A common pattern for Backbone applications is to nest views inside each other. A common example is a collection index view, where each model in the collection gets a sub view which listens for events about that particular model. This provides advantages such as removing the need for the whole collection view to re-render on changes.
+Backbone.Diorama.NestingView makes it easy to stack views, as seen in this example PostIndexView
+
+```coffee
+class Backbone.Views.PostIndexView extends Backbone.Diorama.NestingView
+  template: JST['post_index_view']
+
+  initialize: (options) ->
+    @postCollection = options.postCollection # A Backbone.Collection
+    @render()
+
+  render: =>
+    # Close any existing views
+    @closeSubViews()
+    # Render template, creating subviews with view.addSubView (see template below)
+    @$el.html(@template(view: @, posts: @postCollection.models))
+    # Render sub views into the elements created by view.addSubView in the template
+    @renderSubViews()
+
+    return @
+
+  onClose: ->
+    @closeSubViews()
+
+### post_index_view template ###
+<h1>Post Index</h1>
+<%
+  var i, il
+  for(i = 0, il=posts.length; i<il; i++){
+%>
+  <!-- Create a PostRowView for each post, and add it to the template with addSubView -->
+  <%= view.addSubView(new Backbone.Views.PostRowView({model: posts[i]})) %>
+<% } %>
 ```
 
 ## Planned features

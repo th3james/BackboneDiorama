@@ -5,7 +5,9 @@ fs = require('fs-extra')
 exec = require('child_process').exec
 
 describe('create a new project', ->
-  dioramaCommands.new('testProject')
+  before(->
+    dioramaCommands.new('testProject')
+  )
   it('should create all the correct directories', ->
     expectedDirs = ['js', 'src']
     foundDirs = fs.readdirSync('testProject/').filter((n) ->
