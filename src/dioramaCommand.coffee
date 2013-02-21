@@ -86,6 +86,47 @@ exports.generateController = (controllerName, states...) ->
   console.log "\"#{files.join("\",\n\"")}\""
   console.log "   start it with: new Backbone.Controllers.#{_(controllerName).classify()}Controller()"
 
+exports.generateNestingView = (parentViewName, childViewName...) ->
+  unless isProjectDir()
+    console.log "#{process.cwd()} does not appear to be a Backbone Diorama project"
+    return false
+
+  unless parentViewName?
+    console.log "You must specify a parent view"
+    return false
+
+  unless childViewName?
+    console.log "You must specify a child view"
+    return false
+
+  parentViewUnderscoreName = _(parentViewName).underscored()
+  console.log "parentViewUnderscoreName: #{parentViewUnderscoreName}"
+  parentViewName = _(downcaseFirstChar(parentViewName)).camelize()
+  console.log "parentViewName: #{parentViewName}"
+
+  console.log "### Generating parent view #{_(parentViewName).classify()} ###"
+
+  files = []
+
+  files.push writeTemplate('nestingView', {name: parentViewName}, "views/#{parentViewUnderscoreName}_view")
+
+  console.log "### Generating child view #{_(childViewName).classify()} ###"
+
+  # TODO
+  #childViewUnderscoreName = _(childViewName).underscored()
+  #console.log "childViewUnderscoreName: #{childViewUnderscoreName}"
+  #childViewName = _(downcaseFirstChar(childViewName)).camelize()
+  #console.log "childViewName: #{childViewName}"
+
+  #files.push writeTemplate('nestingView', {name: parentViewName}, "views/#{parentViewUnderscoreName}_view")
+
+  for file in files
+    console.log("Created #{file}")
+
+  console.log "### Generated nested view Backbone.Views.#{_(parentViewName).classify()}View ###"
+  console.log "   include it in src/compile_manifest.json with: "
+  console.log "\"#{files.join("\",\n\"")}\""
+
 exports.generateView = (viewName) ->
   files = []
   viewName = _(viewName).underscored()
