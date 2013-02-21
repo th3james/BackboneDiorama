@@ -127,7 +127,8 @@ class Backbone.Controllers.PostsController extends Backbone.Diorama.Controller
 ```
 
 ### Backbone.Diorama.NestingView
-A common pattern for Backbone applications is to nest views inside each other. A common example is a collection index view, where each model in the collection gets a sub view which listens for events about that particular model. This provides advantages such as removing the need for the whole collection view to re-render on changes.
+A common pattern for Backbone applications is to nest views inside each other. For example a collection index view where each model in the collection gets a sub view. The advantage of this approach is that each sub view an listen for and respond to events about a particular model, removing the need for the collection view to be re-rendered.
+
 Backbone.Diorama.NestingView makes it easy to stack views, as seen in this example PostIndexView
 
 ```coffee
@@ -150,7 +151,9 @@ class Backbone.Views.PostIndexView extends Backbone.Diorama.NestingView
 
   onClose: ->
     @closeSubViews()
+```
 
+```jst
 ### post_index_view template ###
 <h1>Post Index</h1>
 <%
@@ -175,8 +178,6 @@ Will create a CRUD scaffold for a given model description. A good starting point
 
 Generates a collection view, which will list collection elements, generating 
 
-
-    
 
 ## Development
 BackboneDiorama is written in coffeescript and is packaged as an NPM module. To install the package locally, in the project directory run:
