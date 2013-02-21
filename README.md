@@ -37,9 +37,9 @@ Generates a new Backbone.View and JST template file for the given name. Generate
 
 #### generateNestingView
 
-    diorama generateNestingView <ParentViewName> <ChildViewName> <GenerateChildView?> 
+    diorama generateNestingView <ParentViewName> <ChildViewName>
 
-Generates a new [Backbone.Diorama.NestingView](#backbonedioramanestingview) and JST template file for the given name. ParentViewName specifies the NestingView name, ChildViewName species the child view to be rendered inside parent. GenerateChildView? defaults to true, if set to false, the generated NestingView will expect the given ChildViewName to exist. Generated files are printed in a format suitable for inserting into the src/compile_manifest.json
+Generates a new [Backbone.Diorama.NestingView](#backbonedioramanestingview) and child Backbone.View. ParentViewName specifies the NestingView name, ChildViewName species the child view to be rendered inside parent. Generated files are printed in a format suitable for inserting into the src/compile_manifest.json
 
 #### generateCollection
 
@@ -127,7 +127,7 @@ class Backbone.Controllers.PostsController extends Backbone.Diorama.Controller
 ```
 
 ### Backbone.Diorama.NestingView
-A common pattern for Backbone applications is to nest views inside each other. For example a collection index view where each model in the collection gets a sub view. The advantage of this approach is that each sub view an listen for and respond to events about a particular model, removing the need for the collection view to be re-rendered.
+A common pattern for Backbone applications is to nest views inside each other. For example a collection index view where each model in the collection gets a sub view. The advantage of this approach is that each sub view can listen for and respond to events about a particular model, removing the need for the collection view to be re-rendered.
 
 Backbone.Diorama.NestingView makes it easy to stack views, as seen in this example PostIndexView
 
