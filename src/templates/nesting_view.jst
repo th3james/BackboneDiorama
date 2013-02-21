@@ -1,8 +1,8 @@
 window.Backbone ||= {}
 window.Backbone.Views ||= {}
 
-class Backbone.Views.PostIndexView extends Backbone.Diorama.NestingView
-  template: JST['post_index']
+class Backbone.Views.<%= _(name).classify() %>View extends Backbone.Diorama.NestingView
+  template: JST['<%= _(name).underscored() %>']
 
   initialize: (options) ->
     @render()

@@ -20,3 +20,4 @@ exports.indexView = fileToTemplateWithUnderscore("#{__dirname}/templates/index_v
 exports.controller = fileToTemplateWithUnderscore("#{__dirname}/templates/controller.jst")
 exports.view = fileToTemplateWithUnderscore("#{__dirname}/templates/view.jst")
 exports.viewTemplate = fileToTemplateWithUnderscore("#{__dirname}/templates/view_template.jst")
+exports.nestingView = fileToTemplateWithUnderscore("#{__dirname}/templates/nesting_view.jst")
