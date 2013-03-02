@@ -21,3 +21,4 @@ exports.controller = fileToTemplateWithUnderscore("#{__dirname}/templates/contro
 exports.view = fileToTemplateWithUnderscore("#{__dirname}/templates/view.jst")
 exports.viewTemplate = fileToTemplateWithUnderscore("#{__dirname}/templates/view_template.jst")
 exports.nestingView = fileToTemplateWithUnderscore("#{__dirname}/templates/nesting_view.jst")
+exports.nestingViewTemplate = fileToTemplateWithUnderscore("#{__dirname}/templates/nesting_view_template.jst")
