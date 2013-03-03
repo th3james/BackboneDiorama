@@ -142,6 +142,13 @@ describe('create a new project', ->
         generated_template = fs.readFileSync('src/templates/post_show.coffee', 'utf8')
         assert.equal generated_template, expected_txt
       )
+      after(->
+        fs.unlinkSync("#{process.cwd()}/src/controllers/post_controller.coffee")
+        fs.unlinkSync("#{process.cwd()}/src/views/post_index_view.coffee")
+        fs.unlinkSync("#{process.cwd()}/src/views/post_show_view.coffee")
+        fs.unlinkSync("#{process.cwd()}/src/templates/post_index.coffee")
+        fs.unlinkSync("#{process.cwd()}/src/templates/post_show.coffee")
+      )
     )
 
     describe('diorama.generateNestedView', ->
@@ -154,7 +161,7 @@ describe('create a new project', ->
         assert.equal generated_template, expected_txt
       )
       it('generates a nesting view template using the nesting view template template', ->
-        expected_txt = templates.nestingViewTemplate(name: 'PostIndex')
+        expected_txt = templates.nestingViewTemplate(name: 'PostIndex', childView: 'PostRow')
         generated_template = fs.readFileSync('src/templates/post_index.coffee', 'utf8')
         assert.equal generated_template, expected_txt
       )
