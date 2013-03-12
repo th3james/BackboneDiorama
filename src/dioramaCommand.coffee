@@ -86,7 +86,7 @@ exports.generateController = (controllerName, states...) ->
   console.log "\"#{files.join("\",\n\"")}\""
   console.log "   start it with: new Backbone.Controllers.#{_(controllerName).classify()}Controller()"
 
-exports.generateNestingView = (parentViewName, childViewName...) ->
+exports.generateNestingView = (parentViewName, childViewName) ->
   unless isProjectDir()
     console.log "#{process.cwd()} does not appear to be a Backbone Diorama project"
     return false
@@ -100,25 +100,22 @@ exports.generateNestingView = (parentViewName, childViewName...) ->
     return false
 
   parentViewUnderscoreName = _(parentViewName).underscored()
-  console.log "parentViewUnderscoreName: #{parentViewUnderscoreName}"
   parentViewName = _(downcaseFirstChar(parentViewName)).camelize()
-  console.log "parentViewName: #{parentViewName}"
+
+  childViewUnderscoreName = _(childViewName).underscored()
+  childViewName = _(downcaseFirstChar(childViewName)).camelize()
 
   console.log "### Generating parent view #{_(parentViewName).classify()} ###"
 
   files = []
 
   files.push writeTemplate('nestingView', {name: parentViewName}, "views/#{parentViewUnderscoreName}_view")
+  files.push writeTemplate('nestingViewTemplate', {name: parentViewName, childView: childViewName}, "templates/#{parentViewUnderscoreName}")
 
   console.log "### Generating child view #{_(childViewName).classify()} ###"
 
-  # TODO
-  #childViewUnderscoreName = _(childViewName).underscored()
-  #console.log "childViewUnderscoreName: #{childViewUnderscoreName}"
-  #childViewName = _(downcaseFirstChar(childViewName)).camelize()
-  #console.log "childViewName: #{childViewName}"
-
-  #files.push writeTemplate('nestingView', {name: parentViewName}, "views/#{parentViewUnderscoreName}_view")
+  files.push writeTemplate('view', {viewName: childViewName}, "views/#{childViewUnderscoreName}_view")
+  files.push writeTemplate('viewTemplate', {viewName: childViewName}, "templates/#{childViewUnderscoreName}")
 
   for file in files
     console.log("Created #{file}")
