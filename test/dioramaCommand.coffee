@@ -142,16 +142,37 @@ describe('create a new project', ->
         generated_template = fs.readFileSync('src/templates/post_show.coffee', 'utf8')
         assert.equal generated_template, expected_txt
       )
-    )
-    describe('diorama.generateNestedView', ->
-      it('generates the parent nesting view using the nested template', ->
-        assert false
+      after(->
+        fs.unlinkSync("#{process.cwd()}/src/controllers/post_controller.coffee")
+        fs.unlinkSync("#{process.cwd()}/src/views/post_index_view.coffee")
+        fs.unlinkSync("#{process.cwd()}/src/views/post_show_view.coffee")
+        fs.unlinkSync("#{process.cwd()}/src/templates/post_index.coffee")
+        fs.unlinkSync("#{process.cwd()}/src/templates/post_show.coffee")
       )
-      it('generates a nested view template using the nested view template template', ->
-        assert false
+    )
+
+    describe('diorama.generateNestedView', ->
+      before(->
+        dioramaCommands.generateNestingView 'PostIndex', 'PostRow'
+      )
+      it('generates the parent nesting view using the nesting template', ->
+        expected_txt = templates.nestingView(name: 'PostIndex')
+        generated_template = fs.readFileSync('src/views/post_index_view.coffee', 'utf8')
+        assert.equal generated_template, expected_txt
+      )
+      it('generates a nesting view template using the nesting view template template', ->
+        expected_txt = templates.nestingViewTemplate(name: 'PostIndex', childView: 'PostRow')
+        generated_template = fs.readFileSync('src/templates/post_index.coffee', 'utf8')
+        assert.equal generated_template, expected_txt
       )
       it('generates a child view and template using the view templates', ->
-        assert false
+        expected_txt = templates.view(viewName: 'post_row')
+        generated_template = fs.readFileSync('src/views/post_row_view.coffee', 'utf8')
+        assert.equal generated_template, expected_txt
+
+        expected_txt = templates.viewTemplate(viewName: 'post_row')
+        generated_template = fs.readFileSync('src/templates/post_row.coffee', 'utf8')
+        assert.equal generated_template, expected_txt
       )
     )
   )

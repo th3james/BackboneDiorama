@@ -66,3 +66,10 @@ describe('nesting view template', ->
     assert.equal(template_txt, expected_txt)
   )
 )
+describe('nesting view template template', ->
+  it('generates a nesting view template for the given name', ->
+    expected_txt = fs.readFileSync('test/tmpl_outputs/nesting_view_template.coffee', 'utf8')
+    template_txt = templates.nestingViewTemplate(name: 'post_index', childView: 'post_row')
+    assert.equal(template_txt, expected_txt)
+  )
+)
