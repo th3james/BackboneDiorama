@@ -19,4 +19,4 @@ class Backbone.Diorama.NestingView extends Backbone.View
       for subView in @subViews
         subView.onClose()
         subView.close()
-    @subView = []
+    @subViews = []
