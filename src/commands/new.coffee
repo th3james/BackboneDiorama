@@ -1,7 +1,12 @@
 fs = require('fs-extra')
 templates = require('../templates.coffee')
+helpers = require("#{__dirname}/../commandHelpers.coffee")
 
 exports.new = (projectName) ->
+  unless projectName?
+    helpers.printCommandHelpText('new')
+    return
+
   console.log "Creating a new project directory #{projectName}"
   fs.mkdirSync(projectName)
   fs.mkdirSync("#{projectName}/js")
