@@ -10,37 +10,19 @@ _.mixin(_.str.exports())
 downcaseFirstChar = (string) ->
   return string.charAt(0).toLowerCase() + string.substring(1)
 
-exports.help = require('../src/commands/help.coffee').help
+isNotCoffeeScriptFilename = (fileName) ->
+  tokens = fileName.split('.')
+  return tokens[tokens.length-1] != 'coffee'
 
-exports.new = (projectName) ->
-  console.log "Creating a new project directory #{projectName}"
-  fs.mkdirSync(projectName)
-  fs.mkdirSync("#{projectName}/js")
-  fs.mkdirSync("#{projectName}/src")
+stripExtension = (fileName) ->
+  tokens = fileName.split('.coffee')
+  return tokens[0]
 
-  console.log "Creating #{projectName}/src/controllers/"
-  fs.mkdirSync("#{projectName}/src/controllers")
+commandFiles = _.reject(fs.readdirSync("#{__dirname}/commands/"), isNotCoffeeScriptFilename)
+commandFiles = _.map(commandFiles, stripExtension)
 
-  console.log "Creating #{projectName}/src/models/"
-  fs.mkdirSync("#{projectName}/src/models")
-
-  console.log "Creating #{projectName}/src/collections/"
-  fs.mkdirSync("#{projectName}/src/collections")
-
-  console.log "Creating #{projectName}/src/views/"
-  fs.mkdirSync("#{projectName}/src/views")
-
-  console.log "Creating #{projectName}/src/templates/"
-  fs.mkdirSync("#{projectName}/src/templates")
-
-  console.log "Copying #{__dirname}/../lib to #{projectName}/js/lib/"
-  fs.copy("#{__dirname}/../lib/", "#{projectName}/js/lib")
-
-  console.log "Adding coffeescript manifest #{projectName}/src/compile_manifest.json"
-  fs.copy("#{__dirname}/../src/templates/compile_manifest.json", "#{projectName}/src/compile_manifest.json")
-
-  console.log "Creating #{projectName}/index.html"
-  fs.copy("#{__dirname}/../src/templates/index.html", "#{projectName}/index.html")
+for commandFile in commandFiles
+  exports[commandFile] = require("../src/commands/#{commandFile}.coffee")[commandFile]
 
 # Helper to write templates to a file
 # Expects a compile_manifest suitable filename, and returns it
