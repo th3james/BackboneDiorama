@@ -10,11 +10,7 @@ _.mixin(_.str.exports())
 downcaseFirstChar = (string) ->
   return string.charAt(0).toLowerCase() + string.substring(1)
 
-exports.help = ->
-  console.log """
-    Diorama usage:
-      TODO - write this
-  """
+exports.help = require('../src/commands/help.coffee').help
 
 exports.new = (projectName) ->
   console.log "Creating a new project directory #{projectName}"
