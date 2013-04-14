@@ -2,7 +2,7 @@ window.Backbone ||= {}
 window.Backbone.Views ||= {}
 
 class Backbone.Views.<%= modelName %>IndexView extends Backbone.View
-  template: JST['<%= modelName %>/<%= modelName %>_index']
+  template: Handlebars.templates['<%= modelName %>/<%= modelName %>_index.bhs']
 
   initialize: (options) ->
     @<%= modelName %>Collection = new Backbone.Collections.<%= modelName %>()

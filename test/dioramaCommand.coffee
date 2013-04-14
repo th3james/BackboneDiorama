@@ -8,6 +8,7 @@ describe('create a new project', ->
   before(->
     dioramaCommands.new('testProject')
   )
+
   it('should create all the correct directories', ->
     expectedDirs = ['js', 'src']
     foundDirs = fs.readdirSync('testProject/').filter((n) ->
@@ -19,7 +20,7 @@ describe('create a new project', ->
   )
 
   it("should have copied libs across", ->
-    expectedFiles = ['backbone-min.js', 'jquery-1.9.1.min.js', 'underscore-min.js', 'diorama.js', 'json2.js']
+    expectedFiles = ['backbone-min.js', 'jquery-1.9.1.min.js', 'underscore-min.js', 'diorama.js', 'json2.js', 'handlebars.js']
     # Lack of synchronus copy means we have to wait for this to complete :-|
     setTimeout(->
       console.log "testProject/js contains:"
@@ -34,6 +35,7 @@ describe('create a new project', ->
       assert.equal(foundDirs.length, expectedFiles.length)
     ,500)
   )
+
   it("should have created a manifest file", ->
     expectedFiles = ['compile_manifest.json']
     # Lack of synchronus copy means we have to wait for this to complete :-|
@@ -46,14 +48,17 @@ describe('create a new project', ->
       assert.equal(foundDirs.length, expectedFiles.length)
     ,500)
   )
+
   describe('and inside the new project dir', ->
     before(->
       process.chdir('testProject/')
     )
+
     describe('dioramaCommand.generateModel', ->
       before(->
         dioramaCommands.generateModel 'post'
       )
+
       it('should call the create a model file from a template', ->
         expected_txt = templates.model(name: 'Post')
         generated_model = fs.readFileSync('src/models/post.coffee', 'utf8')
@@ -63,16 +68,19 @@ describe('create a new project', ->
         fs.unlinkSync("#{process.cwd()}/src/models/post.coffee")
       )
     )
+
     describe('dioramaCommand.generateCollection', ->
       describe('when run with generateModel false', ->
         before(->
           dioramaCommands.generateCollection 'post', 'false'
         )
+
         it('creates a collection file from template', ->
           expected_txt = templates.collection(modelName: 'Post')
           generated_collection = fs.readFileSync('src/collections/post_collection.coffee', 'utf8')
           assert.equal generated_collection, expected_txt
         )
+
         it('does not generate a model', ->
           assert(!fs.existsSync('src/models/post.coffee'))
         )
@@ -80,15 +88,18 @@ describe('create a new project', ->
           fs.unlinkSync("#{process.cwd()}/src/collections/post_collection.coffee")
         )
       )
+
       describe('when run with generateModel true', ->
         before(->
           dioramaCommands.generateCollection 'post', 'true'
         )
+
         it('creates a collection file from template', ->
           expected_txt = templates.collection(modelName: 'Post')
           generated_collection = fs.readFileSync('src/collections/post_collection.coffee', 'utf8')
           assert.equal generated_collection, expected_txt
         )
+
         it('creates a model file from template', ->
           expected_txt = templates.model(name: 'Post')
           generated_model = fs.readFileSync('src/models/post.coffee', 'utf8')
@@ -100,37 +111,43 @@ describe('create a new project', ->
         )
       )
     )
+
     describe('dioramaCommand.generateView', ->
       before(->
         dioramaCommands.generateView 'Post_index'
       )
+
       it('creates a template file from template', ->
         expected_txt = templates.viewTemplate(viewName: 'PostIndex')
-        generated_template = fs.readFileSync('src/templates/post_index.coffee', 'utf8')
+        generated_template = fs.readFileSync('src/templates/post_index.hbs', 'utf8')
         assert.equal generated_template, expected_txt
       )
+
       it('creates a view file from template', ->
         expected_txt = templates.view(viewName: 'PostIndex')
         generated_view = fs.readFileSync('src/views/post_index_view.coffee', 'utf8')
         assert.equal generated_view, expected_txt
       )
       after(->
-        fs.unlinkSync("#{process.cwd()}/src/templates/post_index.coffee")
+        fs.unlinkSync("#{process.cwd()}/src/templates/post_index.hbs")
         fs.unlinkSync("#{process.cwd()}/src/views/post_index_view.coffee")
       )
     )
     after(->
       process.chdir('../')
     )
+
     describe('dioramaCommand.generateController', ->
       before(->
         dioramaCommands.generateController 'Post', 'index', 'show'
       )
+
       it('generates a controller with the expected actions', ->
         expected_txt = templates.controller(controllerName: 'Post', states: ['index', 'show'])
         generated_template = fs.readFileSync('src/controllers/post_controller.coffee', 'utf8')
         assert.equal generated_template, expected_txt
       )
+
       it('generates a view for each of the given actions', ->
         # Index
         expected_txt = templates.view(controllerName: 'Post', viewName: 'index')
@@ -142,23 +159,25 @@ describe('create a new project', ->
         generated_template = fs.readFileSync('src/views/post_show_view.coffee', 'utf8')
         assert.equal generated_template, expected_txt
       )
+
       it('generates templates for each of the generated views', ->
         # Index
         expected_txt = templates.viewTemplate(controllerName: 'Post', viewName: 'index')
-        generated_template = fs.readFileSync('src/templates/post_index.coffee', 'utf8')
+        generated_template = fs.readFileSync('src/templates/post_index.hbs', 'utf8')
         assert.equal generated_template, expected_txt
 
         # Show
         expected_txt = templates.viewTemplate(controllerName: 'Post', viewName: 'show')
-        generated_template = fs.readFileSync('src/templates/post_show.coffee', 'utf8')
+        generated_template = fs.readFileSync('src/templates/post_show.hbs', 'utf8')
         assert.equal generated_template, expected_txt
       )
+
       after(->
         fs.unlinkSync("#{process.cwd()}/src/controllers/post_controller.coffee")
         fs.unlinkSync("#{process.cwd()}/src/views/post_index_view.coffee")
         fs.unlinkSync("#{process.cwd()}/src/views/post_show_view.coffee")
-        fs.unlinkSync("#{process.cwd()}/src/templates/post_index.coffee")
-        fs.unlinkSync("#{process.cwd()}/src/templates/post_show.coffee")
+        fs.unlinkSync("#{process.cwd()}/src/templates/post_index.hbs")
+        fs.unlinkSync("#{process.cwd()}/src/templates/post_show.hbs")
       )
     )
 
@@ -187,6 +206,7 @@ describe('create a new project', ->
       )
     )
   )
+
   # Clean-up
   after( ->
     exec 'rm -r testProject/'

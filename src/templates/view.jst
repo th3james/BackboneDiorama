@@ -2,7 +2,7 @@ window.Backbone ||= {}
 window.Backbone.Views ||= {}
 
 class Backbone.Views.<% if (typeof controllerName !== 'undefined'){ %><%= _(controllerName).classify() %><% } %><%= _(viewName).classify() %>View extends Backbone.View
-  template: JST['<% if (typeof controllerName !== 'undefined'){ %><%= _(controllerName).underscored() %>/<% } %><%= _(viewName).underscored() %>']
+  template: Handlebars.templates['<% if (typeof controllerName !== 'undefined'){ %><%= _(controllerName).underscored() %>_<% } %><%= _(viewName).underscored() %>.hbs']
 
   initialize: (options) ->
     @render()

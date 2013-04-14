@@ -4,6 +4,7 @@
   "description": "A client-side web application framework designed for rapid development, using opinionated backbone pattern generators",
   "main": "index.js",
   "dependencies": {
+    "handlebars": "~1.0.10",
     "coffee-script": ">=1.4.0",
     "underscore": "~1.4.3",
     "fs-extra": "~0.3.2",

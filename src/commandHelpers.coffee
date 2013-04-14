@@ -13,8 +13,9 @@ exports.requireUnderscoreWithStringHelpers = _
   
 # Helper to write templates to a file
 # Expects a compile_manifest suitable filename, and returns it
-exports.writeTemplate = (templateName, templateArgs, fileName) ->
-  fs.writeFileSync("./src/#{fileName}.coffee", templates[templateName](templateArgs))
+exports.writeTemplate = (templateName, templateArgs, fileName, fileExtension) ->
+  extension = fileExtension || 'coffee'
+  fs.writeFileSync("./src/#{fileName}.#{extension}", templates[templateName](templateArgs))
   return fileName
 
 # Returns true if current working directory is a backbone diorama project

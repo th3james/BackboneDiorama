@@ -1,5 +1,1 @@
-window.JST ||= {}
-
-window.JST['index'] = _.template("""
-  <h1>Index View</h1>
-""")
+<h1>Index View</h1>

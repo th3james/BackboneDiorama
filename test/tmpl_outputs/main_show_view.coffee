@@ -2,7 +2,7 @@ window.Backbone ||= {}
 window.Backbone.Views ||= {}
 
 class Backbone.Views.MainShowView extends Backbone.View
-  template: JST['main/show']
+  template: Handlebars.templates['main_show.hbs']
 
   initialize: (options) ->
     @render()

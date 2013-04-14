@@ -27,7 +27,7 @@ exports.generateController = (controllerName, states...) ->
 
   for state in states
     state = helpers.downcaseFirstChar(state)
-    files.push helpers.writeTemplate('viewTemplate', {controllerName: controllerName, viewName: state}, "templates/#{controllerUnderscoreName}_#{_(state).underscored()}")
+    files.push helpers.writeTemplate('viewTemplate', {controllerName: controllerName, viewName: state}, "templates/#{controllerUnderscoreName}_#{_(state).underscored()}", "hbs")
 
     files.push helpers.writeTemplate('view', {controllerName: controllerName, viewName: state}, "views/#{controllerUnderscoreName}_#{_(state).underscored()}_view")
 

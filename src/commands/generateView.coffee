@@ -9,7 +9,7 @@ exports.generateView = (viewName) ->
   files = []
   viewName = _(viewName).underscored()
 
-  files.push helpers.writeTemplate('viewTemplate', {viewName: viewName}, "templates/#{_(viewName).underscored()}")
+  files.push helpers.writeTemplate('viewTemplate', {viewName: viewName}, "templates/#{_(viewName).underscored()}", "hbs")
 
   files.push helpers.writeTemplate('view', {viewName: viewName}, "views/#{viewName}_view")
 

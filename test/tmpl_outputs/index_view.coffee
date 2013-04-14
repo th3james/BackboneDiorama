@@ -2,7 +2,7 @@ window.Backbone ||= {}
 window.Backbone.Views ||= {}
 
 class Backbone.Views.IndexView extends Backbone.View
-  template: JST['index']
+  template: Handlebars.templates['index.hbs']
 
   initialize: (options) ->
     @render()
