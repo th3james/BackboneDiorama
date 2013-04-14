@@ -27,11 +27,11 @@ exports.new = (projectName) ->
   console.log "Creating #{projectName}/src/templates/"
   fs.mkdirSync("#{projectName}/src/templates")
 
-  console.log "Copying #{__dirname}/../lib to #{projectName}/js/lib/"
-  fs.copy("#{__dirname}/../lib/", "#{projectName}/js/lib")
+  console.log "Copying #{__dirname}/../../lib to #{projectName}/js/lib/"
+  fs.copy("#{__dirname}/../../lib/", "#{projectName}/js/lib")
 
   console.log "Adding coffeescript manifest #{projectName}/src/compile_manifest.json"
-  fs.copy("#{__dirname}/../src/templates/compile_manifest.json", "#{projectName}/src/compile_manifest.json")
+  fs.copy("#{__dirname}/../../src/templates/compile_manifest.json", "#{projectName}/src/compile_manifest.json")
 
   console.log "Creating #{projectName}/index.html"
-  fs.copy("#{__dirname}/../src/templates/index.html", "#{projectName}/index.html")
+  fs.copy("#{__dirname}/../../src/templates/index.html", "#{projectName}/index.html")
