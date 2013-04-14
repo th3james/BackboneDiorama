@@ -2,7 +2,31 @@
 <html>
   <head>
     <title>BackboneDiorama</title>
-    <script src="js/lib/jquery-1.8.3.min.js"></script>
+
+    <style type="text/css">
+      body {
+        background: #f0f0f0;
+        font-family: Helvetica, sans-serif;
+      }
+
+      .container {
+        width: 600px;
+        margin: 0 auto 0 auto;
+        background: white;
+        padding: 20px;
+        border: 3px solid rgb(156, 153, 153);
+      }
+
+      h1 {
+        margin-top: 0;
+      }
+
+      ol li {
+        margin-bottom: 15px;
+      }
+    </style>
+
+    <script src="js/lib/jquery-1.9.1.min.js"></script>
     <script src="js/lib/json2.js"></script>
     <script src="js/lib/underscore-min.js"></script>
     <script src="js/lib/backbone-min.js"></script>
@@ -11,32 +35,48 @@
 
     <script src="js/application.js"></script>
     <script type="text/javascript">
-      // TODO Temporary app init code to go here
+      /**
+       * Start your application here
+       * ===========================
+       *
+       * var myController = new Backbone.Controllers.YourController()
+       *
+       */
     </script>
   </head>
   <body>
-    <h1>Ahoy!</h1>
-    You're running a BackboneDiorama project.
+    <div class="container">
+      <h1>Backbone Diorama</h1>
 
-    <h2>How to get up and running</h2>
+      <h2>Ahoy!</h2>
+      You're running a BackboneDiorama project.
 
-    <ol>
-      <li>
-        Use diorama generators to create your controllers and views.
-        <ul>
-          <li>For example, `diorama generateController ControllerName Action1 Action2`</li>
-        </ul>
-      </li>
-      <li>
-        When you're happy with the project structure, compile your code:
-        <ul>
-          <li>`diorama compile`</li>
-        </ul>
-      </li>
-      <li>
-        Open up `index.html` and start hacking! Your compiled
-        application will be included automatically.
-      </li>
-    </ol>
+      <h3>How to get up and running</h3>
+
+      <ol>
+        <li>
+          Use diorama generators to create your controllers and views.
+          <ul>
+            <li><code>diorama generateController ControllerName Action1 Action2</code></li>
+          </ul>
+        </li>
+        <li>
+          When you're happy with the project structure, compile your code:
+          <ul>
+            <li><code>diorama compile</code></li>
+          </ul>
+        </li>
+        <li>
+          Open up <code>index.html</code> and start hacking! Your compiled
+          application will be included automatically.
+        </li>
+      </ol>
+
+      <h3>Documentation</h3>
+
+      <ul>
+        <li><a href="http://github.com/th3james/BackoneDiorama#backbonediorama">Diorama on Github</a></li>
+      </ul>
+    </div>
   </body>
 </html>
