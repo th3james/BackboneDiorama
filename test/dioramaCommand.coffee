@@ -21,32 +21,26 @@ describe('create a new project', ->
 
   it("should have copied libs across", ->
     expectedFiles = ['backbone-min.js', 'jquery-1.9.1.min.js', 'underscore-min.js', 'diorama.js', 'json2.js', 'handlebars.js']
-    # Lack of synchronus copy means we have to wait for this to complete :-|
-    setTimeout(->
-      console.log "testProject/js contains:"
-      fs.readdirSync('testProject/js/').filter((n) ->
-        console.log n
-      )
-      foundDirs = fs.readdirSync('testProject/js/lib').filter((n) ->
-        if(expectedFiles.indexOf(n) == -1)
-          return false
-        return true
-      )
-      assert.equal(foundDirs.length, expectedFiles.length)
-    ,500)
+    console.log "testProject/js contains:"
+    fs.readdirSync('testProject/js/').filter((n) ->
+      console.log n
+    )
+    foundDirs = fs.readdirSync('testProject/js/lib').filter((n) ->
+      if(expectedFiles.indexOf(n) == -1)
+        return false
+      return true
+    )
+    assert.equal(foundDirs.length, expectedFiles.length)
   )
 
   it("should have created a manifest file", ->
     expectedFiles = ['compile_manifest.json']
-    # Lack of synchronus copy means we have to wait for this to complete :-|
-    setTimeout(->
-      foundDirs = fs.readdirSync('testProject/src/').filter((n) ->
-        if(expectedFiles.indexOf(n) == -1)
-          return false
-        return true
-      )
-      assert.equal(foundDirs.length, expectedFiles.length)
-    ,500)
+    foundDirs = fs.readdirSync('testProject/src/').filter((n) ->
+      if(expectedFiles.indexOf(n) == -1)
+        return false
+      return true
+    )
+    assert.equal(foundDirs.length, expectedFiles.length)
   )
 
   describe('and inside the new project dir', ->
