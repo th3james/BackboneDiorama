@@ -2,7 +2,7 @@ window.Backbone ||= {}
 window.Backbone.Views ||= {}
 
 class Backbone.Views.<%= _(name).classify() %>View extends Backbone.Diorama.NestingView
-  template: JST['<%= _(name).underscored() %>']
+  template: Handlebars.templates['<%= _(name).underscored() %>.hbs']
 
   initialize: (options) ->
     @render()

@@ -24,12 +24,12 @@ exports.generateNestingView = (parentViewName, childViewName) ->
 
   files = []
 
-  files.push helpers.writeTemplate('nestingViewTemplate', {name: parentViewName, childView: childViewName}, "templates/#{parentViewUnderscoreName}")
+  files.push helpers.writeTemplate('nestingViewTemplate', {name: parentViewName, childView: childViewName}, "templates/#{parentViewUnderscoreName}", "hbs")
   files.push helpers.writeTemplate('nestingView', {name: parentViewName}, "views/#{parentViewUnderscoreName}_view")
 
   console.log "### Generating child view #{_(childViewName).classify()} ###"
 
-  files.push helpers.writeTemplate('viewTemplate', {viewName: childViewName}, "templates/#{childViewUnderscoreName}")
+  files.push helpers.writeTemplate('viewTemplate', {viewName: childViewName}, "templates/#{childViewUnderscoreName}", "hbs")
   files.push helpers.writeTemplate('view', {viewName: childViewName}, "views/#{childViewUnderscoreName}_view")
 
   for file in files

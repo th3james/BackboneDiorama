@@ -1,6 +1,2 @@
-window.JST ||= {}
-
-window.JST['<%= _(name).underscored() %>'] = _.template("""
-  <h1><%= _(name).classify() %></h1>
-  <%= "<%=" %> view.addSubView(new Backbone.Views.<%= _(childView).classify() %>View()) <%= "%" + ">" %>
-""")
+<h1><%= _(name).classify() %></h1>
+{{view "<%= _(childView).classify() %>View" context=this parentView=this }}
