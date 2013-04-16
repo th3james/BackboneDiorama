@@ -39,6 +39,12 @@ exports.compile = (watch) ->
     # Compile the handlebars to stdout to remove the need to write and
     # read an extra file
     exec "handlebars #{templateFiles.join(" ")}", (compileError, stdout, stderr) ->
+      if stderr != ''
+        console.log " ### Error compiling templates"
+        console.log " ### #{stderr}"
+        if stderr.match(/handlebars\: command not found/g)
+          console.log "### Looks like handlebars isn't installed globally, install it with:"
+          console.log "###  npm install -g handlebars"
       # Use readFile/writeFile to prepend the templates, otherwise
       # they won't be accessible to the Views
       fs.readFile "js/application.js", 'utf8', (err, fileContents) ->
