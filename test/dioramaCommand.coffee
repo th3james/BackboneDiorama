@@ -20,27 +20,29 @@ describe('create a new project', ->
   )
 
   it("should have copied libs across", ->
-    expectedFiles = ['backbone-min.js', 'jquery-1.9.1.min.js', 'underscore-min.js', 'diorama.js', 'json2.js', 'handlebars.js']
-    console.log "testProject/js contains:"
-    fs.readdirSync('testProject/js/').filter((n) ->
-      console.log n
-    )
-    foundDirs = fs.readdirSync('testProject/js/lib').filter((n) ->
-      if(expectedFiles.indexOf(n) == -1)
-        return false
-      return true
-    )
-    assert.equal(foundDirs.length, expectedFiles.length)
+    expectedFiles = ['backbone-min.js', 'jquery-1.8.3.min.js', 'underscore-min.js', 'diorama.js', 'json2.js', 'handlebars.js']
+    # Lack of synchronus copy means we have to wait for this to complete :-|
+    setTimeout(->
+      foundDirs = fs.readdirSync('testProject/js/lib').filter((n) ->
+        if(expectedFiles.indexOf(n) == -1)
+          return false
+        return true
+      )
+      assert.equal(foundDirs.length, expectedFiles.length)
+    ,500)
   )
 
   it("should have created a manifest file", ->
     expectedFiles = ['compile_manifest.json']
-    foundDirs = fs.readdirSync('testProject/src/').filter((n) ->
-      if(expectedFiles.indexOf(n) == -1)
-        return false
-      return true
-    )
-    assert.equal(foundDirs.length, expectedFiles.length)
+    # Lack of synchronus copy means we have to wait for this to complete :-|
+    setTimeout(->
+      foundDirs = fs.readdirSync('testProject/src/').filter((n) ->
+        if(expectedFiles.indexOf(n) == -1)
+          return false
+        return true
+      )
+      assert.equal(foundDirs.length, expectedFiles.length)
+    ,500)
   )
 
   describe('and inside the new project dir', ->
@@ -186,7 +188,7 @@ describe('create a new project', ->
       )
       it('generates a nesting view template using the nesting view template template', ->
         expected_txt = templates.nestingViewTemplate(name: 'PostIndex', childView: 'PostRow')
-        generated_template = fs.readFileSync('src/templates/post_index.coffee', 'utf8')
+        generated_template = fs.readFileSync('src/templates/post_index.hbs', 'utf8')
         assert.equal generated_template, expected_txt
       )
       it('generates a child view and template using the view templates', ->
@@ -195,7 +197,7 @@ describe('create a new project', ->
         assert.equal generated_template, expected_txt
 
         expected_txt = templates.viewTemplate(viewName: 'post_row')
-        generated_template = fs.readFileSync('src/templates/post_row.coffee', 'utf8')
+        generated_template = fs.readFileSync('src/templates/post_row.hbs', 'utf8')
         assert.equal generated_template, expected_txt
       )
     )
