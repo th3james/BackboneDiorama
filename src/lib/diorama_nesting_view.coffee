@@ -3,7 +3,7 @@ window.Backbone.Views ||= {}
 
 class Backbone.Diorama.NestingView extends Backbone.View
   constructor: ->
-    @registerHandlebars(Handlebars)
+    Handlebars.registerHelper('subView', @viewHelper)
     super
 
   addSubView: (subView) ->
@@ -25,20 +25,11 @@ class Backbone.Diorama.NestingView extends Backbone.View
         subView.close()
     @subViews = []
 
-  viewHelper: (context, options) =>
-    viewName = context
+  viewHelper: (viewName, options) =>
     viewOptions = options.hash || {}
-
-    if (_.isEmpty(viewOptions))
-      viewOptions = _.clone(@)
 
     View = Backbone.Views[viewName]
     view = new View(viewOptions)
 
-    @addSubView(view)
-
-    html = @renderSubViews()
+    html = @addSubView(view)
     return new Handlebars.SafeString(html)
-
-  registerHandlebars: (Handlebars) ->
-    Handlebars.registerHelper('view', @viewHelper)
