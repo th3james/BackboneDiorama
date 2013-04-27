@@ -8,12 +8,10 @@ exports.compile = (watch) ->
 
   # Concatenate CS into one file
   concatenate = ->
-    str = fs.readFileSync('src/compile_manifest.json', 'utf8')
+    files = JSON.parse(fs.readFileSync('src/compile_manifest.json', 'utf8'))
 
-    files  = JSON.parse("#{str}")
-    templateFiles = _.filter(files, (file) -> file.split("/")[0] == "templates" )
-    # Get all other files not matching the template filter
-    appFiles      = _.difference(files, templateFiles)
+    templateFiles = getTemplateFiles(files)
+    appFiles = getNonTemplateFiles(files)
 
     appContents = []
     remaining = appFiles.length
@@ -22,6 +20,12 @@ exports.compile = (watch) ->
         console.log "Failed to read coffeescript file: #{err}" if err
         appContents[index] = fileContents
         process(appContents, templateFiles) if --remaining is 0
+
+  getTemplateFiles = (files) ->
+    _.filter(files, (file) -> file.split("/")[0] == "templates" )
+
+  getNonTemplateFiles = (files) ->
+    _.filter(files, (file) -> file.split("/")[0] != "templates" )
 
   process = (appContents, templateFiles)->
     fs.appendFileSync 'application.coffee', appContents.join('\n\n'), 'utf8'
@@ -35,6 +39,8 @@ exports.compile = (watch) ->
 
   processTemplates = (templateFiles) ->
     templateFiles = _.map(templateFiles, (file) -> "src/#{file}.hbs")
+
+    return unless templateFiles.length > 0
 
     # Compile the handlebars to stdout to remove the need to write and
     # read an extra file
