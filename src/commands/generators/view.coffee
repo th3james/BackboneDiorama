@@ -1,9 +1,9 @@
-helpers = require("#{__dirname}/../commandHelpers.coffee")
+helpers = require("#{__dirname}/../../commandHelpers.coffee")
 _ = helpers.requireUnderscoreWithStringHelpers
 
-exports.generateView = (viewName) ->
+exports.view = (viewName) ->
   unless viewName?
-    helpers.printCommandHelpText('generateView')
+    helpers.printCommandHelpText('generators/view')
     return
 
   files = []

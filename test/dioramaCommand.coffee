@@ -52,7 +52,7 @@ describe('create a new project', ->
 
     describe('dioramaCommand.generateModel', ->
       before(->
-        dioramaCommands.generateModel 'post'
+        dioramaCommands.generate 'model', 'post'
       )
 
       it('should call the create a model file from a template', ->
@@ -68,7 +68,7 @@ describe('create a new project', ->
     describe('dioramaCommand.generateCollection', ->
       describe('when run with generateModel false', ->
         before(->
-          dioramaCommands.generateCollection 'post', 'false'
+          dioramaCommands.generate 'collection', 'post', 'false'
         )
 
         it('creates a collection file from template', ->
@@ -87,7 +87,7 @@ describe('create a new project', ->
 
       describe('when run with generateModel true', ->
         before(->
-          dioramaCommands.generateCollection 'post', 'true'
+          dioramaCommands.generate 'collection', 'post', 'true'
         )
 
         it('creates a collection file from template', ->
@@ -110,7 +110,7 @@ describe('create a new project', ->
 
     describe('dioramaCommand.generateView', ->
       before(->
-        dioramaCommands.generateView 'Post_index'
+        dioramaCommands.generate 'view', 'Post_index'
       )
 
       it('creates a template file from template', ->
@@ -135,7 +135,7 @@ describe('create a new project', ->
 
     describe('dioramaCommand.generateController', ->
       before(->
-        dioramaCommands.generateController 'Post', 'index', 'show'
+        dioramaCommands.generate 'controller', 'Post', 'index', 'show'
       )
 
       it('generates a controller with the expected actions', ->
@@ -179,7 +179,7 @@ describe('create a new project', ->
 
     describe('diorama.generateNestedView', ->
       before(->
-        dioramaCommands.generateNestingView 'PostIndex', 'PostRow'
+        dioramaCommands.generate 'nestingView', 'PostIndex', 'PostRow'
       )
       it('generates the parent nesting view using the nesting template', ->
         expected_txt = templates.nestingView(name: 'PostIndex')
