@@ -31,3 +31,10 @@ exports.isProjectDir = () ->
 exports.downcaseFirstChar = (string) ->
   return string.charAt(0).toLowerCase() + string.substring(1)
 
+exports.isNotCoffeeScriptFilename = (fileName) ->
+  tokens = fileName.split('.')
+  return tokens[tokens.length-1] != 'coffee'
+
+exports.stripCoffeeExtension = (fileName) ->
+  tokens = fileName.split(".coffee")
+  return tokens[0]

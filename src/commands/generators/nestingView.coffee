@@ -1,9 +1,9 @@
-helpers = require("#{__dirname}/../commandHelpers.coffee")
+helpers = require("#{__dirname}/../../commandHelpers.coffee")
 _ = helpers.requireUnderscoreWithStringHelpers
 
-exports.generateNestingView = (parentViewName, childViewName) ->
+exports.nestingView = (parentViewName, childViewName) ->
   unless parentViewName?
-    helpers.printCommandHelpText('generateNestingView')
+    helpers.printCommandHelpText('generators/nestingView')
     return
 
   unless helpers.isProjectDir()

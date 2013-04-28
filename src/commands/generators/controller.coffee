@@ -1,9 +1,9 @@
-helpers = require("#{__dirname}/../commandHelpers.coffee")
+helpers = require("#{__dirname}/../../commandHelpers.coffee")
 _ = helpers.requireUnderscoreWithStringHelpers
 
-exports.generateController = (controllerName, states...) ->
+exports.controller = (controllerName, states...) ->
   unless controllerName?
-    helpers.printCommandHelpText('generateController')
+    helpers.printCommandHelpText('generators/controller')
     return
 
   unless helpers.isProjectDir()

@@ -1,9 +1,9 @@
-helpers = require("#{__dirname}/../commandHelpers.coffee")
+helpers = require("#{__dirname}/../../commandHelpers.coffee")
 _ = helpers.requireUnderscoreWithStringHelpers
 
-exports.generateModel = (modelName) ->
+exports.model = (modelName) ->
   unless modelName?
-    helpers.printCommandHelpText('generateModel')
+    helpers.printCommandHelpText('generators/model')
     return
 
   files = []
