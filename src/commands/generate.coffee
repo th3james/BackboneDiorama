@@ -6,7 +6,7 @@ exports.generate = (commandName, options...) ->
   generatorFiles = _.reject(fs.readdirSync("#{__dirname}/../commands/generators/"), helpers.isNotCoffeeScriptFilename)
   generatorFiles = _.map(generatorFiles, helpers.stripCoffeeExtension)
 
-  unless commandName? || generatorFiles[commandName]?
+  if !commandName? or _.indexOf(generatorFiles, commandName) < 0
     helpers.printCommandHelpText('generate')
 
     for command in generatorFiles
