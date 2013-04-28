@@ -6,17 +6,10 @@ templates = require('../src/templates.coffee')
 # Underscore String plus exports
 _.str = require('underscore.string')
 _.mixin(_.str.exports())
+helpers = require("#{__dirname}/commandHelpers.coffee")
 
-isNotCoffeeScriptFilename = (fileName) ->
-  tokens = fileName.split('.')
-  return tokens[tokens.length-1] != 'coffee'
-
-stripExtension = (fileName) ->
-  tokens = fileName.split('.coffee')
-  return tokens[0]
-
-commandFiles = _.reject(fs.readdirSync("#{__dirname}/commands/"), isNotCoffeeScriptFilename)
-commandFiles = _.map(commandFiles, stripExtension)
+commandFiles = _.reject(fs.readdirSync("#{__dirname}/commands/"), helpers.isNotCoffeeScriptFilename)
+commandFiles = _.map(commandFiles, helpers.stripCoffeeExtension)
 
 for commandFile in commandFiles
-  exports[commandFile] = require("../src/commands/#{commandFile}.coffee")[commandFile]
+  exports[commandFile] = require("#{__dirname}/commands/#{commandFile}.coffee")[commandFile]
