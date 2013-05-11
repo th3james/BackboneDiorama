@@ -68,7 +68,7 @@ Compiles compiles the files specied in src/compile_manifest.json. The files shou
 BackboneDiorama comes with a few extra classes to compliment the backbone stack for building complete web applications:
 
 ### Backbone.Diorama.ManagedRegion
-Creates a DOM element designed for swapping views in and out of, without leaking event bindings.
+Creates a DOM element designed for swapping views in and out of, with helper methods to manage unbinding events.
 #### constructor(tagName='div')
 Constructs a new managed region with a DOM element of the given tag name. Insert the new DOM element into the page using the $el attribute:
 
@@ -86,7 +86,7 @@ managedRegion.showView(view2) # Call view1.close() and view1.onClose(), render v
 ```
 
 ### Backbone.Diorama.Controller
-Diorama controllers are designed to coordinate views in your application, and provide entry points to certain 'states' of your application. Routers in BackboneDiorama projects only handle URLs reading and setting, but defer to controllers for the actual behavior.
+Diorama controllers are designed to coordinate views and data in your application, and provide entry points to certain 'states' of your application. Routers in BackboneDiorama projects only handle URLs reading and setting, but defer to controllers for the actual behavior.
 This example shows shows a typical blog post index and show page:
 
 ```coffee
@@ -132,7 +132,7 @@ Backbone.Diorama.NestingView makes it easy to stack views, as seen in this examp
 
 ```coffee
 class Backbone.Views.PostIndexView extends Backbone.Diorama.NestingView
-  template: JST['post_index_view']
+  template: Handlebars.templates['post_index.hbs']
 
   initialize: (options) ->
     @postCollection = options.postCollection # A Backbone.Collection
@@ -141,9 +141,9 @@ class Backbone.Views.PostIndexView extends Backbone.Diorama.NestingView
   render: =>
     # Close any existing views
     @closeSubViews()
-    # Render template, creating subviews with view.addSubView (see template below)
-    @$el.html(@template(view: @, posts: @postCollection.models))
-    # Render sub views into the elements created by view.addSubView in the template
+    # Render template, creating subviews with subView helper (see template below)
+    @$el.html(@template(posts: @postCollection.models))
+    # Render sub views into the elements created by subView helper in the template
     @renderSubViews()
 
     return @
@@ -152,31 +152,14 @@ class Backbone.Views.PostIndexView extends Backbone.Diorama.NestingView
     @closeSubViews()
 ```
 
-```jst
+```hbs
 ### post_index_view template ###
-<h1>Post Index</h1>
-<%
-  var i, il
-  for(i = 0, il=posts.length; i<il; i++){
-%>
-  <!-- Create a PostRowView for each post, and add it to the template with addSubView -->
-  <%= view.addSubView(new Backbone.Views.PostRowView({model: posts[i]})) %>
-<% } %>
+<h1>PostIndex</h1>
+{{#each posts}}
+  <!-- Create a PostRowView for each post, and add it to the template with subView -->
+  {{subView "PostRowView" model=this}}
+{{/each}}
 ```
-
-## Planned features
-#### CRUD scaffold
-    
-    diorama scaffold <ModelName> <fieldName:type> <fieldName2:type> ...
-
-Will create a CRUD scaffold for a given model description. A good starting point to see how projects work together
-
-#### Generate Collection View
-
-    diorama generate-collection-view <CollectionName>
-
-Generates a collection view, which will list collection elements, generating 
-
 
 ## Development
 BackboneDiorama is written in coffeescript and is packaged as an NPM module. To install the package locally, in the project directory run:
