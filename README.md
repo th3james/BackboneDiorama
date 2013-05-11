@@ -1,8 +1,7 @@
-BackboneDiorama
-===============
+#BackboneDiorama
 A Backbone.js based client-side Coffeescipt web application framework designed for rapid development, using opinionated backbone pattern generators.  
 # Goals
-Backbone Diorama aims to assist you in rapid building of client-side web applications. To do this, it borrows much of the 
+BackboneDiorama aims to assist you in rapid building of client-side web applications. To do this, it borrows much of the 
 philosophy of Ruby On Rails, particularly, convention over configuration. Backbone Diorama creates a default Backbone.js
 application structure, and provides a series of patterns useful for typical web development, which are realised through generators.
 BackboneDiorama and its generators are designed exclusively for Coffeescript in the interests of the clarity and elegance of generated code.
@@ -66,10 +65,10 @@ Compiles compiles the files specied in src/compile_manifest.json. The files shou
 
 
 # Backbone.Diorama Libraries
-BackboneDiorama comes with a few extra classes to complete the backbone stack for building complete web applications:
+BackboneDiorama comes with a few extra classes to compliment the backbone stack for building complete web applications:
 
 ### Backbone.Diorama.ManagedRegion
-Creates a DOM element designed for swapping views in and out of
+Creates a DOM element designed for swapping views in and out of, without leaking event bindings.
 #### constructor(tagName='div')
 Constructs a new managed region with a DOM element of the given tag name. Insert the new DOM element into the page using the $el attribute:
 

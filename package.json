@@ -1,6 +1,6 @@
 {
   "name": "backbone-diorama",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A client-side web application framework designed for rapid development, using opinionated backbone pattern generators",
   "main": "index.js",
   "dependencies": {
