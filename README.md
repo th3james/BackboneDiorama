@@ -1,6 +1,9 @@
 #BackboneDiorama
+
 A Backbone.js based client-side Coffeescipt web application framework designed for rapid development, using opinionated backbone pattern generators.  
+
 # Goals
+
 BackboneDiorama aims to assist you in rapid building of client-side web applications. To do this, it borrows much of the 
 philosophy of Ruby On Rails, particularly, convention over configuration. Backbone Diorama creates a default Backbone.js
 application structure, and provides a series of patterns useful for typical web development, which are realised through generators.
@@ -9,63 +12,53 @@ BackboneDiorama and its generators are designed exclusively for Coffeescript in 
 # Installation
 Install backbone diorama as an NPM package:
 
-	sudo npm install -g backbone-diorama
+  sudo npm install -g backbone-diorama
 
 # Usage
-To view the availble commands, run:
 
-	diorama help
+To view the available commands, run:
+
+    diorama help
 
 #### Create a new project
-    
+
     diorama new <ProjectName>
 
-This will create a new diorama project inside a directory of the same name. It creates an index.html file containing starting instructions.
+This will create a new diorama project inside a directory of the same
+name. It creates an `index.html` file containing starting instructions.
 
-#### generateController
+#### Use the generators
 
-    diorama generateController <ControllerName> <Action1> <Action2> ...
+Use generators to scaffold your code, for example:
 
-Generates a new Backbone.Diorama.Controller, with the specified actions, and a corresponding view for each action. Generated files are printed in a format suitable for inserting into the src/compile_manifest.json
+    diorama generate collection Tasks
+    diorama generate view TaskIndex
 
-#### generateView
+For a [complete list](tree/master/src/commands/generators) of generators
+available, run:
 
-    diorama generateView <ViewName>
-
-Generates a new Backbone.View and JST template file for the given name. Generated files are printed in a format suitable for inserting into the src/compile_manifest.json
-
-#### generateNestingView
-
-    diorama generateNestingView <ParentViewName> <ChildViewName>
-
-Generates a new [Backbone.Diorama.NestingView](#backbonedioramanestingview) and child Backbone.View. ParentViewName specifies the NestingView name, ChildViewName species the child view to be rendered inside parent. Generated files are printed in a format suitable for inserting into the src/compile_manifest.json
-
-#### generateCollection
-
-    diorama generateCollection <ModelName> <generateModelAlso?>
-
-Generates a new Backbone.Collection for the given ModelName. If you specify generateModelAlso? as true, the corresponding model will also be generated. Generated files are printed in a format suitable for inserting into the src/compile_manifest.json
-
-#### generateModel
-
-    diorama generateModel <ModelName>
-
-Generates a new Backbone.Model for the given name. Generated files are printed in a format suitable for inserting into the src/compile_manifest.json
+    diorama generate
 
 #### Compiling the app
 
     diorama compile <watch>
 
-Compiles compiles the files specied in src/compile_manifest.json. The files should be specified in the order you require them, in this format:
+This command compiles the files specified in src/compile_manifest.json.
+The files should be specified in the order you require them, in this
+format:
 
-	[
-		"folderRelativeToSrc/filewithoutext",
-		"another/coffescriptFile",
-	]
-
+```json
+    [
+      "collections/tasks_collection",
+      "templates/task_index",
+      "views/task_index_view"
+    ]
+```
 
 # Backbone.Diorama Libraries
-BackboneDiorama comes with a few extra classes to compliment the backbone stack for building complete web applications:
+
+BackboneDiorama comes with a few extra classes to compliment the
+backbone stack for building complete web applications:
 
 ### Backbone.Diorama.ManagedRegion
 Creates a DOM element designed for swapping views in and out of, with helper methods to manage unbinding events.
@@ -78,7 +71,12 @@ $('body').append(managedRegion.$el)
 ```
 
 #### showView(backboneView)
-Renders the given Backbone.View into the managedRegion's DOM element. If there has already been a Backbone.View rendered for the region, the existing view will be closed, calling onClose() on it, and then replacing it with the new view. This allows you to swap views into the region without having to manually clean up after old views.
+
+Renders the given Backbone.View into the managedRegion's DOM element. If
+there has already been a Backbone.View rendered for the region, the
+existing view will be closed, calling onClose() on it, and then
+replacing it with the new view. This allows you to swap views into the
+region without having to manually clean up after old views.
 
 ```coffee
 managedRegion.showView(view1) # Render view 1 into managedRegion.$el
