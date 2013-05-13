@@ -1,4 +1,5 @@
 helpers = require("#{__dirname}/../../commandHelpers.coffee")
+generateHelpers = require("#{__dirname}/../generateHelpers.coffee")
 _ = helpers.requireUnderscoreWithStringHelpers
 
 exports.controller = (controllerName, states...) ->
@@ -15,11 +16,7 @@ exports.controller = (controllerName, states...) ->
     return false
 
   controllerUnderscoreName = _(controllerName).underscored()
-  console.log "controllerUnderscoreName: #{controllerUnderscoreName}"
   controllerName = _(helpers.downcaseFirstChar(controllerName)).camelize()
-  console.log "controllerName: #{controllerName}"
-
-  console.log "### Generating controller #{_(controllerName).classify()} ###"
 
   files = []
 
@@ -31,11 +28,4 @@ exports.controller = (controllerName, states...) ->
 
     files.push helpers.writeTemplate('view', {controllerName: controllerName, viewName: state}, "views/#{controllerUnderscoreName}_#{_(state).underscored()}_view")
 
-  for file in files
-    console.log("Created #{file}")
-
-  console.log "### Generated Controller Backbone.Controllers.#{_(controllerName).classify()}Controller ###"
-  console.log "   include it in src/compile_manifest.json with: "
-  console.log "\"#{files.join("\",\n\"")}\""
-  console.log "   start it with: new Backbone.Controllers.#{_(controllerName).classify()}Controller()"
-
+  generateHelpers.printGeneratedClassInfo("Backbone.Controllers.#{_(controllerName).classify()}Controller", files)

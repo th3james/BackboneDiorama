@@ -1,4 +1,5 @@
 helpers = require("#{__dirname}/../../commandHelpers.coffee")
+generateHelpers = require("#{__dirname}/../generateHelpers.coffee")
 _ = helpers.requireUnderscoreWithStringHelpers
 
 exports.model = (modelName) ->
@@ -7,11 +8,8 @@ exports.model = (modelName) ->
     return
 
   files = []
-  console.log _
   modelName = _(modelName).underscored()
 
   files.push helpers.writeTemplate('model', {name: _(modelName).classify()}, "models/#{modelName}")
 
-  console.log "Generated #{_(modelName).classify()} model, add the following to your src/compile_manifest.json"
-  console.log "\"#{files.join("\",\n\"")}\""
-
+  generateHelpers.printGeneratedClassInfo("Backbone.Models.#{_(modelName).classify()}", files)

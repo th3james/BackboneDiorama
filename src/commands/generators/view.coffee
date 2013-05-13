@@ -1,4 +1,5 @@
 helpers = require("#{__dirname}/../../commandHelpers.coffee")
+generateHelpers = require("#{__dirname}/../generateHelpers.coffee")
 _ = helpers.requireUnderscoreWithStringHelpers
 
 exports.view = (viewName) ->
@@ -13,6 +14,4 @@ exports.view = (viewName) ->
 
   files.push helpers.writeTemplate('view', {viewName: viewName}, "views/#{viewName}_view")
 
-  console.log "Generated #{_(viewName).classify()}View, add the following to your src/compile_manifest.json"
-  console.log "\"#{files.join("\",\n\"")}\""
-
+  generateHelpers.printGeneratedClassInfo("Backbone.Views.#{_(viewName).classify()}View", files)
