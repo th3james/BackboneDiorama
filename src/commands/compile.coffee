@@ -44,7 +44,7 @@ exports.compile = (watch) ->
 
     # Compile the handlebars to stdout to remove the need to write and
     # read an extra file
-    exec "handlebars #{templateFiles.join(" ")}", (compileError, stdout, stderr) ->
+    exec "handlebars --min #{templateFiles.join(" ")}", (compileError, stdout, stderr) ->
       if stderr != ''
         console.log " ### Error compiling templates"
         console.log " ### #{stderr}"
