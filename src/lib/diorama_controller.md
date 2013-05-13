@@ -1,6 +1,10 @@
 # Backbone.Diorama.Controller
 
-Diorama controllers are designed to coordinate views and data in your application, and provide entry points to certain 'states' of your application. Routers in BackboneDiorama projects only handle URLs reading and setting, but defer to controllers for the actual behavior.
+Diorama controllers are designed to coordinate views and data, and
+provide entry points to certain 'states' of your application.
+Routers in BackboneDiorama projects only handle URL reading and
+setting, but defer to controllers for the actual behavior.
+
 This example shows shows a typical blog post index and show page:
 
 ```coffee

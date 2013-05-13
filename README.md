@@ -8,7 +8,7 @@ generators.
 
 BackboneDiorama aims to assist you in rapid building of client-side web
 applications. To do this, it borrows much of the philosophy of Ruby On
-Rails, particularly, convention over configuration. Backbone Diorama
+Rails, particularly, convention over configuration. BackboneDiorama
 creates a default Backbone.js application structure, and provides a
 series of patterns useful for typical web development, which are
 realised through generators.  BackboneDiorama and its generators are
@@ -47,9 +47,10 @@ available, run:
 
 #### Compiling the app
 
-    diorama compile <watch>
+    diorama compile watch
 
-This command compiles the files specified in src/compile_manifest.json.
+This command watches your src/ folder for changes and compiles the
+files specified in src/compile_manifest.json.
 The files should be specified in the order you require them, in this
 format:
 
@@ -60,6 +61,11 @@ format:
       "views/task_index_view"
     ]
 ```
+
+To run the compile once without watching for changes, omit the 'watch'
+argument:
+
+    diorama compile
 
 ## Backbone.Diorama Libraries
 
@@ -75,10 +81,10 @@ helper methods to manage unbinding events.
 
 #### Backbone.Diorama.Controller
 
-Diorama controllers are designed to coordinate views and data in your
-application, and provide entry points to certain 'states' of your
-application. Routers in BackboneDiorama projects only handle URLs
-reading and setting, but defer to controllers for the actual behavior.
+Diorama controllers are designed to coordinate views and data, and
+provide entry points to certain 'states' of your application.
+Routers in BackboneDiorama projects only handle URL reading and
+setting, but defer to controllers for the actual behavior.
 
 [Read More](src/lib/diorama_controller.md)
 
@@ -90,8 +96,7 @@ collection gets a sub view. The advantage of this approach is that each
 sub view can listen for and respond to events about a particular model,
 removing the need for the collection view to be re-rendered.
 
-Backbone.Diorama.NestingView makes it easy to stack views, as seen in
-this example PostIndexView
+Backbone.Diorama.NestingView makes it easy to stack views like this.
 
 [Read More](src/lib/diorama_nesting_view.md)
 
