@@ -71,7 +71,7 @@ backbone stack for building complete web applications:
 Creates a DOM element designed for swapping views in and out of, with
 helper methods to manage unbinding events.
 
-[Read More](src/lib/)
+[Read More](src/lib/diorama_managed_region.md)
 
 #### Backbone.Diorama.Controller
 
@@ -80,7 +80,7 @@ application, and provide entry points to certain 'states' of your
 application. Routers in BackboneDiorama projects only handle URLs
 reading and setting, but defer to controllers for the actual behavior.
 
-[Read More](src/lib/)
+[Read More](src/lib/diorama_controller.md)
 
 #### Backbone.Diorama.NestingView
 
@@ -93,7 +93,7 @@ removing the need for the collection view to be re-rendered.
 Backbone.Diorama.NestingView makes it easy to stack views, as seen in
 this example PostIndexView
 
-[Read More](src/lib/)
+[Read More](src/lib/diorama_nesting_view.md)
 
 ## Development
 
