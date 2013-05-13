@@ -4,7 +4,7 @@ A Backbone.js based client-side Coffeescipt web application framework
 designed for rapid development, using opinionated backbone pattern
 generators.
 
-# Goals
+## Goals
 
 BackboneDiorama aims to assist you in rapid building of client-side web
 applications. To do this, it borrows much of the philosophy of Ruby On
@@ -15,12 +15,12 @@ realised through generators.  BackboneDiorama and its generators are
 designed exclusively for Coffeescript in the interests of the clarity
 and elegance of generated code.
 
-# Installation
+## Installation
 Install backbone diorama as an NPM package:
 
-  sudo npm install -g backbone-diorama
+    sudo npm install -g backbone-diorama
 
-# Usage
+## Usage
 
 To view the available commands, run:
 
@@ -61,19 +61,19 @@ format:
     ]
 ```
 
-# Backbone.Diorama Libraries
+## Backbone.Diorama Libraries
 
 BackboneDiorama comes with a few extra classes to compliment the
 backbone stack for building complete web applications:
 
-### Backbone.Diorama.ManagedRegion
+#### Backbone.Diorama.ManagedRegion
 
 Creates a DOM element designed for swapping views in and out of, with
 helper methods to manage unbinding events.
 
 [Read More](src/lib/)
 
-### Backbone.Diorama.Controller
+#### Backbone.Diorama.Controller
 
 Diorama controllers are designed to coordinate views and data in your
 application, and provide entry points to certain 'states' of your
@@ -82,7 +82,7 @@ reading and setting, but defer to controllers for the actual behavior.
 
 [Read More](src/lib/)
 
-### Backbone.Diorama.NestingView
+#### Backbone.Diorama.NestingView
 
 A common pattern for Backbone applications is to nest views inside each
 other. For example a collection index view where each model in the
@@ -110,6 +110,7 @@ line like:
     /usr/local/share/npm/bin/diorama -> /usr/local/share/npm/lib/node_modules/backbone-diorama/bin/diorama.coffee
 
 ### Tests
+
 Tests are written using mocha, and in the test/ folder (somewhat
 unsurprisingly). Run them with:
 
