@@ -59,10 +59,9 @@ exports.compile = (watch) ->
         fs.writeFile 'js/application.js', [stdout, fileContents].join("\n\n"), (err) ->
           return console.log "###\n Unable to append handlebars templates" if err
 
+  concatenate()
+
   if watch?
     watcher('src/', (files)->
       concatenate()
     )
-  else
-    concatenate()
-
