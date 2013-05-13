@@ -26,7 +26,7 @@ exports.nestingView = (parentViewName, childViewName) ->
   files.push helpers.writeTemplate('nestingViewTemplate', {name: parentViewName, childView: childViewName}, "templates/#{parentViewUnderscoreName}", "hbs")
   files.push helpers.writeTemplate('nestingView', {name: parentViewName}, "views/#{parentViewUnderscoreName}_view")
 
-  console.log "### Generating child view Backbone.Views.#{_(childViewName).classify()} ###"
+  console.log "# Generated child view Backbone.Views.#{_(childViewName).classify()} ###"
 
   files.push helpers.writeTemplate('viewTemplate', {viewName: childViewName}, "templates/#{childViewUnderscoreName}", "hbs")
   files.push helpers.writeTemplate('view', {viewName: childViewName}, "views/#{childViewUnderscoreName}_view")
