@@ -103,7 +103,7 @@ module. To install the package locally, in the project directory run:
     sudo npm install -g
 
 This will install the diorama command onto your system. On my node
-setup, this wasn't added to my PATH correct, so check the output for a
+setup, this wasn't added to my PATH correctly, so check the output for a
 line like:
 
     npm info linkStuff backbone-diorama@0.0.1
