@@ -201,6 +201,8 @@ describe('create a new project', ->
         assert.equal generated_template, expected_txt
       )
     )
+    after ->
+      process.chdir('../')
   )
 
   # Clean-up

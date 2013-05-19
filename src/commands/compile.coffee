@@ -1,6 +1,15 @@
 fs = require('fs')
 _  = require('underscore')
 
+EMPTY_MANIFEST_MESSAGE = '### WARNING ###\n
+Your src/compile_manifest.json file is empty, you need to populate it with the files you wish to be compiled, like this:\n
+  "model/task",\n
+  "collection/task"\n
+\n
+Pro-tip: when using generators, they will print out the required includes
+\n
+'
+
 # Compile files in src/compile_manifest.json
 exports.compile = (watch) ->
   exec = require('child_process').exec
@@ -9,6 +18,9 @@ exports.compile = (watch) ->
   # Concatenate CS into one file
   concatenate = ->
     files = JSON.parse(fs.readFileSync('src/compile_manifest.json', 'utf8'))
+
+    if files.length == 0
+     console.log EMPTY_MANIFEST_MESSAGE
 
     templateFiles = getTemplateFiles(files)
     appFiles = getNonTemplateFiles(files)
