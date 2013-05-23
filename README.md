@@ -54,7 +54,7 @@ available, run:
 
     diorama compile watch
 
-This command watches your src/ folder for changes then concatenates and
+This command watches your src/ folder for changes then, concatenates and
 compiles the files specified in src/compile_manifest.json to js/application.js.
 The files should be specified in the order you require them, in this format:
 
