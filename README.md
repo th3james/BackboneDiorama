@@ -23,7 +23,7 @@ if you've got any feedback or suggestions, we'd love to hear from you!
 ## Installation
 Install backbone diorama as an NPM package:
 
-    sudo npm install -g backbone-diorama
+    npm install -g backbone-diorama
 
 ## Usage
 
