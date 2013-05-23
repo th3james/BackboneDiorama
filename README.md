@@ -54,10 +54,9 @@ available, run:
 
     diorama compile watch
 
-This command watches your src/ folder for changes and compiles the
-files specified in src/compile_manifest.json.
-The files should be specified in the order you require them, in this
-format:
+This command watches your src/ folder for changes then concatenates and
+compiles the files specified in src/compile_manifest.json to js/application.js.
+The files should be specified in the order you require them, in this format:
 
 ```json
     [
@@ -67,7 +66,10 @@ format:
     ]
 ```
 
-To run the compile once without watching for changes, omit the 'watch'
+When you run a generator, it will print the includes you need to add to this
+file.
+
+To run the compile once (without watching for changes), omit the 'watch'
 argument:
 
     diorama compile
