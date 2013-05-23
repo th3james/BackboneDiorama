@@ -1,24 +1,29 @@
-#BackboneDiorama
+# BackboneDiorama
 
-A Backbone.js based client-side Coffeescipt web application framework
-designed for rapid development, using opinionated backbone pattern
-generators.
+BackboneDiorama is everything you need to build client-side web applications.
+Optimised for developer happiness, it builds on the components of Backbone.js
+and aims to be the easiest and the fastest way to build for the browser.
 
-## Goals
+* `diorama new projectName` builds you a new project with:
+  * Logical project structure for backbone components
+  * Coffeescript concatenation and compilation setup
+  * Backbone.js+deps and Handlebars templating included and ready for use
+* `diorama generate <lots-of-stuff>` - Rails-style code generators which provide convention and structure to your projects, assist you with proven patterns and allow you to rapidly prototype. Run `diorama generate` for a full list.
+* Additional lightweight libraries to plug the gaps in Backbone.js:
+  * [*Backbone.Diorama.ManagedRegion*](src/lib/diorama_managed_region.md) - Memory managed view switching.
+  * [*Backbone.Diorama.DioramaController*](src/lib/diorama_controller.md) - Easy switching betweens states in your application.
+  * [*Backbone.Diorama.NestingView*](src/lib/diorama_nesting_view.md) - Nest Backbone.Views inside each other.
+* Written entirely in and for Coffeescript, for clarity and elegance of code.
 
-BackboneDiorama aims to assist you in rapid building of client-side web
-applications. To do this, it borrows much of the philosophy of Ruby On
-Rails, particularly, convention over configuration. BackboneDiorama
-creates a default Backbone.js application structure, and provides a
-series of patterns useful for typical web development, which are
-realised through generators.  BackboneDiorama and its generators are
-designed exclusively for Coffeescript in the interests of the clarity
-and elegance of generated code.
+We've been using BackboneDiorama to build applications for a little while now,
+but this is just the first public release. There's lots more planned (AMD
+support, minification, coffeescript source maps and more generators...) and
+if you've got any feedback or suggestions, we'd love to hear from you!
 
 ## Installation
 Install backbone diorama as an NPM package:
 
-    sudo npm install -g backbone-diorama
+    npm install -g backbone-diorama
 
 ## Usage
 
