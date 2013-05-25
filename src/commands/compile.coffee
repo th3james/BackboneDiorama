@@ -32,6 +32,8 @@ concatenate = ->
   templateFiles = getTemplateFiles(files)
   appFiles = getNonTemplateFiles(files)
 
+  console.log ""
+  console.log "Compiling src files to js/application.js:"
   appContents = []
   remaining = appFiles.length
   if remaining > 0
@@ -54,12 +56,12 @@ process = (appContents, templateFiles)->
   exec 'coffee  --output js/ --compile application.coffee', (compileError, stdout, stderr) ->
     return console.log "###\n Unable to compile coffeescript, check ./application.coffee:\n\n#{compileError}###" if compileError
 
-    processTemplates(templateFiles)
+    console.log "  #{appContents.length} coffeescripts"
+    processTemplates(templateFiles, true)
 
-    fs.unlink 'application.coffee', ->
-      console.log "compiled to js/application.js"
+    fs.unlink 'application.coffee'
 
-processTemplates = (templateFiles) ->
+processTemplates = (templateFiles, concatenateToApplication = true) ->
   templateFiles = _.map(templateFiles, (file) -> "src/#{file}.hbs")
 
   return unless templateFiles.length > 0
@@ -78,8 +80,7 @@ processTemplates = (templateFiles) ->
     fileContents = ''
     if concatenateToApplication
       fileContents = fs.readFileSync "js/application.js", 'utf8'
-      console.log "going to concatenate template to js/application (which contains: #{fileContents})"
 
-    fs.writeFileSync 'js/application.js', [stdout, fileContents].join("\n\n")
-    console.log "concatenated templates to js/application.js"
+    fs.writeFileSync 'js/application.js', [stdout, fileContents].join("\n;\n")
+    console.log "  #{templateFiles.length} templates"
 
