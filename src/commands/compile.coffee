@@ -41,9 +41,7 @@ concatenate = ->
         appContents[index] = fileContents
         process(appContents, templateFiles) if --remaining is 0
   else
-    fs.unlink 'js/application.js', ->
-      fs.writeFile 'js/application.js', '', ->
-        processTemplates(templateFiles)
+    processTemplates(templateFiles, false)
 
 getTemplateFiles = (files) ->
   _.filter(files, (file) -> file.split("/")[0] == "templates" )
@@ -77,9 +75,11 @@ processTemplates = (templateFiles) ->
         console.log "###  npm install -g handlebars"
     # Use readFile/writeFile to prepend the templates, otherwise
     # they won't be accessible to the Views
-    fs.readFile "js/application.js", 'utf8', (err, fileContents) ->
-      console.log "### There was an error compiling your templates: #{err}" if err
+    fileContents = ''
+    if concatenateToApplication
+      fileContents = fs.readFileSync "js/application.js", 'utf8'
+      console.log "going to concatenate template to js/application (which contains: #{fileContents})"
 
-      fs.writeFile 'js/application.js', [stdout, fileContents].join("\n\n"), (err) ->
-        return console.log "###\n Unable to append handlebars templates" if err
+    fs.writeFileSync 'js/application.js', [stdout, fileContents].join("\n\n")
+    console.log "concatenated templates to js/application.js"
 
