@@ -1,5 +1,7 @@
 fs = require('fs')
 _  = require('underscore')
+exec = require('child_process').exec
+watcher = require('node-watch')
 
 EMPTY_MANIFEST_MESSAGE = '### WARNING ###\n
 Your src/compile_manifest.json file is empty, you need to populate it with the files you wish to be compiled, like this:\n
@@ -12,8 +14,6 @@ Pro-tip: when using generators, they will print out the required includes
 
 # Compile files in src/compile_manifest.json
 exports.compile = (watch) ->
-  exec = require('child_process').exec
-  watcher = require('node-watch')
 
   concatenate()
 
@@ -34,11 +34,16 @@ concatenate = ->
 
   appContents = []
   remaining = appFiles.length
-  for file, index in appFiles then do (file, index) ->
-    fs.readFile "src/#{file}.coffee", 'utf8', (err, fileContents) ->
-      console.log "Failed to read coffeescript file: #{err}" if err
-      appContents[index] = fileContents
-      process(appContents, templateFiles) if --remaining is 0
+  if remaining > 0
+    for file, index in appFiles then do (file, index) ->
+      fs.readFile "src/#{file}.coffee", 'utf8', (err, fileContents) ->
+        console.log "Failed to read coffeescript file: #{err}" if err
+        appContents[index] = fileContents
+        process(appContents, templateFiles) if --remaining is 0
+  else
+    fs.unlink 'js/application.js', ->
+      fs.writeFile 'js/application.js', '', ->
+        processTemplates(templateFiles)
 
 getTemplateFiles = (files) ->
   _.filter(files, (file) -> file.split("/")[0] == "templates" )
@@ -73,7 +78,8 @@ processTemplates = (templateFiles) ->
     # Use readFile/writeFile to prepend the templates, otherwise
     # they won't be accessible to the Views
     fs.readFile "js/application.js", 'utf8', (err, fileContents) ->
-      return console.log "###\n Unable to read application.js when compiling templates" if err
+      console.log "### There was an error compiling your templates: #{err}" if err
 
       fs.writeFile 'js/application.js', [stdout, fileContents].join("\n\n"), (err) ->
         return console.log "###\n Unable to append handlebars templates" if err
+
