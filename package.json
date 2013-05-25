@@ -12,7 +12,8 @@
     "node-watch": "~0.2.6"
   },
   "devDependencies": {
-    "mocha": "*"
+    "mocha": "*",
+    "sinon": "*"
   },
   "scripts": {
     "test": "mocha test/ --compilers coffee:coffee-script --require coffee-script"
