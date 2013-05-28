@@ -8,10 +8,10 @@ and aims to be the easiest and the fastest way to build for the browser.
   * Logical project structure for backbone components
   * Coffeescript concatenation and compilation setup
   * Backbone.js+deps and Handlebars templating included and ready for use
-* `diorama generate <lots-of-stuff>` - Rails-style code generators which provide convention and structure to your projects, assist you with proven patterns and allow you to rapidly prototype. Run `diorama generate` for a full list.
+* `diorama generate <lots-of-stuff>` - Rails-style code generators which provide convention and structure to your projects, assist you with proven patterns and allow you to rapidly prototype. Run `diorama generate` for [the full list](src/commands/generators#backbonediorama-generators).
 * Additional lightweight libraries to plug the gaps in Backbone.js:
   * [*Backbone.Diorama.ManagedRegion*](src/lib/diorama_managed_region.md) - Memory managed view switching.
-  * [*Backbone.Diorama.DioramaController*](src/lib/diorama_controller.md) - Easy switching betweens states in your application.
+  * [*Backbone.Diorama.Controller*](src/lib/diorama_controller.md) - Easy switching betweens states in your application.
   * [*Backbone.Diorama.NestingView*](src/lib/diorama_nesting_view.md) - Nest Backbone.Views inside each other.
 * Written entirely in and for Coffeescript, for clarity and elegance of code.
 
@@ -54,7 +54,7 @@ available, run:
 
     diorama compile watch
 
-This command watches your src/ folder for changes then, concatenates and
+This command watches your src/ folder for changes then concatenates and
 compiles the files specified in src/compile_manifest.json to js/application.js.
 The files should be specified in the order you require them, in this format:
 
@@ -77,7 +77,7 @@ argument:
 ## Using BackboneDiorama with Rails and other server frameworks
 
 BackboneDiorama is ready to drop straight into your server side framework.
-Simply run `diorama new` inside your javascripts folder (app/assets/javascript
+Simply run `diorama new` inside your javascripts folder (app/assets/javascripts
 in Rails), include the the compiled js/application.js in your app, then use
 Diorama as normal.
 
@@ -120,12 +120,22 @@ Backbone.Diorama.NestingView makes it easy to stack views like this.
 
 [Read More](src/lib/diorama_nesting_view.md)
 
+## Authors
+
+BackbonDiorama was developed by me (James Cox,
+[@th3james](https://twitter.com/th3james)) with a lot of help from Adam
+Mulligan ([@amulligan](https://twitter.com/amulligan))
+
+## License
+
+BackboneDiorama is released under the [MIT License](http://opensource.org/licenses/MIT)
+
 ## Development
 
 BackboneDiorama is written in coffeescript and is packaged as an NPM
 module. To install the package locally, in the project directory run:
 
-    sudo npm install -g
+    npm install -g
 
 This will install the diorama command onto your system. On my node
 setup, this wasn't added to my PATH correctly, so check the output for a
