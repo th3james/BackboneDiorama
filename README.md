@@ -74,6 +74,19 @@ argument:
 
     diorama compile
 
+## Using BackboneDiorama with Rails and other server frameworks
+
+BackboneDiorama is ready to drop straight into your server side framework.
+Simply run `diorama new` inside your javascripts folder (app/assets/javascript
+in Rails), include the the compiled js/application.js in your app, then use
+Diorama as normal.
+
+If you're using Rails or another framework with built in coffeescript
+compilation, just include the coffeescripts in your src/ directly. Your
+templates will still need to be compiled, which you can do by inserting only
+the handlebars templates into compile_manifest.json, then using `diorama
+compile watch` to compile them to js/application.js
+
 ## Backbone.Diorama Libraries
 
 BackboneDiorama comes with a few extra classes to compliment the
