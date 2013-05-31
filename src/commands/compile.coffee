@@ -12,15 +12,28 @@ Pro-tip: when using generators, they will print out the required includes
 \n
 '
 
+runningCoffeeCompile = false
+runningTemplateCompile = false
+
 # Compile files in src/compile_manifest.json
 exports.compile = (watch) ->
 
-  concatenate()
+  concatenateSync()
 
   if watch?
     watcher('src/', (files)->
-      concatenate()
+      concatenateSync()
     )
+
+concatenateSync = ->
+  if runningCoffeeCompile or runningTemplateCompile
+    console.log "runningCoffeeCompile:#{runningCoffeeCompile}, runningTemplateCompile:#{runningTemplateCompile}, so waiting"
+    setTimeout(concatenateSync, 200)
+  else
+    runningCoffeeCompile = true
+    runningTemplateCompile = true
+    console.log "about to start, set runningCoffeeCompile:#{runningCoffeeCompile}, runningTemplateCompile:#{runningTemplateCompile}"
+    concatenate()
 
 # Concatenate CS into one file
 concatenate = ->
@@ -43,6 +56,7 @@ concatenate = ->
         appContents[index] = fileContents
         process(appContents, templateFiles) if --remaining is 0
   else
+    runningCoffeeCompile = false
     processTemplates(templateFiles, false)
 
 getTemplateFiles = (files) ->
@@ -52,19 +66,34 @@ getNonTemplateFiles = (files) ->
   _.filter(files, (file) -> file.split("/")[0] != "templates" )
 
 process = (appContents, templateFiles)->
+  if fs.existsSync('application.coffee')
+    console.log "application.coffee exists, deleting it"
+    fs.unlinkSync 'application.coffee'
+  else
+    console.log "application.coffee does not exists"
+
   fs.appendFileSync 'application.coffee', appContents.join('\n\n'), 'utf8'
   exec 'coffee  --output js/ --compile application.coffee', (compileError, stdout, stderr) ->
-    return console.log "###\n Unable to compile coffeescript, check ./application.coffee:\n\n#{compileError}###" if compileError
+    if compileError
+      runningCoffeeCompile = runningTemplateCompile = false
+      console.log "runningCoffeeCompile = false and runningTemplateCompile = false"
+      return console.log "###\n Unable to compile coffeescript, check ./application.coffee:\n\n#{compileError}###"
 
     console.log "  #{appContents.length} coffeescripts"
     processTemplates(templateFiles, true)
 
-    fs.unlink 'application.coffee'
+    fs.unlinkSync 'application.coffee'
+    runningCoffeeCompile = false
+    console.log "runningCoffeeCompile = false"
 
 processTemplates = (templateFiles, concatenateToApplication = true) ->
   templateFiles = _.map(templateFiles, (file) -> "src/#{file}.hbs")
 
-  return unless templateFiles.length > 0
+  if templateFiles.length == 0
+    runningTemplateCompile = false
+    console.log "runningTemplateCompile = false"
+    return
+
 
   # Compile the handlebars to stdout to remove the need to write and
   # read an extra file
@@ -83,4 +112,6 @@ processTemplates = (templateFiles, concatenateToApplication = true) ->
 
     fs.writeFileSync 'js/application.js', [stdout, fileContents].join("\n;\n")
     console.log "  #{templateFiles.length} templates"
+    runningTemplateCompile = false
+    console.log "runningTemplateCompile = false"
 
