@@ -27,12 +27,10 @@ exports.compile = (watch) ->
 
 concatenateSync = ->
   if runningCoffeeCompile or runningTemplateCompile
-    console.log "runningCoffeeCompile:#{runningCoffeeCompile}, runningTemplateCompile:#{runningTemplateCompile}, so waiting"
     setTimeout(concatenateSync, 200)
   else
     runningCoffeeCompile = true
     runningTemplateCompile = true
-    console.log "about to start, set runningCoffeeCompile:#{runningCoffeeCompile}, runningTemplateCompile:#{runningTemplateCompile}"
     concatenate()
 
 # Concatenate CS into one file
@@ -67,16 +65,12 @@ getNonTemplateFiles = (files) ->
 
 process = (appContents, templateFiles)->
   if fs.existsSync('application.coffee')
-    console.log "application.coffee exists, deleting it"
     fs.unlinkSync 'application.coffee'
-  else
-    console.log "application.coffee does not exists"
 
   fs.appendFileSync 'application.coffee', appContents.join('\n\n'), 'utf8'
   exec 'coffee  --output js/ --compile application.coffee', (compileError, stdout, stderr) ->
     if compileError
       runningCoffeeCompile = runningTemplateCompile = false
-      console.log "runningCoffeeCompile = false and runningTemplateCompile = false"
       return console.log "###\n Unable to compile coffeescript, check ./application.coffee:\n\n#{compileError}###"
 
     console.log "  #{appContents.length} coffeescripts"
@@ -84,14 +78,12 @@ process = (appContents, templateFiles)->
 
     fs.unlinkSync 'application.coffee'
     runningCoffeeCompile = false
-    console.log "runningCoffeeCompile = false"
 
 processTemplates = (templateFiles, concatenateToApplication = true) ->
   templateFiles = _.map(templateFiles, (file) -> "src/#{file}.hbs")
 
   if templateFiles.length == 0
     runningTemplateCompile = false
-    console.log "runningTemplateCompile = false"
     return
 
 
@@ -113,5 +105,4 @@ processTemplates = (templateFiles, concatenateToApplication = true) ->
     fs.writeFileSync 'js/application.js', [stdout, fileContents].join("\n;\n")
     console.log "  #{templateFiles.length} templates"
     runningTemplateCompile = false
-    console.log "runningTemplateCompile = false"
 
