@@ -18,18 +18,16 @@
     <script src="../../lib/handlebars.js"></script>
     <script src="../../lib/underscore-min.js"></script>
     <script src="../../lib/backbone-min.js"></script>
+    <script src="../../lib/diorama.js"></script>
+
     <script>
-      mocha.setup({    
+      mocha.setup({
         ui: 'bdd',
         globals: ['$', 'jQuery*']
       })
     </script>                
 
-    <!-- include source files here... -->
-    <script src="../../lib/diorama.js"></script>
-
-    <!-- include spec files here... -->
-    <script src='js/nesting_view.js'></script>
+    <script src="js/application.js"></script>
 
     <!-- trigger the mocha runner -->
     <script>
