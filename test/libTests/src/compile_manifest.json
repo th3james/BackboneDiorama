@@ -1,3 +1,11 @@
 [
+  "templates/test_nesting_parent",
+  "views/test_nesting_parent_view",
+  "templates/test_nesting_child",
+  "views/test_nesting_child_view",
+  "templates/second_nesting_parent",
+  "views/second_nesting_parent_view",
+  "templates/second_nesting_child",
+  "views/second_nesting_child_view",
   "spec/nesting_view"
 ]
