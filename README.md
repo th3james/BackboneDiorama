@@ -151,6 +151,9 @@ line like:
 ### Tests
 
 Tests are written using mocha, and in the test/ folder (somewhat
-unsurprisingly). Run them with:
+unsurprisingly). Run the diorama command tests with:
 
     npm test
+
+There are integrations tests for the Diorama libraries in test/libTests, open
+index.html in that folder to run them.
