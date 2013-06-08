@@ -21,7 +21,7 @@ class Backbone.Views.PostIndexView extends Backbone.Diorama.NestingView
     # Close any existing views
     @closeSubViews()
     # Render template, creating subviews with subView helper (see template below)
-    @$el.html(@template(posts: @postCollection.models))
+    @$el.html(@template(thisView: @, posts: @postCollection.models))
     # Render sub views into the elements created by subView helper in the template
     @renderSubViews()
 
@@ -36,7 +36,7 @@ class Backbone.Views.PostIndexView extends Backbone.Diorama.NestingView
 <h1>PostIndex</h1>
 {{#each posts}}
   <!-- Create a PostRowView for each post, and add it to the template with subView -->
-  {{subView "PostRowView" model=this}}
+  {{addSubViewTo ../thisView "PostRowView" model=this}}
 {{/each}}
 ```
 
