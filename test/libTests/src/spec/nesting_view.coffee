@@ -15,4 +15,8 @@ describe 'Backbone.Diorama.NestingView', ->
 
       it 'outputs the correct child template', ->
         expect($('#test-container > div').html()).to.match(/.*TestNestingChild.*/)
+    
+    after ->
+      viewToRender.close()
+      $('#test-container').empty()
 
