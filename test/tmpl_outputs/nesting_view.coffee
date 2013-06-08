@@ -9,7 +9,7 @@ class Backbone.Views.PostIndexView extends Backbone.Diorama.NestingView
 
   render: =>
     @closeSubViews()
-    @$el.html(@template(view: @))
+    @$el.html(@template(thisView: @))
     @renderSubViews()
 
     return @
