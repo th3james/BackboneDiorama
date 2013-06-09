@@ -1,7 +1,7 @@
 # BackboneDiorama
 
 BackboneDiorama is everything you need to build client-side web applications.
-Optimised for developer happiness, it builds on the components of Backbone.js
+Optimised for developer happiness, it builds on the components of [Backbone.js](http://backbonejs.org)
 and aims to be the easiest and the fastest way to build for the browser.
 
 * `diorama new projectName` builds you a new project with:
@@ -11,7 +11,7 @@ and aims to be the easiest and the fastest way to build for the browser.
 * `diorama generate <lots-of-stuff>` - Rails-style code generators which provide convention and structure to your projects, assist you with proven patterns and allow you to rapidly prototype. Run `diorama generate` for [the full list](src/commands/generators#backbonediorama-generators).
 * Additional lightweight libraries to plug the gaps in Backbone.js:
   * [*Backbone.Diorama.ManagedRegion*](src/lib/diorama_managed_region.md) - Memory managed view switching.
-  * [*Backbone.Diorama.Controller*](src/lib/diorama_controller.md) - Easy switching betweens states in your application.
+  * [*Backbone.Diorama.Controller*](src/lib/diorama_controller.md) - Easy switching between states in your application.
   * [*Backbone.Diorama.NestingView*](src/lib/diorama_nesting_view.md) - Nest Backbone.Views inside each other.
 * New to Backbone.js? The built in conventions and patterns mean there's no easier way to get started.
 * Written entirely in and for Coffeescript, for clarity and elegance of code.
