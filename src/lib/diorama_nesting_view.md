@@ -50,12 +50,12 @@ element until you call parentNestingView.renderSubViews()
 
 * ```nestingView``` - The first argument is the parent nesting view object, typically the view whose template is being generated. If you used a generator to create your nesting view, this will be passed into the template as ```thisView```
 * ```childViewName``` - The class name of the child view you want to insert. This will expect the view to be namespaced in Backbone.Views, e.g. given 'PostRowView', it create an instance of Backbone.View.PostRowView
-* ```optionsHash``` - An options hash, which will be passed into the constructor for the view named by childViewName.
+* ```optionsHash``` - (optional) An options hash, which will be passed into the constructor for the view named by childViewName.
 
 Example:
 
 ```hbs
-  <!-- Add a Backbone.Views.PostRowView for the post model into the current NestingView -->
+  <!-- Add a new Backbone.Views.PostRowView for the post model into the current NestingView -->
   {{addSubViewTo thisView "PostRowView" model=post}} 
 ``` 
 
