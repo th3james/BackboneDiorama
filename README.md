@@ -134,7 +134,7 @@ Backbone.Diorama.NestingView makes it easy to stack views like this.
 
 ## Authors
 
-BackbonDiorama was developed by myself (James Cox,
+BackboneDiorama was developed by myself (James Cox,
 [@th3james](https://twitter.com/th3james)) and Adam Mulligan
 ([@amulligan](https://twitter.com/amulligan))
 
