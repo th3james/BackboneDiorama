@@ -78,6 +78,14 @@ argument:
 
     diorama compile
 
+## Example apps
+
+#### TodoMVC
+TodoMVC-style app, built by @amulligan:
+[https://github.com/adammulligan/TodoMVC](https://github.com/adammulligan/TodoMVC)
+
+We'll be adding more examples here soon.
+
 ## Using BackboneDiorama with Rails and other server frameworks
 
 BackboneDiorama is ready to drop straight into your server side framework.
