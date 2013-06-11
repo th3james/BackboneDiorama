@@ -23,9 +23,9 @@ generators...) and if you've got any feedback or suggestions, we'd love to hear
 from you!
 
 ## Installation
-Install backbone diorama as an NPM package:
+Install Backbone Diorama (and its handlebars dependency) as an NPM package:
 
-    npm install -g backbone-diorama
+    npm install -g handlebars backbone-diorama
 
 ## Usage
 
