@@ -23,9 +23,9 @@ generators...) and if you've got any feedback or suggestions, we'd love to hear
 from you!
 
 ## Installation
-Install backbone diorama as an NPM package:
+Install Backbone Diorama (and its handlebars dependency) as an NPM package:
 
-    npm install -g backbone-diorama
+    npm install -g handlebars backbone-diorama
 
 ## Usage
 
@@ -78,6 +78,14 @@ argument:
 
     diorama compile
 
+## Example apps
+
+#### TodoMVC
+TodoMVC-style app, built by @amulligan:
+[https://github.com/adammulligan/TodoMVC](https://github.com/adammulligan/TodoMVC)
+
+We'll be adding more examples here soon.
+
 ## Using BackboneDiorama with Rails and other server frameworks
 
 BackboneDiorama is ready to drop straight into your server side framework.
@@ -126,7 +134,7 @@ Backbone.Diorama.NestingView makes it easy to stack views like this.
 
 ## Authors
 
-BackbonDiorama was developed by myself (James Cox,
+BackboneDiorama was developed by myself (James Cox,
 [@th3james](https://twitter.com/th3james)) and Adam Mulligan
 ([@amulligan](https://twitter.com/amulligan))
 
