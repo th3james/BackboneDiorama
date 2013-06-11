@@ -4,6 +4,7 @@ BackboneDiorama is everything you need to build client-side web applications.
 Optimised for developer happiness, it builds on the components of [Backbone.js](http://backbonejs.org)
 and aims to be the easiest and the fastest way to build for the browser.
 
+#### Features
 * `diorama new projectName` builds you a new project with:
   * Logical project structure for Backbone components
   * Coffeescript concatenation and compilation setup
@@ -82,9 +83,15 @@ argument:
 
 #### TodoMVC
 TodoMVC-style app, built by @amulligan:
-[https://github.com/adammulligan/TodoMVC](https://github.com/adammulligan/TodoMVC)
 
-We'll be adding more examples here soon.
+* [https://github.com/adammulligan/TodoMVC](https://github.com/adammulligan/TodoMVC)
+
+#### BrowserLoop
+An attempt to create Ableton-like music remixing in the browser, built by @th3james:
+
+* [https://github.com/th3james/browserLoop](https://github.com/th3james/browserLoop)
+
+Used diorama in a project you want to share? Let us know and we'll add it here.
 
 ## Using BackboneDiorama with Rails and other server frameworks
 
