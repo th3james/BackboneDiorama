@@ -21,8 +21,9 @@ class Backbone.Diorama.NestingView extends Backbone.View
     return @generateSubViewPlaceholderTag(view)
 
   generateSubViewPlaceholderTag: (subView) ->
-    html = "<#{subView.tagName} data-sub-view-cid=\"#{subView.cid}\"></#{subView.tagName}>"
-    return new Handlebars.SafeString(html)
+    el = subView.el
+    $(el).attr('data-sub-view-cid', subView.cid)
+    return new Handlebars.SafeString(@htmlNodeToString(el))
 
   renderSubViews: ->
     if @subViews?
@@ -36,3 +37,11 @@ class Backbone.Diorama.NestingView extends Backbone.View
         subView.onClose()
         subView.close()
     @subViews = []
+
+
+  htmlNodeToString: (node) ->
+    tmpNode = document.createElement("div")
+    tmpNode.appendChild node.cloneNode(true)
+    str = tmpNode.innerHTML
+    tmpNode = node = null # prevent memory leaks in IE
+    str
