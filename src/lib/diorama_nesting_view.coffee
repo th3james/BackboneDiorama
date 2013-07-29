@@ -21,7 +21,9 @@ class Backbone.Diorama.NestingView extends Backbone.View
     return @generateSubViewPlaceholderTag(view)
 
   generateSubViewPlaceholderTag: (subView) ->
-    html = "<#{subView.tagName} data-sub-view-cid=\"#{subView.cid}\"></#{subView.tagName}>"
+    classAttribute = ''
+    classAttribute = "class=\"#{subView.className}\""
+    html = "<#{subView.tagName} #{classAttribute} data-sub-view-cid=\"#{subView.cid}\"></#{subView.tagName}>"
     return new Handlebars.SafeString(html)
 
   renderSubViews: ->

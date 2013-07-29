@@ -16,11 +16,21 @@ test('when 2 nesting views exist, older views render in the correct context', ->
 )
 
 test('.generateSubViewPlaceholderTag respects the tagName attribute', ->
-  class TestSubView
+  class TestSubView extends Backbone.View
     tagName: 'section'
 
   nestingView = new Backbone.Diorama.NestingView()
-  html = nestingView.generateSubViewPlaceholderTag(new TestSubView())
+  html = nestingView.generateSubViewPlaceholderTag(new TestSubView()).toString()
   
   assert.match(html, new RegExp(".*</#{TestSubView::tagName}>"))
+)
+
+test('.generateSubViewPlaceholderTag respects the className attribute', ->
+  class TestSubView extends Backbone.View
+    className: 'someClass'
+
+  nestingView = new Backbone.Diorama.NestingView()
+  html = nestingView.generateSubViewPlaceholderTag(new TestSubView()).toString()
+  
+  assert.match(html, new RegExp(".*class=\"#{TestSubView::className}"))
 )
