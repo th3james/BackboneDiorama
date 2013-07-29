@@ -1,22 +1,24 @@
-describe 'Backbone.Diorama.NestingView', ->
-  describe '2 nesting views exist', ->
-    viewToRender = null
-    before ->
-      viewToRender = new Backbone.Views.TestNestingParentView()
+suite 'Backbone.Diorama.NestingView'
 
-      newerView = new Backbone.Views.SecondNestingParentView()
+test('when 2 nesting views exist, older views render in the correct context', ->
+  viewToRender = new Backbone.Views.TestNestingParentView()
+  newerView = new Backbone.Views.SecondNestingParentView()
 
-    describe 'rendering the older view', ->
-      before ->
-        $('#test-container').append(viewToRender.render().el)
+  $('#test-container').append(viewToRender.render().el)
 
-      it 'outputs the correct parent template', ->
-        expect($('#test-container > div').html()).to.match(/.*TestNestingParent.*/)
+  expect($('#test-container > div').html()).to.match(/.*TestNestingParent.*/)
+  expect($('#test-container > div').html()).to.match(/.*TestNestingChild.*/)
 
-      it 'outputs the correct child template', ->
-        expect($('#test-container > div').html()).to.match(/.*TestNestingChild.*/)
-    
-    after ->
-      viewToRender.close()
-      $('#test-container').empty()
+  viewToRender.close()
+  $('#test-container').empty()
+)
 
+test('.generateSubViewPlaceholderTag respects the tagName attribute', ->
+  class TestSubView
+    tagName: 'section'
+
+  nestingView = new Backbone.Diorama.NestingView()
+  html = nestingView.generateSubViewPlaceholderTag(new TestSubView())
+  
+  expect(html).to.match(new RegExp(".*</#{TestSubView::tagName}>"))
+)
