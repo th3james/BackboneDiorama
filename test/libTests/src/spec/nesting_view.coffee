@@ -1,3 +1,5 @@
+assert = chai.assert
+
 suite 'Backbone.Diorama.NestingView'
 
 test('when 2 nesting views exist, older views render in the correct context', ->
@@ -6,8 +8,8 @@ test('when 2 nesting views exist, older views render in the correct context', ->
 
   $('#test-container').append(viewToRender.render().el)
 
-  expect($('#test-container > div').html()).to.match(/.*TestNestingParent.*/)
-  expect($('#test-container > div').html()).to.match(/.*TestNestingChild.*/)
+  assert.match($('#test-container > div').html(), /.*TestNestingParent.*/)
+  assert.match($('#test-container > div').html(), /.*TestNestingChild.*/)
 
   viewToRender.close()
   $('#test-container').empty()
@@ -20,5 +22,5 @@ test('.generateSubViewPlaceholderTag respects the tagName attribute', ->
   nestingView = new Backbone.Diorama.NestingView()
   html = nestingView.generateSubViewPlaceholderTag(new TestSubView())
   
-  expect(html).to.match(new RegExp(".*</#{TestSubView::tagName}>"))
+  assert.match(html, new RegExp(".*</#{TestSubView::tagName}>"))
 )
