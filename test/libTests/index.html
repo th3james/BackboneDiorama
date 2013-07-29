@@ -12,7 +12,7 @@
     <div id="test-container"></div>
 
     <script src="lib/mocha/mocha.js"></script>
-    <script src="lib/expect.js"></script>
+    <script src="lib/chai.js"></script>
     <script src="lib/sinon-1.6.0.js"></script>
     <script src="../../lib/jquery-1.9.1.min.js"></script>
     <script src="../../lib/json2.js"></script>
@@ -23,7 +23,7 @@
 
     <script>
       mocha.setup({
-        ui: 'bdd',
+        ui: 'qunit',
         globals: ['$', 'jQuery*']
       })
     </script>                
