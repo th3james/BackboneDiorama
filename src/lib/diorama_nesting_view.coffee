@@ -6,17 +6,36 @@ class Backbone.Diorama.NestingView extends Backbone.View
     Handlebars.registerHelper('addSubViewTo', @addSubViewTo)
     super
 
-  addSubViewTo: (view, subViewName, options) =>
-    @addSubView.call(view, subViewName, options)
+  addSubViewTo: (view, subViewName, cacheKeyTemplate, options) =>
+    if arguments.length == 3
+      options = cacheKeyTemplate
+      @addSubView.call(view, subViewName, options)
+    else
+      @addSubView.call(view, subViewName, cacheKeyTemplate, options)
 
-  addSubView: (viewName, options) ->
+  addSubView: (viewName, cacheKeyTemplate, options) ->
+    if arguments.length == 2
+      options = cacheKeyTemplate
+      cacheKeyTemplate = null
+
     viewOptions = options.hash || {}
 
-    View = Backbone.Views[viewName]
-    view = new View(viewOptions)
+    if cacheKeyTemplate?
+      compiledTemplate = Handlebars.compile(cacheKeyTemplate)
+      cacheKey = compiledTemplate(viewOptions)
+    else
+      cacheKey = null
 
-    @subViews ||= []
-    @subViews.push(view)
+    @subViews ||= {}
+
+    if @subViews[cacheKey]?
+      view = @subViews[cacheKey]
+    else
+      View = Backbone.Views[viewName]
+      view = new View(viewOptions)
+
+      cacheKey ||= view.cid
+      @subViews[cacheKey] = view
 
     return @generateSubViewPlaceholderTag(view)
 

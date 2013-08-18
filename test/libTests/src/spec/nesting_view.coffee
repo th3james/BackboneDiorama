@@ -72,7 +72,7 @@ test('When using a addSubViewTo tag with a cache key,
   calling render again on the parent view does not re-render the child,
   but the child remains visible', ->
   subViewRenderCount = 0
-  class CommentView extends Backbone.View
+  class Backbone.Views.CommentView extends Backbone.View
     id: 'comment-view'
 
     render: ->
@@ -83,14 +83,17 @@ test('When using a addSubViewTo tag with a cache key,
     template:
       Handlebars.compile("
         <h1>PostView</h1>
-        {{addSubViewTo thisView 'TestSubView' 'comment-view-{{model.cid}}' model=comment}}
+        {{addSubViewTo thisView 'CommentView' 'comment-view-{{model.cid}}' model=comment}}
       ")
 
     initialize: ->
       @comment = new Backbone.Model()
 
     render: ->
-      @$el.html(@template(comment: @comment))
+      @$el.html(@template(
+        thisView: @
+        comment: @comment
+      ))
       @attachSubViews()
 
   postView = new PostView()
@@ -104,4 +107,28 @@ test('When using a addSubViewTo tag with a cache key,
   assert.strictEqual 1, subViewRenderCount
   assert.length postView.$el.find('comment-view').length, 1
   assert.strictEqual postView.subViews["comment-view-#{postView.comment.cid}"].cid, firstSubViewCid
+)
+
+test('.addSubView when given a cacheKeyTemplate that resolves to view that already exists,
+  it uses the existing view, rather than creating a new one', ->
+  class Backbone.Views.TestSubView extends Backbone.View
+
+  nestingView = new Backbone.Diorama.NestingView()
+  nestingView.subViews = {}
+  nestingView.subViews['existing-sub-view-1'] = existingSubView = new Backbone.Views.TestSubView()
+
+  nestingView.addSubView('TestSubView', 'existing-sub-view-{{model.cid}}', hash:
+    model: {cid: 1}
+  )
+    
+  assert.strictEqual(
+    nestingView.subViews['existing-sub-view-1'].cid,
+    existingSubView.cid
+  )
+
+  # Should not have created any new keys
+  subViewKeys = []
+  for k of nestingView.subViews
+    subViewKeys.push k
+  assert.lengthOf subViewKeys, 1
 )
