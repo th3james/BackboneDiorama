@@ -67,3 +67,41 @@ test('.generateSubViewPlaceholderTag respects the className attribute', ->
     "View element does not have the correct class attribute"
   )
 )
+
+test('When using a addSubViewTo tag with a cache key,
+  calling render again on the parent view does not re-render the child,
+  but the child remains visible', ->
+  subViewRenderCount = 0
+  class CommentView extends Backbone.View
+    id: 'comment-view'
+
+    render: ->
+      subViewRenderCount = subViewRenderCount + 1
+      @$el.html("render count: #{subViewRenderCount}")
+
+  class PostView extends Backbone.Diorama.NestingView
+    template:
+      Handlebars.compile("
+        <h1>PostView</h1>
+        {{addSubViewTo thisView 'TestSubView' 'comment-view-{{model.cid}}' model=comment}}
+      ")
+
+    initialize: ->
+      @comment = new Backbone.Model()
+
+    render: ->
+      @$el.html(@template(comment: @comment))
+      @attachSubViews()
+
+  postView = new PostView()
+  $('#test-container').html(postView.render().el)
+
+  assert.strictEqual 1, subViewRenderCount
+  firstSubViewCid = postView.subViews["comment-view-#{postView.comment.cid}"].cid
+
+  postView.render()
+
+  assert.strictEqual 1, subViewRenderCount
+  assert.length postView.$el.find('comment-view').length, 1
+  assert.strictEqual postView.subViews["comment-view-#{postView.comment.cid}"].cid, firstSubViewCid
+)
