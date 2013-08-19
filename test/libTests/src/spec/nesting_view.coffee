@@ -15,17 +15,18 @@ test('when 2 nesting views exist, older views render in the correct context', ->
   $('#test-container').empty()
 )
 
-
-test('.generateSubViewPlaceholderTag adds a data-sub-view-cid attribute to the view.el', ->
+test('.generateSubViewPlaceholderTag adds a data-sub-view-key attribute
+  with the given key to the view.el', ->
   class TestSubView extends Backbone.View
 
   nestingView = new Backbone.Diorama.NestingView()
   subView = new TestSubView()
-  html = nestingView.generateSubViewPlaceholderTag(subView).toString()
+  subViewKey = "test-sub-view-#{subView.cid}"
+  html = nestingView.generateSubViewPlaceholderTag(subView, subViewKey).toString()
 
   viewElement = $.parseHTML(html)[0]
   
-  assert.equal($(viewElement).attr('data-sub-view-cid'), subView.cid)
+  assert.equal($(viewElement).attr('data-sub-view-key'), subViewKey)
 )
 
 test('.generateSubViewPlaceholderTag respects the tagName attribute', ->
@@ -132,3 +133,28 @@ test('.addSubView when given a cacheKeyTemplate that resolves to view that alrea
     subViewKeys.push k
   assert.lengthOf subViewKeys, 1
 )
+
+test('.addSubView when not given a cacheKeyTemplate,
+  deletes the existing view and creates a new one', ->
+  class Backbone.Views.TestSubView extends Backbone.View
+
+  nestingView = new Backbone.Diorama.NestingView()
+  nestingView.subViews = {}
+  existingSubView = new Backbone.Views.TestSubView()
+  nestingView.subViews[existingSubView.cid] = existingSubView
+
+  nestingView.addSubView('TestSubView', hash:
+    model: {cid: 1}
+  )
+    
+  # No value at old sub view key
+  assert.isNull(nestingView.subViews[existingSubView.cid])
+
+  # Should have created new view
+  subViews = []
+  for k, v of nestingView.subViews
+    subViews.push v
+  assert.lengthOf subViewKeys, 1
+  assert.notEqual subViewKeys[0].cid, existingSubView.cid
+)
+
