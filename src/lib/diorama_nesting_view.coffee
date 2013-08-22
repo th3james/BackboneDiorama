@@ -37,7 +37,7 @@ class Backbone.Diorama.NestingView extends Backbone.View
       cacheKey ||= view.cid
       @subViews[cacheKey] = view
 
-    return @generateSubViewPlaceholderTag(view)
+    return @generateSubViewPlaceholderTag(view, cacheKey)
 
   generateSubViewPlaceholderTag: (subView, cacheKey) ->
     el = subView.el
@@ -50,6 +50,12 @@ class Backbone.Diorama.NestingView extends Backbone.View
         # No placeholder found, close view
         subView.close()
         delete @subViews[key]
+
+  attachSubViews: ->
+    @closeSubViewsWithoutPlaceholders()
+    if @subViews?
+      for key, subView of @subViews
+        subView.setElement(@$el.find("[data-sub-view-key=\"#{key}\"]"))
 
   renderSubViews: ->
     if @subViews?

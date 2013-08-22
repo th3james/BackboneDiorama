@@ -76,6 +76,9 @@ test('When using a addSubViewTo tag with a cache key,
   class Backbone.Views.CommentView extends Backbone.View
     id: 'comment-view'
 
+    initialize: ->
+      @render()
+
     render: ->
       subViewRenderCount = subViewRenderCount + 1
       @$el.html("render count: #{subViewRenderCount}")
@@ -96,18 +99,21 @@ test('When using a addSubViewTo tag with a cache key,
         comment: @comment
       ))
       @attachSubViews()
+      return @
 
   postView = new PostView()
   $('#test-container').html(postView.render().el)
 
-  assert.strictEqual 1, subViewRenderCount
+  assert.strictEqual subViewRenderCount, 1
   firstSubViewCid = postView.subViews["comment-view-#{postView.comment.cid}"].cid
 
   postView.render()
 
-  assert.strictEqual 1, subViewRenderCount
-  assert.length postView.$el.find('comment-view').length, 1
+  assert.strictEqual subViewRenderCount, 1
+  assert.lengthOf postView.$el.find('#comment-view'), 1
   assert.strictEqual postView.subViews["comment-view-#{postView.comment.cid}"].cid, firstSubViewCid
+  
+  postView.close()
 )
 
 test('.addSubView when given a cacheKeyTemplate that resolves to view that already exists,
@@ -118,10 +124,13 @@ test('.addSubView when given a cacheKeyTemplate that resolves to view that alrea
   nestingView.subViews = {}
   nestingView.subViews['existing-sub-view-1'] = existingSubView = new Backbone.Views.TestSubView()
 
-  nestingView.addSubView('TestSubView', 'existing-sub-view-{{model.cid}}', hash:
+  generatedTag = nestingView.addSubView('TestSubView', 'existing-sub-view-{{model.cid}}', hash:
     model: {cid: 1}
   )
-    
+
+  # Rendered tag with correct cache key
+  assert.match generatedTag.toString(), new RegExp(".*data-sub-view-key=\"existing-sub-view-1\".*")
+
   assert.strictEqual(
     nestingView.subViews['existing-sub-view-1'].cid,
     existingSubView.cid
