@@ -8,9 +8,8 @@ class Backbone.Views.SecondNestingParentView extends Backbone.Diorama.NestingVie
     @render()
 
   render: =>
-    @closeSubViews()
     @$el.html(@template(thisView: @))
-    @renderSubViews()
+    @attachSubViews()
 
     return @
 

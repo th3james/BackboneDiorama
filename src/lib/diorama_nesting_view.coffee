@@ -58,10 +58,8 @@ class Backbone.Diorama.NestingView extends Backbone.View
         subView.setElement(@$el.find("[data-sub-view-key=\"#{key}\"]"))
 
   renderSubViews: ->
-    if @subViews?
-      for subView in @subViews
-        subView.setElement(@$el.find("[data-sub-view-cid=\"#{subView.cid}\"]"))
-        subView.render()
+    throw "Diorama.NestingView.renderSubViews is deprecated,
+      please use attachSubViews instead"
 
   closeSubViews: ->
     if @subViews?
