@@ -135,7 +135,7 @@ test('.addSubView when given a cacheKeyTemplate that resolves to view that alrea
 )
 
 test('.addSubView when not given a cacheKeyTemplate,
-  deletes the existing view and creates a new one', ->
+  creates a new view', ->
   class Backbone.Views.TestSubView extends Backbone.View
 
   nestingView = new Backbone.Diorama.NestingView()
@@ -147,14 +147,57 @@ test('.addSubView when not given a cacheKeyTemplate,
     model: {cid: 1}
   )
     
-  # No value at old sub view key
-  assert.isNull(nestingView.subViews[existingSubView.cid])
-
   # Should have created new view
   subViews = []
   for k, v of nestingView.subViews
     subViews.push v
-  assert.lengthOf subViewKeys, 1
-  assert.notEqual subViewKeys[0].cid, existingSubView.cid
+  assert.lengthOf subViews, 2
 )
 
+test(".closeSubViewsWithoutPlaceholders should close sub views which don't have
+  placeholder elements inside the parent nesting view", ->
+  class Backbone.Views.TestSubView extends Backbone.View
+
+  nestingView = new Backbone.Diorama.NestingView()
+  nestingView.subViews = {}
+
+  placeholderlessView = new Backbone.Views.TestSubView()
+  nestingView.subViews['non-existent-placeholder-key'] = placeholderlessView
+
+  subViewCloseSpy = sinon.spy(placeholderlessView, 'close')
+
+  nestingView.closeSubViewsWithoutPlaceholders()
+
+  assert.isUndefined nestingView.subViews['non-existent-placeholder-key']
+  assert.ok(
+    subViewCloseSpy.calledOnce,
+    "expected subViewCloseSpy to be called once, but it was called #{subViewCloseSpy.callCount} times"
+  )
+  subViewCloseSpy.restore()
+)
+
+test(".closeSubViewsWithoutPlaceholders should not close sub views which have
+  placeholder elements inside the parent nesting view", ->
+  class Backbone.Views.TestSubView extends Backbone.View
+
+  nestingView = new Backbone.Diorama.NestingView()
+  nestingView.subViews = {}
+
+  viewWithPlaceholder = new Backbone.Views.TestSubView()
+  nestingView.subViews['placeholder-key'] = viewWithPlaceholder
+
+  # Insert placeholder key
+  nestingView.$el.append("<div data-sub-view-key='placeholder-key'></div>")
+
+  subViewCloseSpy = sinon.spy(viewWithPlaceholder, 'close')
+
+  nestingView.closeSubViewsWithoutPlaceholders()
+
+  assert.strictEqual nestingView.subViews['placeholder-key'].cid, viewWithPlaceholder.cid
+  assert.strictEqual(
+    subViewCloseSpy.callCount,
+    0,
+    "expected subViewCloseSpy not to be called, but it was called #{subViewCloseSpy.callCount} times"
+  )
+  subViewCloseSpy.restore()
+)

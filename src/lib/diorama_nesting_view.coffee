@@ -44,6 +44,13 @@ class Backbone.Diorama.NestingView extends Backbone.View
     $(el).attr('data-sub-view-key', cacheKey)
     return new Handlebars.SafeString(@htmlNodeToString(el))
 
+  closeSubViewsWithoutPlaceholders: ->
+    for key, subView of @subViews
+      if @$el.find("[data-sub-view-key=\"#{key}\"]").length == 0
+        # No placeholder found, close view
+        subView.close()
+        delete @subViews[key]
+
   renderSubViews: ->
     if @subViews?
       for subView in @subViews
