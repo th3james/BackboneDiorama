@@ -210,3 +210,19 @@ test(".closeSubViewsWithoutPlaceholders should not close sub views which have
   )
   subViewCloseSpy.restore()
 )
+
+test('.closeSubViews should call close on all sub views', ->
+  nestingView = new Backbone.Diorama.NestingView()
+  nestingView.subViews =
+    someKey: new Backbone.View()
+    someKeyOther: new Backbone.View()
+
+  viewCloseSpy = sinon.spy(Backbone.View::, 'close')
+
+  nestingView.closeSubViews()
+
+  assert.ok _.isEqual(nestingView.subViews, {})
+  assert.strictEqual viewCloseSpy.callCount, 2
+
+  viewCloseSpy.restore()
+)

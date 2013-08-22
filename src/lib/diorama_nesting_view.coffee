@@ -59,14 +59,13 @@ class Backbone.Diorama.NestingView extends Backbone.View
 
   renderSubViews: ->
     throw "Diorama.NestingView.renderSubViews is deprecated,
-      please use attachSubViews instead"
+      please use attachSubViews and call render in subView's initialize (or manually) instead"
 
   closeSubViews: ->
     if @subViews?
-      for subView in @subViews
-        subView.onClose()
+      for key, subView of @subViews
         subView.close()
-    @subViews = []
+    @subViews = {}
 
 
   htmlNodeToString: (node) ->
