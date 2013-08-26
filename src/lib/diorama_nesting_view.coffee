@@ -52,20 +52,27 @@ class Backbone.Diorama.NestingView extends Backbone.View
         delete @subViews[key]
 
   attachSubViews: ->
+    @dontShowRenderViewChangeMessage = true
     @closeSubViewsWithoutPlaceholders()
     if @subViews?
       for key, subView of @subViews
         subView.setElement(@$el.find("[data-sub-view-key=\"#{key}\"]"))
 
   renderSubViews: ->
-    throw new Error("Diorama.NestingView.renderSubViews is deprecated,
-      please use attachSubViews and call render in subView's initialize (or manually) instead")
+    unless @dontShowRenderViewChangeMessage?
+      error =  new Error("Diorama.NestingView.renderSubViews was called before attachSubViews! If
+  you've just upgraded diorama, check out the changes to NestingView here: 
+  http://gjigrhgdjhgdkj/")
+      error.stack
+      throw error
+    for key, subView of @subViews
+      subView.render()
 
   closeSubViews: ->
     if @subViews?
       for key, subView of @subViews
         subView.close()
-    @subViews = {}
+      @subViews = {}
 
 
   htmlNodeToString: (node) ->
