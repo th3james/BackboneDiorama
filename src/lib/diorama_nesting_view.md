@@ -67,7 +67,7 @@ class Backbone.Views.PostRowView extends Backbone.View
   template: Handlebars.templates['post_row.hbs']
 
   initialize: (options) ->
-    # Read in the post model send from the addSubViewTo handlebars helper
+    # Read in the post model sent from the addSubViewTo handlebars helper
     @post = options.post
     # Call render as soon as the view is created
     @render()
@@ -82,6 +82,9 @@ class Backbone.Views.PostRowView extends Backbone.View
 ```html
 <h2>{{post.title}}</h2>
 ```
+
+Now we have a PostRow view for each of our blog posts, which can setup its own
+event bindings for each model.
 
 ### Advanced: Utilising view caching and reuse
 In the code we've built so far, each time ```PostIndexView::render``` is
@@ -144,7 +147,7 @@ postIndexView.subViews['post-row-2'] # the new view
 
 ## The API
 
-## Handlebars helper
+### Handlebars helper
 
 #### {{ addSubViewTo nestingView childViewName (cache-key-template) (optionsHash) }}
 Call this helper to insert a sub view into a template at this point. Creates an
@@ -168,7 +171,7 @@ Examples:
   {{addSubViewTo thisView "TodoItem" "todo-item-{{task.cid}}" task=task}} 
 ``` 
 
-## Backbone.Diorama.NestingView methods
+### Backbone.Diorama.NestingView methods
 
 #### attachSubViews
 For each view in ```@subViews```, it sets the DOM element of the view to the
