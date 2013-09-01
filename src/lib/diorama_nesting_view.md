@@ -109,40 +109,40 @@ The cache key is a handlebars template, which uniquely identifies a sub view.
 The handlebars template will interpolate the variables in the next argument
 (which are passed to the sub view initialize function).
 
-Therefore, in the above example, with a post model with cid '1', the view with
-have a cache key ```'post-row-1'```. This key is used to store the view in ```postIndexView.subViews['post-row-1']```.
+Therefore, in the above example, with a post model with cid 'c1', the view with
+have a cache key ```'post-row-c1'```. This key is used to store the view in ```postIndexView.subViews['post-row-c1']```.
 
-If we call render again with post model '1' again, the view will reuse the sub
-view in ```postIndexView.subViews['post-row-1']```. If we remove post model '1'
-and call render again, the view in ```'post-row-1'``` will be closed and
+If we call render again with post model 'c1' again, the view will reuse the sub
+view in ```postIndexView.subViews['post-row-c1']```. If we remove post model 'c1'
+and call render again, the view in ```'post-row-c1'``` will be closed and
 deleted.  
 
 For example:
 
 ```coffee
-posts = new Backbone.Collection.PostCollection()
-# Add a post with cid = 1
+posts = new Backbone.Collections.PostCollection()
+# Add a post with cid = c1
 posts.push(new Backbone.Models.Post())
 
 # Create and render a postIndexView
-postIndexView = new Backbone.Views.PostIndex(postCollection: posts)
+postIndexView = new Backbone.Views.PostIndexView(postCollection: posts)
 
 # A PostRowView will have been created and stored here using the cache-key:
-postIndexView.subViews['post-row-1'] 
+postIndexView.subViews['post-row-c1'] 
 
-# Calling render() again will reuse the subView at 'post-row-1'
+# Calling render() again will reuse the subView at 'post-row-c1'
 postIndexView.render()
-postIndexView.subViews['post-row-1'] # Same view as above
+postIndexView.subViews['post-row-c1'] # Same view as above
 
-# remove post 1, add post 2 and re-render
+# remove post c1, add post c2 and re-render
 posts.pop()
 posts.push(new Backbone.Models.Post())
 postIndexView.render()
 
-# The view for post row 1 will be closed and deleted
-postIndexView.subViews['post-row-1'] # undefined
-# A new view has been created for post 2
-postIndexView.subViews['post-row-2'] # the new view
+# The view for post row c1 will be closed and deleted
+postIndexView.subViews['post-row-c1'] # undefined
+# A new view has been created for post c2
+postIndexView.subViews['post-row-c2'] # the new view
 ```
 
 ## The API
