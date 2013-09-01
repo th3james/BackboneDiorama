@@ -192,12 +192,12 @@ some reason
 
 
 ## Upgrading from diorama <0.1.2
-The syntax of NestingView was simplified in the 0.1.2 release, exist apps will
+The syntax of NestingView was simplified in the 0.1.2 release, existing apps will
 require some small changes. 
 
 #### Nesting view <0.1.2
-Render methods were previously required to call closeSubViews, then
-renderSubViews
+Render functions were previously required to call ```closeSubViews```,
+then ```renderSubViews```
 
 ```coffee
   render: =>
@@ -207,7 +207,7 @@ renderSubViews
 ```
 
 #### NestingView >= 0.1.2
-```closeSubView``` is no longer required (attachSubViews cleans up automatically), and ```attachSubViews``` replaces the call to ```renderSubViews```. The preferred pattern is to have sub views call render themselves, for example in their initialize function. If you would wish to emulate the behavior of diorama 0.1.1 you can call ```renderSubViews``` manually after ```attachSubViews```.
+```closeSubView``` is no longer required (attachSubViews cleans up automatically), and ```attachSubViews``` replaces the call to ```renderSubViews```. The preferred pattern is to have sub views call render themselves, for example in their initialize function, however, you can manually re-render (like diorama 0.1.1) by calling ```renderSubViews``` after ```attachSubViews```.
 
 ```coffee
   render: =>
