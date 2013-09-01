@@ -191,11 +191,11 @@ no need to call this, unless you want to force the children to re-render for
 some reason
 
 
-## Upgrading from diorama <0.1.2
-The syntax of NestingView was simplified in the 0.1.2 release, existing apps will
+## Upgrading from diorama <0.2.0
+The syntax of NestingView was simplified in the 0.2.0 release, existing apps will
 require some small changes. 
 
-#### Nesting view <0.1.2
+#### Nesting view <0.2.0
 Render functions were previously required to call ```closeSubViews```,
 then ```renderSubViews```
 
@@ -206,7 +206,7 @@ then ```renderSubViews```
     @renderSubViews() # Replaced with attachSubViews()
 ```
 
-#### NestingView >= 0.1.2
+#### NestingView >= 0.2.0
 ```closeSubView``` is no longer required (attachSubViews cleans up automatically), and ```attachSubViews``` replaces the call to ```renderSubViews```. The preferred pattern is to have sub views call render themselves, for example in their initialize function, however, you can manually re-render (like diorama 0.1.1) by calling ```renderSubViews``` after ```attachSubViews```.
 
 ```coffee
