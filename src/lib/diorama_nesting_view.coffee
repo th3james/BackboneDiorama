@@ -62,7 +62,7 @@ class Backbone.Diorama.NestingView extends Backbone.View
     unless @dontShowRenderViewChangeMessage?
       error =  new Error("Diorama.NestingView.renderSubViews was called before attachSubViews! If
   you've just upgraded diorama, check out the changes to NestingView here: 
-  http://gjigrhgdjhgdkj/")
+  https://github.com/th3james/BackboneDiorama/blob/master/src/lib/diorama_nesting_view.md#upgrading-from-diorama-012")
       error.stack
       throw error
     for key, subView of @subViews
