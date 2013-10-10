@@ -32,6 +32,8 @@ class Backbone.Diorama.NestingView extends Backbone.View
       view = @subViews[cacheKey]
     else
       View = Backbone.Views[viewName]
+      if !View?
+        throw new Error("Can't add subView 'Backbone.Views.#{viewName}', no such view exists")
       view = new View(viewOptions)
 
       cacheKey ||= view.cid

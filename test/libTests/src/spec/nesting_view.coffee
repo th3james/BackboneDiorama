@@ -163,6 +163,15 @@ test('.addSubView when not given a cacheKeyTemplate,
   assert.lengthOf subViews, 2
 )
 
+test(".addSubView when the name of a sub view that doesn't exist,
+  it throws an appropriate error", ->
+  nestingView = new Backbone.Diorama.NestingView()
+
+  assert.throws((->
+    nestingView.addSubView('MadeUpView', {})
+  ), "Can't add subView 'Backbone.Views.MadeUpView', no such view exists")
+)
+
 test(".closeSubViewsWithoutPlaceholders should close sub views which don't have
   placeholder elements inside the parent nesting view", ->
   class Backbone.Views.TestSubView extends Backbone.View
