@@ -284,7 +284,6 @@ view el should be inside the super parent el', ->
 
   assert.strictEqual(
     superParent.$el.find('.child-view')[0],
-    childView.el,
-    "Herp"
+    childView.el
   )
 )
