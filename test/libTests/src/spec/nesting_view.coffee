@@ -235,3 +235,56 @@ test('.closeSubViews should call close on all sub views', ->
 
   viewCloseSpy.restore()
 )
+
+test('when nesting a nesting view with a child, after rendering, the child sub
+view el should be inside the super parent el', ->
+  class SuperParent extends Backbone.Diorama.NestingView
+    template: Handlebars.compile """
+      <h1>Super Parent View</h1>
+      {{ addSubViewTo thisView "Parent" }}
+    """
+
+    initialize: -> @render()
+
+    render: ->
+      @$el.html(@template(thisView: @))
+      @attachSubViews()
+
+  class Backbone.Views.Parent extends Backbone.Diorama.NestingView
+    template: Handlebars.compile """
+      <h2>Parent View</h2>
+      {{ addSubViewTo thisView "Child" }}
+    """
+
+    initialize: -> @render()
+
+    render: ->
+      @$el.html(@template(thisView: @))
+      @attachSubViews()
+
+  class Backbone.Views.Child extends Backbone.View
+    template: Handlebars.compile """
+      <h3>Child View</h3>
+    """
+    className: 'child-view'
+
+    initialize: -> @render()
+
+    render: ->
+      @$el.html(@template(thisView: @))
+
+  superParent = new SuperParent()
+  superParent.render()
+
+  for key, view of superParent.subViews
+    parentView = view
+
+  for key, view of parentView.subViews
+    childView = view
+
+  assert.strictEqual(
+    superParent.$el.find('.child-view')[0],
+    childView.el,
+    "Herp"
+  )
+)
