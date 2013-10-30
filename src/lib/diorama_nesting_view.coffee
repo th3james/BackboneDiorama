@@ -58,7 +58,9 @@ class Backbone.Diorama.NestingView extends Backbone.View
     @closeSubViewsWithoutPlaceholders()
     if @subViews?
       for key, subView of @subViews
-        subView.setElement(@$el.find("[data-sub-view-key=\"#{key}\"]"))
+        placeholderEl = @$el.find("[data-sub-view-key=\"#{key}\"]")
+        subView.$el.insertBefore(placeholderEl)
+        placeholderEl.remove()
 
   renderSubViews: ->
     unless @dontShowRenderViewChangeMessage?
