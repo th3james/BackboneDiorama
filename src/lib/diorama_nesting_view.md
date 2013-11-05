@@ -92,8 +92,8 @@ called, all of the sub views are closed and replaced with new instances. While
 sometimes this is appropriate, often you may want to reuse subviews between
 render calls.
 
-Diorama.NestingView allows you to do this by specifying a cache key as a third
-argument to addSubViewTo. Cache keys mean you can re-render parent views
+`Diorama.NestingView` allows you to do this by specifying a cache key as a third
+argument to `addSubViewTo`. Cache keys mean you can re-render parent views
 without destroying or re-rendering their children, making state easier to
 handle and improving app performance.
 
