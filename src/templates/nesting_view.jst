@@ -8,9 +8,8 @@ class Backbone.Views.<%= _(name).classify() %>View extends Backbone.Diorama.Nest
     @render()
 
   render: =>
-    @closeSubViews()
     @$el.html(@template(thisView: @))
-    @renderSubViews()
+    @attachSubViews()
 
     return @
 

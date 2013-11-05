@@ -6,37 +6,77 @@ class Backbone.Diorama.NestingView extends Backbone.View
     Handlebars.registerHelper('addSubViewTo', @addSubViewTo)
     super
 
-  addSubViewTo: (view, subViewName, options) =>
-    @addSubView.call(view, subViewName, options)
+  addSubViewTo: (view, subViewName, cacheKeyTemplate, options) =>
+    if arguments.length == 3
+      options = cacheKeyTemplate
+      @addSubView.call(view, subViewName, options)
+    else
+      @addSubView.call(view, subViewName, cacheKeyTemplate, options)
 
-  addSubView: (viewName, options) ->
+  addSubView: (viewName, cacheKeyTemplate, options) ->
+    if arguments.length == 2
+      options = cacheKeyTemplate
+      cacheKeyTemplate = null
+
     viewOptions = options.hash || {}
 
-    View = Backbone.Views[viewName]
-    view = new View(viewOptions)
+    if cacheKeyTemplate?
+      compiledTemplate = Handlebars.compile(cacheKeyTemplate)
+      cacheKey = compiledTemplate(viewOptions)
+    else
+      cacheKey = null
 
-    @subViews ||= []
-    @subViews.push(view)
+    @subViews ||= {}
 
-    return @generateSubViewPlaceholderTag(view)
+    if @subViews[cacheKey]?
+      view = @subViews[cacheKey]
+    else
+      View = Backbone.Views[viewName]
+      if !View?
+        throw new Error("Can't add subView 'Backbone.Views.#{viewName}', no such view exists")
+      view = new View(viewOptions)
 
-  generateSubViewPlaceholderTag: (subView) ->
+      cacheKey ||= view.cid
+      @subViews[cacheKey] = view
+
+    return @generateSubViewPlaceholderTag(view, cacheKey)
+
+  generateSubViewPlaceholderTag: (subView, cacheKey) ->
     el = subView.el
-    $(el).attr('data-sub-view-cid', subView.cid)
+    $(el).attr('data-sub-view-key', cacheKey)
     return new Handlebars.SafeString(@htmlNodeToString(el))
 
-  renderSubViews: ->
+  closeSubViewsWithoutPlaceholders: ->
+    for key, subView of @subViews
+      if @$el.find("[data-sub-view-key=\"#{key}\"]").length == 0
+        # No placeholder found, close view
+        subView.close()
+        delete @subViews[key]
+
+  attachSubViews: ->
+    @dontShowRenderViewChangeMessage = true
+    @closeSubViewsWithoutPlaceholders()
     if @subViews?
-      for subView in @subViews
-        subView.setElement(@$el.find("[data-sub-view-cid=\"#{subView.cid}\"]"))
-        subView.render()
+      for key, subView of @subViews
+        placeholderEl = @$el.find("[data-sub-view-key=\"#{key}\"]")
+        subView.$el.insertBefore(placeholderEl)
+        placeholderEl.remove()
+
+  renderSubViews: ->
+    unless @dontShowRenderViewChangeMessage?
+      error =  new Error("Diorama.NestingView.renderSubViews was called before attachSubViews! If
+  you've just upgraded diorama, check out the changes to NestingView here: 
+  https://github.com/th3james/BackboneDiorama/blob/master/src/lib/diorama_nesting_view.md#upgrading-from-diorama-020")
+      error.stack
+      throw error
+    for key, subView of @subViews
+      subView.render()
 
   closeSubViews: ->
     if @subViews?
-      for subView in @subViews
-        subView.onClose()
+      for key, subView of @subViews
         subView.close()
-    @subViews = []
+      @subViews = {}
 
 
   htmlNodeToString: (node) ->
