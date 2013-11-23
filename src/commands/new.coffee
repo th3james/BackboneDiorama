@@ -36,3 +36,6 @@ exports.new = (projectName) ->
 
   console.log "Creating #{projectName}/index.html"
   sh.run("cp #{__dirname}/../../src/templates/index.html #{projectName}/index.html")
+
+  console.log "Creating #{projectName}/Gruntfile"
+  sh.run("cp #{__dirname}/../../src/templates/Gruntfile #{projectName}/src/Gruntfile")

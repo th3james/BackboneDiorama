@@ -31,6 +31,18 @@ describe('create a new project', ->
     assert.equal(foundDirs.length, expectedFiles.length)
   )
 
+  it("should have created a Gruntfile for compilation", ->
+    expectedFiles = ['Gruntfile']
+
+    foundDirs = fs.readdirSync('testProject/src/').filter((n) ->
+      if(expectedFiles.indexOf(n) == -1)
+        return false
+      return true
+    )
+
+    assert.equal(foundDirs.length, expectedFiles.length)
+  )
+
   it("should have created a manifest file", ->
     expectedFiles = ['compile_manifest.json']
 
