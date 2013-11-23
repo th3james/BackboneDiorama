@@ -9,7 +9,8 @@
     "underscore": "~1.4.3",
     "fs-extra": "~0.3.2",
     "underscore.string": "~2.3.0",
-    "node-watch": "~0.2.6"
+    "node-watch": "~1.2.6",
+    "execSync": "~1.0.1-pre"
   },
   "devDependencies": {
     "mocha": "*",
@@ -30,5 +31,7 @@
   "license": "MIT",
   "readmeFilename": "README.md",
   "gitHead": "6f0ae447cae8e96159e2568801ba5f28d7f8c8ba",
-  "bin": {"diorama": "./bin/diorama.coffee"}
+  "bin": {
+    "diorama": "./bin/diorama.coffee"
+  }
 }
