@@ -10,6 +10,3 @@ class Backbone.Views.TestNestingChildView extends Backbone.View
   render: ->
     @$el.html(@template())
     return @
-
-  onClose: ->
-    

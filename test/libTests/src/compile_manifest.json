@@ -7,5 +7,6 @@
   "views/second_nesting_parent_view",
   "templates/second_nesting_child",
   "views/second_nesting_child_view",
-  "spec/nesting_view"
+  "spec/nesting_view",
+  "spec/close_hook"
 ]

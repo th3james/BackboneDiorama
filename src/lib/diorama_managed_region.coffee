@@ -23,28 +23,26 @@ class Backbone.Diorama.ManagedRegion
   isEmpty: () ->
     return @$el.is(':empty')
 
-# Augment backbone view to add binding management and close method
-# Inspired by http://stackoverflow.com/questions/7567404/backbone-js-repopulate-or-recreate-the-view/7607853#7607853
-_.extend(Backbone.View.prototype, 
-
-  # Use instead of bind, creates a bind and stores the binding in @bindings
-  bindTo: (model, ev, callback) ->
-    model.bind(ev, callback, this)
-
-    @bindings = [] unless @bindings?
-    @bindings.push({ model: model, ev: ev, callback: callback })
-
-  # Unbinds all the bindings in @bindings
-  unbindFromAll: () ->
-    if @bindings?
-      _.each(@bindings, (binding) ->
-        binding.model.unbind(binding.ev, binding.callback))
-    @bindings = []
-
+# Add 'close' event to Backbone.View
+_.extend(Backbone.View::,
   # Clean up all bindings and remove elements from DOM
-  close: () ->
-    @unbindFromAll()
+  close: ->
+    if @onClose? and not @_functionIsBoundToEvent(@onClose, 'close')
+      throw new Error(
+        "onClose is no longer called automatically, please listenTo the view's 'close' event"
+      )
+    @trigger('close')
     @unbind()
     @remove()
-    @onClose() if @onClose # Some views have specific things to clean up
+  
+  _functionIsBoundToEvent: (func, eventName) ->
+    if @_events?
+      for binding in @_events[eventName]
+        if binding.callback is func
+          return true
+
+      return false
+    else
+      return false
 )
+

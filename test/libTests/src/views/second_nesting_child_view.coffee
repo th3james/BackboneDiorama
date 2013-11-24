@@ -11,5 +11,3 @@ class Backbone.Views.SecondNestingChildView extends Backbone.View
     @$el.html(@template())
     return @
 
-  onClose: ->
-    

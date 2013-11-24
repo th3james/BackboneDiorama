@@ -5,6 +5,7 @@ class Backbone.Views.SecondNestingParentView extends Backbone.Diorama.NestingVie
   template: Handlebars.templates['second_nesting_parent.hbs']
 
   initialize: (options) ->
+    @once('close', @closeSubViews)
     @render()
 
   render: =>
@@ -12,6 +13,3 @@ class Backbone.Views.SecondNestingParentView extends Backbone.Diorama.NestingVie
     @attachSubViews()
 
     return @
-
-  onClose: ->
-    @closeSubViews()
