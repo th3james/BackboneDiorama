@@ -287,3 +287,43 @@ view el should be inside the super parent el', ->
     childView.el
   )
 )
+
+test("View events for a cached subview are still bound after parent re-render", ->
+
+  class Backbone.Views.Parent extends Backbone.Diorama.NestingView
+    template: Handlebars.compile """
+      <h2>Parent View</h2>
+      {{ addSubViewTo thisView "Child" "cache-key" }}
+    """
+
+    initialize: -> @render()
+
+    render: ->
+      @$el.html(@template(thisView: @))
+      @attachSubViews()
+
+  class Backbone.Views.Child extends Backbone.View
+    template: Handlebars.compile """
+      <h3>Child View</h3>
+    """
+
+    events:
+      "click": "eventListener"
+
+    initialize: -> @render()
+
+    eventListener: sinon.spy()
+
+    render: ->
+      @$el.html(@template(thisView: @))
+
+  parentView = new Backbone.Views.Parent()
+  parentView.render() # Second render
+
+  for key, view of parentView.subViews
+    childView = view
+
+  childView.$el.trigger('click')
+  assert.strictEqual childView.eventListener.callCount, 1,
+    "Expected the childView event listener to be called when the childView is clicked"
+)

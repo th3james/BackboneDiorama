@@ -59,7 +59,10 @@ class Backbone.Diorama.NestingView extends Backbone.View
     if @subViews?
       for key, subView of @subViews
         placeholderEl = @$el.find("[data-sub-view-key=\"#{key}\"]")
+        
         subView.$el.insertBefore(placeholderEl)
+        subView.delegateEvents()
+
         placeholderEl.remove()
 
   renderSubViews: ->
