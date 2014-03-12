@@ -25,7 +25,7 @@ test('.generateSubViewPlaceholderTag adds a data-sub-view-key attribute
   html = nestingView.generateSubViewPlaceholderTag(subView, subViewKey).toString()
 
   viewElement = $.parseHTML(html)[0]
-  
+
   assert.equal($(viewElement).attr('data-sub-view-key'), subViewKey)
 )
 
@@ -35,7 +35,7 @@ test('.generateSubViewPlaceholderTag respects the tagName attribute', ->
 
   nestingView = new Backbone.Diorama.NestingView()
   html = nestingView.generateSubViewPlaceholderTag(new TestSubView()).toString()
-  
+
   viewElement = $.parseHTML(html)[0]
 
   assert.equal(viewElement.tagName, 'SECTION')
@@ -48,7 +48,7 @@ test('.generateSubViewPlaceholderTag respects the tagName attribute when it is a
 
   nestingView = new Backbone.Diorama.NestingView()
   html = nestingView.generateSubViewPlaceholderTag(new TestSubView()).toString()
-  
+
   viewElement = $.parseHTML(html)[0]
 
   assert.equal(viewElement.tagName, 'SECTION')
@@ -60,7 +60,7 @@ test('.generateSubViewPlaceholderTag respects the className attribute', ->
 
   nestingView = new Backbone.Diorama.NestingView()
   html = nestingView.generateSubViewPlaceholderTag(new TestSubView()).toString()
-  
+
   viewElement = $.parseHTML(html)[0]
 
   assert.ok(
@@ -112,7 +112,7 @@ test('When using a addSubViewTo tag with a cache key,
   assert.strictEqual subViewRenderCount, 1
   assert.lengthOf postView.$el.find('#comment-view'), 1
   assert.strictEqual postView.subViews["comment-view-#{postView.comment.cid}"].cid, firstSubViewCid
-  
+
   postView.close()
 )
 
@@ -155,7 +155,7 @@ test('.addSubView when not given a cacheKeyTemplate,
   nestingView.addSubView('TestSubView', hash:
     model: {cid: 1}
   )
-    
+
   # Should have created new view
   subViews = []
   for k, v of nestingView.subViews
@@ -324,6 +324,45 @@ test("View events for a cached subview are still bound after parent re-render", 
     childView = view
 
   childView.$el.trigger('click')
+  assert.strictEqual childView.eventListener.callCount, 1,
+    "Expected the childView event listener to be called when the childView is clicked"
+)
+
+test("non-backbone event bindings on children elements of sub views are maintained", ->
+
+  class Backbone.Views.Parent extends Backbone.Diorama.NestingView
+    template: Handlebars.compile """
+      <h2>Parent View</h2>
+      {{ addSubViewTo thisView "Child" "cache-key" }}
+    """
+
+    initialize: -> @render()
+
+    render: ->
+      @$el.html(@template(thisView: @))
+      @attachSubViews()
+
+  class Backbone.Views.Child extends Backbone.View
+    template: Handlebars.compile """
+      <h3>Child View</h3>
+    """
+
+    initialize: ->
+      @render()
+
+    eventListener: sinon.spy()
+
+    render: ->
+      @$el.html(@template(thisView: @))
+      @$el.find('h3').click(@eventListener)
+
+  parentView = new Backbone.Views.Parent()
+  parentView.render() # Second render
+
+  for key, view of parentView.subViews
+    childView = view
+
+  childView.$el.find('h3').trigger('click')
   assert.strictEqual childView.eventListener.callCount, 1,
     "Expected the childView event listener to be called when the childView is clicked"
 )

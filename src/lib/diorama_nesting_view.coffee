@@ -59,7 +59,7 @@ class Backbone.Diorama.NestingView extends Backbone.View
     if @subViews?
       for key, subView of @subViews
         placeholderEl = @$el.find("[data-sub-view-key=\"#{key}\"]")
-        
+
         subView.$el.insertBefore(placeholderEl)
         subView.delegateEvents()
 
@@ -68,7 +68,7 @@ class Backbone.Diorama.NestingView extends Backbone.View
   renderSubViews: ->
     unless @dontShowRenderViewChangeMessage?
       error =  new Error("Diorama.NestingView.renderSubViews was called before attachSubViews! If
-  you've just upgraded diorama, check out the changes to NestingView here: 
+  you've just upgraded diorama, check out the changes to NestingView here:
   https://github.com/th3james/BackboneDiorama/blob/master/src/lib/diorama_nesting_view.md#upgrading-from-diorama-020")
       error.stack
       throw error
